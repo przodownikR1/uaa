@@ -40,9 +40,5 @@ public class SimpleController {
         result.put("content", "Hello, world!");
         return result;
 }
-    
-    @GetMapping("/user")
-    public Principal user(Principal user) {        
-        return user;
-    }
+   
 }
