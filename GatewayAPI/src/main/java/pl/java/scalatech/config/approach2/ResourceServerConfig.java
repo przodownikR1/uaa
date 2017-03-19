@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConv
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.config.ProfileApp;
 
 @EnableResourceServer
 @Configuration

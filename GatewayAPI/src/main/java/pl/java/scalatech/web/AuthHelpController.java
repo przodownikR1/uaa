@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import pl.java.scalatech.config.approach2.ProfileApp;
+import pl.java.scalatech.config.ProfileApp;
 
 
 @RestController

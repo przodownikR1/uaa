@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.config.ProfileApp;
 
 /*
  * AuthorizationServerConfigurerAdapter for carrying out key authentication and authorization functions

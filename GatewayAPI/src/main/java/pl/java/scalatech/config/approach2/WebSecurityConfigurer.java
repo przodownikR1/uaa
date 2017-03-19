@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.java.scalatech.config.ProfileApp;
 
 
 

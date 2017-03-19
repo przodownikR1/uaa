@@ -8,7 +8,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
-import pl.java.scalatech.config.approach2.ProfileApp;
+import pl.java.scalatech.config.ProfileApp;
 
 @Slf4j
 @Component
