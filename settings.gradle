@@ -1,0 +1,6 @@
+include ":ConfigServer_UAA",
+        ":EurekaPoint_UAA",
+        ":GatewayAPI"
+           
+
+rootProject.name = 'uaaSimple'

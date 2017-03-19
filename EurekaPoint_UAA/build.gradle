@@ -1,0 +1,15 @@
+
+jar {
+	baseName = 'eurekaPoint_uaa'
+	version = '0.0.1-SNAPSHOT'
+}
+
+dependencies {
+        //compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+

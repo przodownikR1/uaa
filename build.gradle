@@ -1,0 +1,133 @@
+buildscript {
+    ext { 
+            javaVersion = 1.8
+            springBootVersion = '1.5.2.RELEASE'
+            springCloudVersion = 'Camden.SR1'
+            }
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")        
+        classpath 'io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        classpath("info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.6")
+
+       // classpath("gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.7")
+    }
+}
+plugins {   
+    id "org.asciidoctor.convert" version "1.5.3"
+}
+
+
+allprojects {
+group = 'pl.java.scalatech'
+version = '0.1'
+}
+
+subprojects {
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'groovy'
+//apply plugin: 'com.gorylenko.gradle-git-properties'
+apply from: 'gradle/sonar.gradle'
+apply from: 'gradle/boot.gradle'
+
+sourceSets {
+ integrationTest {
+    java.srcDir file('src/integTest/java')
+    resources.srcDir file('src/integTest/resources')
+    compileClasspath = sourceSets.main.output + configurations.testRuntime
+    runtimeClasspath = output + compileClasspath
+  }
+ }
+}
+
+
+
+configure(subprojects) {
+   
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: 'application'       
+    apply plugin: 'jacoco'
+
+    startScripts.enabled = false
+    distZip.enabled = false
+    distTar.enabled = false
+
+    sourceCompatibility = "${javaVersion}"
+    targetCompatibility = "${javaVersion}"
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+
+test {
+    logging.captureStandardOutput(LogLevel.INFO)
+    jvmArgs = ['-Dspring.profiles.active=test']
+    minHeapSize = '128m'       
+    maxHeapSize = "1024m"
+    jacoco {
+      append = false
+      destinationFile = file("$buildDir/jacoco.exec")
+  }
+  testLogging {
+     events 'started', 'passed', 'skipped', 'failed'
+  }
+  forkEvery = 5
+  maxParallelForks = Runtime.runtime.availableProcessors() / 2
+}
+
+configurations.archives.artifacts.removeAll { it.archiveTask.is(distZip) || it.archiveTask.is(distTar) }
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "$buildDir/reports/jacoco/html"
+    }
+		classDirectories = files('build/classes/')
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+task integrationTest(type: Test) {
+  testClassesDir = sourceSets.integrationTest.output.classesDir
+  classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+project.tasks.findAll { it.name.contains('Zip') }.each { task ->
+  logger.info("Removing ${task}")
+  project.tasks.remove(task)
+}
+
+task wrapper(type: Wrapper) {
+
+}
+   
+}
+
+
