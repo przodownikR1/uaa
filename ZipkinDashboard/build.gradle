@@ -12,6 +12,7 @@ dependencies {
     compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
 	runtime('io.zipkin.java:zipkin-autoconfigure-ui')	
 	compile('org.projectlombok:lombok')	
+	runtime('io.zipkin.java:zipkin-autoconfigure-ui')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

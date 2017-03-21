@@ -9,6 +9,7 @@ dependencies {
     compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
     compile('org.springframework.boot:spring-boot-starter-web')
     runtime('org.springframework.boot:spring-boot-devtools')
+    compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
     compileOnly('org.springframework.boot:spring-boot-configuration-processor')
     compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
