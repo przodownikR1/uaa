@@ -5,13 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableCircuitBreaker
-
 public class ZipkinApplication extends SpringBootServletInitializer {
 
     @Override
