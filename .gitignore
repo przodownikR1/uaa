@@ -13,3 +13,14 @@ hs_err_pid*
 app.log
 application.pid
 gc.log.0.current
+/build/
+.classpath
+.classpath
+.gradle
+.settings
+gradlew.bat
+factorypath
+.factorypath
+.springBeans
+.gc.log
+.project

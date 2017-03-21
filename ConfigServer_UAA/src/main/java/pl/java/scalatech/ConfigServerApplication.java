@@ -5,12 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.retry.annotation.EnableRetry;
 
-@SpringBootApplication
-@EnableCircuitBreaker
-@EnableRetry
 public class ConfigServerApplication extends SpringBootServletInitializer {
 
     @Override

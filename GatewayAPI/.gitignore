@@ -1,1 +1,4 @@
 /build/
+/.apt_generated/
+gc.log
+.project

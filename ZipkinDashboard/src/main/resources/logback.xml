@@ -1,0 +1,34 @@
+<configuration scan="true" scanperiod="5 seconds">
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <property scope="context" name="pattern_stdout"
+        value="%.-5level %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [appId] %logger{70}:%line - %msg%n" />
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>app.log</file>
+        <encoder>
+            <pattern>%.-5level %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [appId]
+                %logger{70}:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>utf-8</charset>
+            <pattern>${pattern_stdout}</pattern>
+            <pattern></pattern>
+        </encoder>
+    </appender>
+
+    <logger name="pl.java.scalatech" level="info" additivity="false">
+        <appender-ref ref="FILE" />
+        <!--     <appender-ref ref="tcpJSON" /> -->
+        <appender-ref ref="console" />
+    </logger>
+     <logger name="org.springframework.cloud" level="DEBUG" />   
+    <logger name="org.springframework" level="info" />
+    <logger name="org.springframework.data" level="info" />
+    <root level="INFO">    
+       <appender-ref ref="console" />
+       <!-- <appender-ref ref="tcpJSON" /> -->
+    </root>
+</configuration>

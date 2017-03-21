@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+    <div sec:authorize="ifAllGranted='ROLE_USER'" >
+            <h2>Please Confirm => slawek borowiec</h2>
+
+            <p>
+                You hereby authorize "
+                <span th:text="${client.clientId}" />
+                " to access your protected resources.
+            </p>
+
+            <form id="confirmationForm" name="confirmationForm"
+                action="authorize" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" /> 
+				<input name="user_oauth_approval" value="true" type="hidden" />
+                <ul class="list-unstyled">
+                    <li th:each="scope : ${scopes}">
+                        <div class="form-group">
+                            <span th:text="${scope.key}"></span>: 
+                            <input type="radio" th:name="${scope.key}"
+                                value="true" />Approve 
+                            <input th:if="${!scope.value}" type="radio"
+                                th:name="${scope.key}" value="false" />Deny
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+
+        </div>
+</body>
+</html>

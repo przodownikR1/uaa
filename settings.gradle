@@ -1,6 +1,12 @@
 include ":ConfigServer_UAA",
         ":EurekaPoint_UAA",
-        ":GatewayAPI"
+        ":GatewayAPI",
+        ":HystrixDashboard",
+        ":ZipkinDashboard",
+        ":UserService",
+        ":CarService",
+        ":AdminDashboard"
+
            
 
 rootProject.name = 'uaaSimple'
