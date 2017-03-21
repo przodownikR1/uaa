@@ -8,6 +8,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.cloud:spring-cloud-config-server')
 	compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
 	//compile('org.springframework.cloud:spring-cloud-config-monitor')
 	 compile('org.springframework.cloud:spring-cloud-starter-eureka')
 	compile('org.springframework.boot:spring-boot-starter-web')
