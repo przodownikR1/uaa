@@ -33,15 +33,15 @@ public class SimulateRoute {
 
     @Scheduled(fixedDelay = 8000)
     public void shot() {
-        String URI = "http://localhost:8787/busy";
-        Integer result = restTemplate.getForObject(URI, Integer.class);
+        String URI = "http://localhost:8761/eureka/health";
+        Object result = restTemplate.getForObject(URI, Object.class);
         log.info("result : {}", result);
     }
 
  
     @Scheduled(fixedDelay = 8000)
     public void shot3() {
-        String URI = "http://localhost:8787/busy2";
+        String URI = "http://localhost:8888/health";
         Integer result = restTemplate.getForObject(URI, Integer.class);
         log.info("result : {}", result);
     
@@ -50,7 +50,7 @@ public class SimulateRoute {
     
     @Scheduled(fixedDelay = 8000)
     public void service() {        
-        URI uri = URI.create("http://localhost:8787/service");
+        URI uri = URI.create("http://localhost:8888/env/default");
         String result = simpleUserInvoke(uri);
         log.info("result : {}", result.substring(0, 1000));
     
@@ -60,7 +60,7 @@ public class SimulateRoute {
     @HystrixCommand(fallbackMethod = "emptyUser")
     public void serviceUser() {                
         int id = r.nextInt(200);
-        URI uri = URI.create("http://localhost:8090/api/user/"+id);
+        URI uri = URI.create("http://localhost:8787/eureka/user/"+id);
         String result = simpleUserInvoke(uri);
         log.info("+++ id : {},  result: {}", id,result);    
     }
