@@ -16,6 +16,7 @@ dependencies {
         compile('org.springframework.cloud:spring-cloud-starter-hystrix')    
         compile('org.springframework.cloud:spring-cloud-starter-eureka')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile group: 'com.github.javafaker', name: 'javafaker', version: '0.10'
     compile 'com.google.guava:guava:20.+'

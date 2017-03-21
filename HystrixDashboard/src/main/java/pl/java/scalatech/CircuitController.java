@@ -7,19 +7,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.DownloadConfig.DownloadCode;
 
-@RestController
+//@RestController
 @Slf4j
 public class CircuitController {
    @Autowired

@@ -24,3 +24,5 @@ factorypath
 .springBeans
 .gc.log
 .project
+gc.log/
+gc.log

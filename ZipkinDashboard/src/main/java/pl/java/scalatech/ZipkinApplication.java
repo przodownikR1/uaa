@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableCircuitBreaker
+
 public class ZipkinApplication extends SpringBootServletInitializer {
 
     @Override
