@@ -1,5 +1,6 @@
 <configuration scan="true" scanperiod="5 seconds">
-    <include resource="org/springframework/boot/logging/logback/base.xml" />
+     <include resource="org/springframework/boot/logging/logback/base.xml" />
+     <jmxConfigurator/>
     <property scope="context" name="pattern_stdout"
         value="%.-5level %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [appId] %logger{70}:%line - %msg%n" />
 
