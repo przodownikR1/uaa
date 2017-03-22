@@ -10,6 +10,7 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableCircuitBreaker
@@ -21,6 +22,11 @@ public class DashboardHystrixApplication {
     @RequestMapping("/")
     public String home() {
         return "forward:/hystrix";
+    }
+    
+    @Bean
+    RestTemplate restTemplate(){
+        return new RestTemplate();
     }
     
     public static void main(String[] args) {
