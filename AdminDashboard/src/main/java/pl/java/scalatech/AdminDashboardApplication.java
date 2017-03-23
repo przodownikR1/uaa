@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.system.ApplicationPidFileWriter;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,7 +17,6 @@ import de.codecentric.boot.admin.notify.RemindingNotifier;
 import de.codecentric.boot.admin.notify.filter.FilteringNotifier;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableAdminServer
 public class AdminDashboardApplication {
 
