@@ -1,18 +1,45 @@
 <configuration scan="true" scanperiod="5 seconds">
      <include resource="org/springframework/boot/logging/logback/base.xml" />
      <jmxConfigurator/>
+   
     <property scope="context" name="pattern_stdout"
-        value="%.-5level %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [appId] %logger{70}:%line - %msg%n" />
-
+		value="%highlight(%.-5level)|%green(%date{yyyy-MM-dd HH:mm:ss.SSS})|%boldMagenta([%thread])|%yellow(%logger{70}:%boldYellow(%line)) - %msg%n%red(%rEx)" />
+        
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>app.log</file>
+        <file>zipkinDashboard.log</file>
         <encoder>
-            <pattern>%.-5level %date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [appId]
-                %logger{70}:%line - %msg%n</pattern>
-        </encoder>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
+		</encoder>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
+ <appender name="FILE-QUEUE" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>logFileName</key>
+			<defaultValue>in-out</defaultValue>
+		</discriminator>
+		<sift>
+		  <appender name="${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${logFileName}.log</file>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<Pattern>
+					%date{yyyy-MM-dd HH:mm:ss} %mdc  [%thread] %-5level %logger{35} - %msg %n
+				</Pattern>
+			</encoder>
+			<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+				<FileNamePattern>${logFileName}.%i.log.zip</FileNamePattern>
+				<MinIndex>1</MinIndex>
+				<MaxIndex>10</MaxIndex>
+			</rollingPolicy>
+			<triggeringPolicy  class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		  </appender>
+		</sift>
+</appender>
+
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+   
         <encoder>
             <charset>utf-8</charset>
             <pattern>${pattern_stdout}</pattern>
