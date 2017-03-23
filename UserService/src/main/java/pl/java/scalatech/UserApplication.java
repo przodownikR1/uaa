@@ -9,10 +9,11 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableAsync 
@@ -21,6 +22,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableEurekaClient
 public class UserApplication {
 
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
     
     
 	public UserApplication(DiscoveryClient discoveryClient) {
