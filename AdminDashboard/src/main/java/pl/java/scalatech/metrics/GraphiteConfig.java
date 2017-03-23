@@ -1,6 +1,7 @@
 package pl.java.scalatech.metrics;
 
-import java.net.InetAddress;
+import static java.net.InetAddress.getLocalHost;
+
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 )
 @Slf4j
 @EnableMetrics
-public class GraphiteConfig extends MetricsConfigurerAdapter  {
+class GraphiteConfig extends MetricsConfigurerAdapter  {
     @Autowired
     private MetricRegistry metricRegistry;
     @Value("${metrics.graphite.host}")
@@ -39,12 +40,10 @@ public class GraphiteConfig extends MetricsConfigurerAdapter  {
     @PostConstruct
     public void startGraphiteReporter() throws UnknownHostException {
         log.info("+++ graphite metrics enabled ");
-        String hostname = InetAddress.getLocalHost().getHostName();
-
         Graphite graphite = new Graphite(host,port);
         GraphiteReporter reporter = GraphiteReporter
                 .forRegistry(metricRegistry)
-                .prefixedWith(prefix + hostname)
+                .prefixedWith(prefix + getLocalHost().getHostName())
                 .build(graphite);
         reporter.start(10, TimeUnit.SECONDS);
     }
