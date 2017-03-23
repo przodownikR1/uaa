@@ -12,9 +12,8 @@ public class SampleFeignClientController {
     
     private GreetingFeignResource greetingFeignResource;
     
-    @GetMapping("/feignTest")
+    @GetMapping("/feignTest/{name}")
     String getTest(@PathVariable String name){
       return greetingFeignResource.getMessage(name);   
     }
 }
-
