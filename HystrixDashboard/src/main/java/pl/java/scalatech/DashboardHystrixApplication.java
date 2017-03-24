@@ -26,10 +26,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @Controller
 public class DashboardHystrixApplication {
-   
-    @Autowired
-    private Environment environment;
-    
+  
 
     @RequestMapping("/")
     public String home() {
@@ -57,7 +54,7 @@ public class DashboardHystrixApplication {
     
     
     @Bean
-    InfoContributor extendInfo() {
+    InfoContributor extendInfo(Environment environment) {
         return builder -> builder.withDetail("id", environment.getProperty("spring.application.name") + ":"
                 + environment.getProperty("server.port"))
                 .withDetail("ip", getIp());
