@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 
-class RecipientListBean {
+public class RecipientListBean {
     private List<String> uris;
 
     public RecipientListBean(String... uris) {
