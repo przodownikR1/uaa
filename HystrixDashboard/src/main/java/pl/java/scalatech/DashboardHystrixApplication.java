@@ -2,9 +2,9 @@ package pl.java.scalatech;
 
 
 
+import static pl.java.scalatech.tools.HostInformationTool.getApplicationPID;
 import static pl.java.scalatech.tools.HostInformationTool.getIp;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.info.InfoContributor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +26,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @Controller
 public class DashboardHystrixApplication {
-  
 
     @RequestMapping("/")
     public String home() {
@@ -57,7 +56,7 @@ public class DashboardHystrixApplication {
     InfoContributor extendInfo(Environment environment) {
         return builder -> builder.withDetail("id", environment.getProperty("spring.application.name") + ":"
                 + environment.getProperty("server.port"))
-                .withDetail("ip", getIp());
+                .withDetail("ip", getIp()).withDetail("pid", getApplicationPID() );
    }
     
     
