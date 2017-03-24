@@ -1,6 +1,12 @@
 package pl.java.scalatech;
 
+
+
+import static pl.java.scalatech.tools.HostInformationTool.getIp;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.info.InfoContributor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -9,6 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
@@ -20,6 +27,10 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class DashboardHystrixApplication {
    
+    @Autowired
+    private Environment environment;
+    
+
     @RequestMapping("/")
     public String home() {
         return "forward:/hystrix";
@@ -40,7 +51,17 @@ public class DashboardHystrixApplication {
         springApplication.run(args);
     }
     @Bean
-    public ServletRegistrationBean mockStreamServlet() {
+     ServletRegistrationBean mockStreamServlet() {
         return new ServletRegistrationBean(new MockStreamServlet(), "/mock.stream");
 }
+    
+    
+    @Bean
+    InfoContributor extendInfo() {
+        return builder -> builder.withDetail("id", environment.getProperty("spring.application.name") + ":"
+                + environment.getProperty("server.port"))
+                .withDetail("ip", getIp());
+   }
+    
+    
 }
