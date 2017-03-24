@@ -5,6 +5,7 @@ include ":ConfigServer_UAA",
         ":ZipkinDashboard",
         ":UserService",
         ":CarService",
+        ":NBPService",
         ":AdminDashboard"
 
            

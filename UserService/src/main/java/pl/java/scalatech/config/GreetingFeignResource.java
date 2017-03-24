@@ -22,4 +22,4 @@ public interface GreetingFeignResource {
     void updateMessage(@PathVariable("newGreeting") String message);
     
 }
-//client -> greeting.ribbon.listOfServers: localhost:9000
+

@@ -21,3 +21,4 @@ public class SampleFeignClientController {
       return greetingFeignResource.getMessageNoName();   
     }
 }
+
