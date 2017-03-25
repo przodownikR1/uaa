@@ -1,12 +1,12 @@
 package pl.java.scalatech.tools;
 
+import static com.google.common.io.Files.readLines;
 import static java.net.InetAddress.getLocalHost;
 
 import java.io.File;
 import java.net.UnknownHostException;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,13 @@ public final class HostInformationTool {
 
     @SneakyThrows(Exception.class)
     public static String getApplicationPID() {
-        return Files.readLines(new File(PID_FILE_NAME), Charsets.UTF_8).get(0);
+        return readLines(new File(PID_FILE_NAME), Charsets.UTF_8).get(0);
     }
+       
+    @SneakyThrows
+    public static String getHostName() {
+        return getLocalHost().getHostName();    
+    }
+  
 
 }

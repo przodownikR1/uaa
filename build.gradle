@@ -8,6 +8,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
+		maven { url "https://oss.jfrog.org/simple/oss-snapshot-local/"}	
         jcenter()
     }
     dependencies {

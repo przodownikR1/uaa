@@ -6,7 +6,9 @@ include ":ConfigServer_UAA",
         ":UserService",
         ":CarService",
         ":NBPService",
+        ":MicroservicesDashboard",
         ":AdminDashboard"
+
 
            
 

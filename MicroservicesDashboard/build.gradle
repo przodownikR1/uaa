@@ -1,0 +1,24 @@
+
+jar {
+	baseName = 'microservices-Dashboard'
+	version = '0.0.1-SNAPSHOT'
+}
+
+dependencies {
+
+	
+	             
+	compile('be.ordina:microservices-dashboard-server:1.+')
+	compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
+       
+        compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	
+    compile('org.springframework.cloud:spring-cloud-starter-config')    
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+  
+	    
+}
+
+
+
+

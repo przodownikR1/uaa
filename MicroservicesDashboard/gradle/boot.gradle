@@ -1,0 +1,45 @@
+apply plugin: 'org.springframework.boot'
+
+//apply plugin: "com.gorylenko.gradle-git-properties"
+ 
+//based on http://mrhaki.blogspot.com/ blog 
+springBoot {
+    // This statement tells the Gradle Spring Boot plugin
+    // to generate a file
+    // build/resources/main/META-INF/build-info.properties
+    // via /info endpoint.
+   buildInfo {
+        // Generate extra build info.
+        additionalProperties = [
+               by: System.properties['user.name'],
+               operatingSystem: "${System.properties['os.name']} (${System.properties['os.version']})",
+               continuousIntegration: System.getenv('CI') ? true: false,
+               machine: InetAddress.localHost.hostName,
+               'springBootVersion': "${springBootVersion}",                                
+               'project.rootDir': "${project.rootDir}",
+               'project.buildDir': "${project.buildDir}"
+        ]
+    }
+}
+
+
+
+
+bootRun {
+    systemProperty 'management.info.git.mode', 'FULL'
+    if (System.properties.containsKey('spring.profiles.active')) {
+        systemProperty "spring.profiles.active", System.properties['spring.profiles.active']
+     }
+
+     def stdOpts = ['-Dfile.encoding=UTF8', '-Xms128m', '-Xmx256m' ,'-XX:+UseG1GC']
+     def gcOpts = ['-verbose:gc','-XX:+PrintGCDetails', '-XX:+PrintHeapAtGC',
+                '-XX:+PrintGCDateStamps', '-XX:+PrintTenuringDistribution',
+                '-XX:+PrintClassHistogram', '-Xloggc:gc.log']
+
+     jvmArgs = stdOpts + gcOpts
+
+     if ( project.hasProperty('jvmArgs') ) {
+         jvmArgs project.jvmArgs.split('\\s+')
+     }
+
+}
