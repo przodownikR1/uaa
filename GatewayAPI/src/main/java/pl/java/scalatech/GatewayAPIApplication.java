@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -30,8 +31,14 @@ public class GatewayAPIApplication {
     }
 
     public static void main(String[] args) {
-		SpringApplication.run(GatewayAPIApplication.class, args);
+		springPIDAppRun(args,GatewayAPIApplication.class);
 	}
+    
+    private static void springPIDAppRun(String[] args,Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
     private final DiscoveryClient discoveryClient;
 
     @Bean

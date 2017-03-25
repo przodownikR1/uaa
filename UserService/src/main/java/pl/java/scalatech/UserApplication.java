@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -37,8 +38,15 @@ public class UserApplication {
     }
 
     public static void main(String[] args) {
-		SpringApplication.run(UserApplication.class, args);
+	springPIDAppRun(args, UserApplication.class);
 	}
+    
+    private static void springPIDAppRun(String[] args,Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
+    
     private final DiscoveryClient discoveryClient;
 
     @Bean
