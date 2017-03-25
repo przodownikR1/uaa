@@ -1,4 +1,4 @@
-package pl.java.scalatech.tools;
+package pl.java.scalatech.config.info.tool;
 
 import static com.google.common.io.Files.readLines;
 import static java.net.InetAddress.getLocalHost;
