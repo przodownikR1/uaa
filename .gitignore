@@ -26,3 +26,7 @@ factorypath
 .project
 gc.log/
 gc.log
+gc.log.0.current
+*.log
+*.log/
+*nbp/

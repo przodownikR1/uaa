@@ -22,4 +22,5 @@ build/
 nbbuild/
 dist/
 nbdist/
-.nb-gradle/
+.nb-gradle/gc.log.0.current
+gc.log.0.current
