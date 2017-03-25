@@ -11,7 +11,7 @@ public interface NBPFeignResource {
     
     
 	 @RequestMapping(value="/byCode/{code}",method = RequestMethod.GET)
-    String getMutlipierByCode(@PathVariable String code);
+     String getMutlipierByCode(@PathVariable("code") String code);
 
 	  @RequestMapping(method = RequestMethod.GET, value="/simple")
 	  String getMessage();
