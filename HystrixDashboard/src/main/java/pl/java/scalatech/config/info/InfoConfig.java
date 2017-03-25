@@ -4,22 +4,30 @@ import static com.google.common.collect.ImmutableMap.builder;
 import static com.google.common.collect.ImmutableMap.of;
 import static java.time.Duration.between;
 import static java.time.Instant.now;
+import static java.time.ZoneOffset.UTC;
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static pl.java.scalatech.tools.HostInformationTool.getApplicationPID;
 import static pl.java.scalatech.tools.HostInformationTool.getHostName;
 import static pl.java.scalatech.tools.HostInformationTool.getIp;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import org.springframework.boot.actuate.info.InfoContributor;
+
+import org.springframework.boot.actuate.info.InfoContributor;import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.quartz.LocalDataSourceJobStore;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 class InfoConfig {
+	private static final String FORMAT_DATE_TIME = "yyyy-MM-dd HH:mm:ss.SSSSSS";
 	private static final String SERVER_PORT = "server.port";
 	private static final String SPRING_APPLICATION_NAME = "spring.application.name";
 	private static final String JAVA_VERSION = "java.version";
@@ -33,7 +41,7 @@ class InfoConfig {
 	private static final String ACTIVE_PROFILES = "activeProfiles";
 	private static final String ENVIRONMENT = "environment";
 	private final Environment env;
-	private final Date startDate = new Date();
+	private final LocalDateTime startDate = LocalDateTime.now();
 
 	@Bean	
 	InfoContributor info() {
@@ -55,8 +63,8 @@ class InfoConfig {
 					builder()
 					  .put("pid", getApplicationPID())
 					  .put(JAVA_VERSION, System.getProperty(JAVA_VERSION))
-					  .put(START_DATE, startDate)
-					  .put(HEART_BEAT, new Date())
+					  .put(START_DATE, startDate.format(ofPattern(FORMAT_DATE_TIME)))
+					  .put(HEART_BEAT, LocalDateTime.now().format(ofPattern(FORMAT_DATE_TIME)))
 					  .put(UPTIME, getUptime())
 					  .build());
 
@@ -65,6 +73,6 @@ class InfoConfig {
 	}
 
 	private String getUptime() {
-		return between(startDate.toInstant(), now()).toString();
+		return between(startDate.toInstant(UTC), now()).toString();
 	}
 }
