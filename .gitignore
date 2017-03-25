@@ -30,3 +30,4 @@ gc.log.0.current
 *.log
 *.log/
 *nbp/
+*bat
