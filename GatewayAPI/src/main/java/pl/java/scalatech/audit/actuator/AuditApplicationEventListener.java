@@ -13,29 +13,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuditApplicationEventListener {
 
-    
+	private final ApplicationEventPublisher applicationEventPublisher;
 
-    private final ApplicationEventPublisher applicationEventPublisher;
+	public AuditApplicationEventListener(ApplicationEventPublisher applicationEventPublisher) {
+		this.applicationEventPublisher = applicationEventPublisher;
+	}
 
-    public AuditApplicationEventListener(ApplicationEventPublisher applicationEventPublisher) {
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
+	@EventListener(condition = "#event.auditEvent.type != 'MY_EVENT'")
+	@Async
+	public void onAuditEvent(AuditApplicationEvent event) {
+		AuditEvent actualAuditEvent = event.getAuditEvent();
 
-    @EventListener(condition = "#event.auditEvent.type != 'MY_EVENT'")
-    @Async
-    public void onAuditEvent(AuditApplicationEvent event) {
-        AuditEvent actualAuditEvent = event.getAuditEvent();
+		applicationEventPublisher
+				.publishEvent(new AuditApplicationEvent(new AuditEvent(actualAuditEvent.getPrincipal(), "MY_EVENT")));
+	}
 
-        applicationEventPublisher.publishEvent(
-            new AuditApplicationEvent(
-                new AuditEvent(actualAuditEvent.getPrincipal(), "MY_EVENT")
-            )
-        );
-    }
-
-    @EventListener(condition = "#event.auditEvent.type == 'MY_EVENT'")
-    @Async
-    public void onCustomAuditEvent(AuditApplicationEvent event) {
-        log.info("Handling custom audit event ...");
-    }
+	@EventListener(condition = "#event.auditEvent.type == 'MY_EVENT'")
+	@Async
+	public void onCustomAuditEvent(AuditApplicationEvent event) {
+		log.info("Handling custom audit event ...");
+	}
 }

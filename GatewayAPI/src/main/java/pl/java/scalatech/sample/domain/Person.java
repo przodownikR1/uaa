@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Person extends AbstractEntity{
-    
-    private String name;
-    private String login;
-    private String city;
-    private BigDecimal salary;
+public class Person extends AbstractEntity {
+
+	private String name;
+	private String login;
+	private String city;
+	private BigDecimal salary;
 }

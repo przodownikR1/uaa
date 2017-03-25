@@ -5,12 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.java.scalatech.config.GreetingFeignResource;
+import pl.java.scalatech.config.connector.GreetingFeignResource;
+import pl.java.scalatech.config.connector.NBPFeignResource;
 
 @RestController
 public class SampleFeignClientController {
     @Autowired
     private GreetingFeignResource greetingFeignResource;
+    
+    @Autowired
+    private NBPFeignResource nbpFeignResource;
+    
     
     @GetMapping("/feignTest/{name}")
     String getTest(@PathVariable String name){
@@ -19,6 +24,17 @@ public class SampleFeignClientController {
     @GetMapping("/feignTest2/{name}")
     String getTest2(){
       return greetingFeignResource.getMessageNoName();   
+    }
+    
+    
+    @GetMapping("/nbpByCode/{code}")
+    String getCurrencyByCoce(@PathVariable String code){
+      return nbpFeignResource.getMutlipierByCode(code);   
+    }
+    
+    @GetMapping("/nbpSimple")
+    String getNbpSimpleMessage(){
+      return nbpFeignResource.getMessage();   
     }
 }
 

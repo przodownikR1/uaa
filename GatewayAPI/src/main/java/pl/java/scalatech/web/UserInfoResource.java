@@ -15,22 +15,24 @@ import pl.java.scalatech.audit.db.AuditType;
 @RequestMapping("secure/user")
 public class UserInfoResource {
 
-    private final UserDetailsService userDetailsService;
-   //private final AuditRepo auditRepo;
+	private final UserDetailsService userDetailsService;
+	// private final AuditRepo auditRepo;
 
-    @Autowired
-    public UserInfoResource(UserDetailsService userDetailsService/*, AuditRepo auditService*/) {
-        this.userDetailsService = userDetailsService;
-        /*this.auditRepo= auditService;*/
-    }
+	@Autowired
+	public UserInfoResource(
+			UserDetailsService userDetailsService/* , AuditRepo auditService */) {
+		this.userDetailsService = userDetailsService;
+		/* this.auditRepo= auditService; */
+	}
 
-    @RequestMapping("{userId}")
-    public UserDetails getUserDetails(@PathVariable String userId) {
-        return userDetailsService.loadUserByUsername(userId);
-    }
+	@RequestMapping("{userId}")
+	public UserDetails getUserDetails(@PathVariable String userId) {
+		return userDetailsService.loadUserByUsername(userId);
+	}
 
-    /*@RequestMapping("{userId}/login-history")
-    public List<Audit> getLogins(@PathVariable String userId) {
-        return auditRepo.findByUsernameAndAuditType(userId, AuditType.LOGGED_IN);
-    }*/
+	/*
+	 * @RequestMapping("{userId}/login-history") public List<Audit>
+	 * getLogins(@PathVariable String userId) { return
+	 * auditRepo.findByUsernameAndAuditType(userId, AuditType.LOGGED_IN); }
+	 */
 }

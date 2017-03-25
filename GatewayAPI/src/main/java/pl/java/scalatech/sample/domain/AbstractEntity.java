@@ -10,7 +10,8 @@ import lombok.ToString;
 @ToString
 @MappedSuperclass
 public abstract class AbstractEntity {
-    @Id @GeneratedValue
-    @Getter
-    protected Long id;
+	@Id
+	@GeneratedValue
+	@Getter
+	protected Long id;
 }

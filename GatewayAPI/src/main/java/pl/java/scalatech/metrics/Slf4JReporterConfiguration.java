@@ -14,29 +14,23 @@ import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableMetrics
 @ConditionalOnProperty(name = "metrics.slf4j.logger")
 @Slf4j
 public class Slf4JReporterConfiguration extends MetricsConfigurerAdapter {
 
-    @Value("${metrics.slf4j.logger}")
-    private String logger;
-    @Value("${metrics.slf4j.period:5}")
-    private long periodMinutes = 5;
+	@Value("${metrics.slf4j.logger}")
+	private String logger;
+	@Value("${metrics.slf4j.period:5}")
+	private long periodMinutes = 5;
 
-    @Override
-    public void configureReporters(final MetricRegistry metricRegistry) {
-        log.info("+++ slf4j metrics enabled ");
-        Slf4jReporter
-                .forRegistry(metricRegistry)
-                .outputTo(getLogger(logger))
-                .withLoggingLevel(INFO)
-                .build()
-                .start(periodMinutes, MINUTES);
-    }
+	@Override
+	public void configureReporters(final MetricRegistry metricRegistry) {
+		log.info("+++ slf4j metrics enabled ");
+		Slf4jReporter.forRegistry(metricRegistry).outputTo(getLogger(logger)).withLoggingLevel(INFO).build()
+				.start(periodMinutes, MINUTES);
+	}
 
 }
-
- 
-

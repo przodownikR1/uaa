@@ -17,23 +17,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MetricsController {
 
-    private final DiscoveryClient eurekaClient;
+	private final DiscoveryClient eurekaClient;
 
-    private final RestTemplate restTemplate;
+	private final RestTemplate restTemplate;
 
-    @GetMapping("/metricTest")
-    public Map<String, Object> getMetrics() {
+	@GetMapping("/metricTest")
+	public Map<String, Object> getMetrics() {
 
-        eurekaClient.getServices().forEach(service -> {
-            String url = "http://" + service + "/metrics";
-            log.error(" @@@@@@  {} , - > {}                 ",service,url);
-            
-            
-           Map<String, Object> metrics = restTemplate.getForObject(url, Map.class);
-           log.error("metrics : {} ", metrics);
-        });
-        return Maps.newHashMap();
+		eurekaClient.getServices().forEach(service -> {
+			String url = "http://" + service + "/metrics";
+			log.error(" @@@@@@  {} , - > {}                 ", service, url);
 
-    }
+			Map<String, Object> metrics = restTemplate.getForObject(url, Map.class);
+			log.error("metrics : {} ", metrics);
+		});
+		return Maps.newHashMap();
+
+	}
 
 }

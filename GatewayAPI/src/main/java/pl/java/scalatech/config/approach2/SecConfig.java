@@ -12,14 +12,14 @@ import pl.java.scalatech.config.ProfileApp;
 @Profile(ProfileApp.PROFILE)
 @ConfigurationProperties(prefix = "oauth2")
 public class SecConfig {
-    String appName; 
-    String clientId;
-    String clientSecret;
-    String[] scopes;
-    String[] grantTypes;
-    int getTokenValidity;
-    int getRefreshTokenValidity;
-    String baseUrl;
-    String checkTokenUrl;
+	String appName;
+	String clientId;
+	String clientSecret;
+	String[] scopes;
+	String[] grantTypes;
+	int getTokenValidity;
+	int getRefreshTokenValidity;
+	String baseUrl;
+	String checkTokenUrl;
 
 }

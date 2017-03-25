@@ -1,4 +1,4 @@
-package pl.java.scalatech.config;
+package pl.java.scalatech.config.connector;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;

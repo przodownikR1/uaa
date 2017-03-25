@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Car extends AbstractEntity{
+public class Car extends AbstractEntity {
 
-    private String name;
-    private String color;
-    private int age;
-    @Column(name="carValue")
-    private BigDecimal value;
-    @ManyToOne
-    private Person owner;
-    
+	private String name;
+	private String color;
+	private int age;
+	@Column(name = "carValue")
+	private BigDecimal value;
+	@ManyToOne
+	private Person owner;
+
 }

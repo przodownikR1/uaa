@@ -15,33 +15,31 @@ import com.codahale.metrics.MetricRegistry;
 import pl.java.scalatech.tools.RestRequestTimerInterceptor;
 
 public class RestClient {
-    
-    @Autowired
-    private MetricRegistry metricRegistry;
-    
 
-    @Autowired
-    @Qualifier("restClientHttpFactory")
-    private ClientHttpRequestFactory clientHttpRequestFactory;
-    
-    
-    @Bean(name="restClient")
-    public RestOperations restTemplate() {
-        final RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        restTemplate.setInterceptors(asList(restRequestTimerInterceptor()));
-        return restTemplate;
-    }
+	@Autowired
+	private MetricRegistry metricRegistry;
 
-    @Bean
-    public RestRequestTimerInterceptor restRequestTimerInterceptor() {
-        return new RestRequestTimerInterceptor(metricRegistry);
-    }
+	@Autowired
+	@Qualifier("restClientHttpFactory")
+	private ClientHttpRequestFactory clientHttpRequestFactory;
 
-    @Bean(name = "restClientHttpFactory")
-    public ClientHttpRequestFactory clientHttpRequestFactory() {
-        final SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
-//        simpleClientHttpRequestFactory.setConnectTimeout(connectionTimeout);
-//        simpleClientHttpRequestFactory.setReadTimeout(readTimeout);
-        return simpleClientHttpRequestFactory;
-}
+	@Bean(name = "restClient")
+	public RestOperations restTemplate() {
+		final RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+		restTemplate.setInterceptors(asList(restRequestTimerInterceptor()));
+		return restTemplate;
+	}
+
+	@Bean
+	public RestRequestTimerInterceptor restRequestTimerInterceptor() {
+		return new RestRequestTimerInterceptor(metricRegistry);
+	}
+
+	@Bean(name = "restClientHttpFactory")
+	public ClientHttpRequestFactory clientHttpRequestFactory() {
+		final SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+		// simpleClientHttpRequestFactory.setConnectTimeout(connectionTimeout);
+		// simpleClientHttpRequestFactory.setReadTimeout(readTimeout);
+		return simpleClientHttpRequestFactory;
+	}
 }

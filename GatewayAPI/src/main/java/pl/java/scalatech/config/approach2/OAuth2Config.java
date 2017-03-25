@@ -48,79 +48,74 @@ take based on the application they are logging in with.
 @EnableAuthorizationServer
 @Slf4j
 public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
-   
-    private final AuthenticationManager authenticationManager;
-   
-    private final SecConfig secConfig;
-    
-    private final UserDetailsService userDetailsService;
-    
-    @Autowired
-    private TokenStore tokenStore;
-    
-    private final DataSource dataSource;
-   
-    public OAuth2Config(DataSource dataSource, AuthenticationManager authenticationManager, UserDetailsService userDetailsService,SecConfig secConfig) {
-        super();
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
-        this.secConfig = secConfig;
-        this.dataSource = dataSource;
-    }
-    
-    @Bean
-    public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
-    }
-    
-    @Autowired
-    private ClientDetailsService clientDetailsService;
-    
-    @Bean
-    public TokenStoreUserApprovalHandler userApprovalHandler() {
-        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
-        handler.setTokenStore(tokenStore);
-        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
-        handler.setClientDetailsService(clientDetailsService);
-        return handler;
-    }
 
-    @Bean   
-    public ApprovalStore approvalStore() throws Exception {
-        TokenApprovalStore store = new TokenApprovalStore();
-        store.setTokenStore(tokenStore);
-        return store;
-    }
+	private final AuthenticationManager authenticationManager;
 
-   /* @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-      oauthServer.allowFormAuthenticationForClients();
-  }*/
-    
-    @Override
-    // @formatter:off
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        log.info("++++++++++++ configure {}",secConfig);
-        clients.jdbc(dataSource)               
-               .withClient(secConfig.getClientId())
-               .secret(secConfig.getClientSecret())
-               .authorizedGrantTypes(secConfig.grantTypes)
-               .scopes(secConfig.getScopes())
-               .resourceIds(secConfig.getAppName())
-               .accessTokenValiditySeconds(secConfig.getTokenValidity)
-               .refreshTokenValiditySeconds(secConfig.getRefreshTokenValidity);                               
-    }
-    // @formatter:on
-    
+	private final SecConfig secConfig;
 
-    // @formatter:off
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints
-        .tokenStore(tokenStore)
-        .authenticationManager(authenticationManager)
-        .userDetailsService(userDetailsService);
-    } 
-   // @formatter:on
+	private final UserDetailsService userDetailsService;
+
+	@Autowired
+	private TokenStore tokenStore;
+
+	private final DataSource dataSource;
+
+	public OAuth2Config(DataSource dataSource, AuthenticationManager authenticationManager,
+			UserDetailsService userDetailsService, SecConfig secConfig) {
+		super();
+		this.authenticationManager = authenticationManager;
+		this.userDetailsService = userDetailsService;
+		this.secConfig = secConfig;
+		this.dataSource = dataSource;
+	}
+
+	@Bean
+	public TokenStore tokenStore() {
+		return new JdbcTokenStore(dataSource);
+	}
+
+	@Autowired
+	private ClientDetailsService clientDetailsService;
+
+	@Bean
+	public TokenStoreUserApprovalHandler userApprovalHandler() {
+		TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
+		handler.setTokenStore(tokenStore);
+		handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
+		handler.setClientDetailsService(clientDetailsService);
+		return handler;
+	}
+
+	@Bean
+	public ApprovalStore approvalStore() throws Exception {
+		TokenApprovalStore store = new TokenApprovalStore();
+		store.setTokenStore(tokenStore);
+		return store;
+	}
+
+	/*
+	 * @Override public void configure(AuthorizationServerSecurityConfigurer
+	 * oauthServer) throws Exception {
+	 * oauthServer.allowFormAuthenticationForClients(); }
+	 */
+
+	@Override
+	// @formatter:off
+	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+		log.info("++++++++++++ configure {}", secConfig);
+		clients.jdbc(dataSource).withClient(secConfig.getClientId()).secret(secConfig.getClientSecret())
+				.authorizedGrantTypes(secConfig.grantTypes).scopes(secConfig.getScopes())
+				.resourceIds(secConfig.getAppName()).accessTokenValiditySeconds(secConfig.getTokenValidity)
+				.refreshTokenValiditySeconds(secConfig.getRefreshTokenValidity);
+	}
+	// @formatter:on
+
+	// @formatter:off
+	@Override
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager)
+				.userDetailsService(userDetailsService);
+	}
+	// @formatter:on
 
 }

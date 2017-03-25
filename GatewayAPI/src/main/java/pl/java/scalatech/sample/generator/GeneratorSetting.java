@@ -9,10 +9,10 @@ import lombok.Data;
 
 @Component
 @Data
-@ConfigurationProperties(prefix="generator")
+@ConfigurationProperties(prefix = "generator")
 class GeneratorSetting {
-    @NotNull  
-    Integer count;
-    @NotNull
-    Integer carsForSinglePersonLimit;
+	@NotNull
+	Integer count;
+	@NotNull
+	Integer carsForSinglePersonLimit;
 }

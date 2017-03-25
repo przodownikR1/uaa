@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 public class EurekaClientController {
-    @Autowired
-    private DiscoveryClient discoveryClient;
+	@Autowired
+	private DiscoveryClient discoveryClient;
 
-    @RequestMapping("/service-instances/{applicationName}")
-     List<ServiceInstance> serviceInstancesByApplicationName(@PathVariable String applicationName) {
-        return this.discoveryClient.getInstances(applicationName);
-    }
+	@RequestMapping("/service-instances/{applicationName}")
+	List<ServiceInstance> serviceInstancesByApplicationName(@PathVariable String applicationName) {
+		return this.discoveryClient.getInstances(applicationName);
+	}
 }

@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/nbp")
 @RequiredArgsConstructor
 public class SimpleController {
    
     private final Environment environment;
 
-    @GetMapping("/info")
+    @GetMapping("/simple")
     String getMessage(){
         return "sample message from  NBP : port : " +  environment.getProperty("server.port"); 
     }

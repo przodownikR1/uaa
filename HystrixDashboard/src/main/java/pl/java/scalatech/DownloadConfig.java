@@ -16,23 +16,21 @@ import com.google.common.io.CharStreams;
 @Configuration
 public class DownloadConfig {
 
-    @Value("${urlShot}")
-    private String urlShot;
+	@Value("${urlShot}")
+	private String urlShot;
 
-    @Bean
-    DownloadCode downloadCode() {
-        return new DownloadCode();
-    }
+	@Bean
+	DownloadCode downloadCode() {
+		return new DownloadCode();
+	}
 
-    class DownloadCode implements Callable<String> {
-        @Override
-        public String call() throws Exception {
-            URL url = new URL(urlShot);
-            InputStream is = url.openStream();
-            return CharStreams.toString(new InputStreamReader(is, UTF_8));
-        }
-    }
-    
-    
-    
+	class DownloadCode implements Callable<String> {
+		@Override
+		public String call() throws Exception {
+			URL url = new URL(urlShot);
+			InputStream is = url.openStream();
+			return CharStreams.toString(new InputStreamReader(is, UTF_8));
+		}
+	}
+
 }

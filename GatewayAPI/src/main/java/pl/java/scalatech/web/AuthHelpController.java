@@ -31,70 +31,71 @@ import pl.java.scalatech.config.ProfileApp;
 @RequestMapping("/oauth2")
 @Profile(ProfileApp.PROFILE)
 public class AuthHelpController {
-    private final OAuth2RestOperations restTemplate;
+	private final OAuth2RestOperations restTemplate;
 
-    private final OAuth2ClientContext context;
+	private final OAuth2ClientContext context;
 
-    private final ClientDetailsService clientDetailsService;
+	private final ClientDetailsService clientDetailsService;
 
-    public AuthHelpController(OAuth2RestOperations restTemplate, OAuth2ClientContext context, ClientDetailsService clientDetailsService) {
-        super();
-        this.restTemplate = restTemplate;
-        this.context = context;
-        this.clientDetailsService = clientDetailsService;
-    }
-    
-    
-    @GetMapping("/user")
-    public Principal user(Principal user) {        
-        return user;
-    }
+	public AuthHelpController(OAuth2RestOperations restTemplate, OAuth2ClientContext context,
+			ClientDetailsService clientDetailsService) {
+		super();
+		this.restTemplate = restTemplate;
+		this.context = context;
+		this.clientDetailsService = clientDetailsService;
+	}
 
-    @GetMapping("/clientToken")
-    OAuth2AccessToken clientToken() {
-        return restTemplate.getAccessToken();
-    }
+	@GetMapping("/user")
+	public Principal user(Principal user) {
+		return user;
+	}
 
-    @GetMapping("/user2")
-    public Object user2(Principal user) {
-        OAuth2Authentication authentication = (OAuth2Authentication) user;
-        Authentication userAuthentication = authentication.getUserAuthentication();
-        return userAuthentication.getPrincipal();
-    }
+	@GetMapping("/clientToken")
+	OAuth2AccessToken clientToken() {
+		return restTemplate.getAccessToken();
+	}
 
-    @GetMapping("/info")
-    String info() {
-        OAuth2AccessToken token = context.getAccessToken();
-        String tokenValueBeforeDeletion = token.getValue();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        return "Oauth Token from context : " + tokenValueBeforeDeletion;
-    }
+	@GetMapping("/user2")
+	public Object user2(Principal user) {
+		OAuth2Authentication authentication = (OAuth2Authentication) user;
+		Authentication userAuthentication = authentication.getUserAuthentication();
+		return userAuthentication.getPrincipal();
+	}
 
-    @GetMapping("/client/{clientId}")
-    ClientDetails client(@PathVariable String clientId) {
-        ClientDetails cd = clientDetailsService.loadClientByClientId(clientId);
-        return cd;
-    }
+	@GetMapping("/info")
+	String info() {
+		OAuth2AccessToken token = context.getAccessToken();
+		String tokenValueBeforeDeletion = token.getValue();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return "Oauth Token from context : " + tokenValueBeforeDeletion;
+	}
 
-    @GetMapping("/details")
-    Object details(OAuth2Authentication authentication) {
-        return authentication.getUserAuthentication();
-    }
+	@GetMapping("/client/{clientId}")
+	ClientDetails client(@PathVariable String clientId) {
+		ClientDetails cd = clientDetailsService.loadClientByClientId(clientId);
+		return cd;
+	}
 
-    @GetMapping("/show_token")
-    String authCode() throws Exception {
-        OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
-        String tokenValue = details.getTokenValue();
-        return tokenValue;
-    }
+	@GetMapping("/details")
+	Object details(OAuth2Authentication authentication) {
+		return authentication.getUserAuthentication();
+	}
 
-    @GetMapping(value = "userOauth", produces = "application/json")
-    Map<String, Object> user(OAuth2Authentication user) {
-        Map<String, Object> userDetails = new HashMap<>();
-        userDetails.put("user", user.getUserAuthentication().getPrincipal());
-        userDetails.put("authorities", AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
-        return userDetails;
-    }
+	@GetMapping("/show_token")
+	String authCode() throws Exception {
+		OAuth2Authentication auth = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+		OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
+		String tokenValue = details.getTokenValue();
+		return tokenValue;
+	}
+
+	@GetMapping(value = "userOauth", produces = "application/json")
+	Map<String, Object> user(OAuth2Authentication user) {
+		Map<String, Object> userDetails = new HashMap<>();
+		userDetails.put("user", user.getUserAuthentication().getPrincipal());
+		userDetails.put("authorities",
+				AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
+		return userDetails;
+	}
 }

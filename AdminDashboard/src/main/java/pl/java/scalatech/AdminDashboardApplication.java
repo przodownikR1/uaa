@@ -21,37 +21,38 @@ import de.codecentric.boot.admin.notify.filter.FilteringNotifier;
 public class AdminDashboardApplication {
 
 	public static void main(String[] args) {
-	  springPIDAppRun(args,AdminDashboardApplication.class);
+		springPIDAppRun(args, AdminDashboardApplication.class);
 	}
-	private static void springPIDAppRun(String[] args,Class<?> clazz) {
-        SpringApplication springApplication = new SpringApplication(clazz);
-        springApplication.addListeners(new ApplicationPidFileWriter());
-        springApplication.run(args);
-    }
+
+	private static void springPIDAppRun(String[] args, Class<?> clazz) {
+		SpringApplication springApplication = new SpringApplication(clazz);
+		springApplication.addListeners(new ApplicationPidFileWriter());
+		springApplication.run(args);
+	}
+
 	@Configuration
-    public static class NotifierConfig {
-    @Bean
-    @Primary
-    public RemindingNotifier remindingNotifier() {
-        RemindingNotifier notifier = new RemindingNotifier(filteringNotifier(loggerNotifier()));
-        notifier.setReminderPeriod(TimeUnit.SECONDS.toMillis(10));
-        return notifier;
-    }
+	public static class NotifierConfig {
+		@Bean
+		@Primary
+		public RemindingNotifier remindingNotifier() {
+			RemindingNotifier notifier = new RemindingNotifier(filteringNotifier(loggerNotifier()));
+			notifier.setReminderPeriod(TimeUnit.SECONDS.toMillis(10));
+			return notifier;
+		}
 
-    @Scheduled(fixedRate = 1_000L)
-    public void remind() {
-        remindingNotifier().sendReminders();
-    }
+		@Scheduled(fixedRate = 1_000L)
+		public void remind() {
+			remindingNotifier().sendReminders();
+		}
 
-    @Bean
-    public FilteringNotifier filteringNotifier(Notifier delegate) {
-        return new FilteringNotifier(delegate);
-    }
+		@Bean
+		public FilteringNotifier filteringNotifier(Notifier delegate) {
+			return new FilteringNotifier(delegate);
+		}
 
-    @Bean
-    public LoggingNotifier loggerNotifier() {
-        return new LoggingNotifier();
-    }
+		@Bean
+		public LoggingNotifier loggerNotifier() {
+			return new LoggingNotifier();
+		}
+	}
 }
-}
-

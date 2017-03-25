@@ -14,16 +14,15 @@ import pl.java.scalatech.config.ProfileApp;
 @Component
 @Profile(ProfileApp.TEST)
 public class LoginAttemptsLogger {
-    
 
-    @EventListener
-    public void auditEventHappened(AuditApplicationEvent auditApplicationEvent) {
-        AuditEvent auditEvent = auditApplicationEvent.getAuditEvent();
-        log.info("Principal " + auditEvent.getPrincipal() + " - " + auditEvent.getType());
+	@EventListener
+	public void auditEventHappened(AuditApplicationEvent auditApplicationEvent) {
+		AuditEvent auditEvent = auditApplicationEvent.getAuditEvent();
+		log.info("Principal " + auditEvent.getPrincipal() + " - " + auditEvent.getType());
 
-        WebAuthenticationDetails details = (WebAuthenticationDetails) auditEvent.getData().get("details");
-        log.info("  Remote IP address: " + details.getRemoteAddress());
-        log.info("  Session Id: " + details.getSessionId());
-        log.info("  Request URL: " + auditEvent.getData().get("requestUrl"));
-    }
+		WebAuthenticationDetails details = (WebAuthenticationDetails) auditEvent.getData().get("details");
+		log.info("  Remote IP address: " + details.getRemoteAddress());
+		log.info("  Session Id: " + details.getSessionId());
+		log.info("  Request URL: " + auditEvent.getData().get("requestUrl"));
+	}
 }

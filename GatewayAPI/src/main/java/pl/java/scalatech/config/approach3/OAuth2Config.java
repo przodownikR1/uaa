@@ -16,28 +16,24 @@ import pl.java.scalatech.config.approach2.SecConfig;
 class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
 	private final AuthenticationManager authenticationManager;
-	
+
 	private final SecConfig secConfig;
 
-	public OAuth2Config(AuthenticationManager authenticationManager,SecConfig securityConfig) {
+	public OAuth2Config(AuthenticationManager authenticationManager, SecConfig securityConfig) {
 		this.authenticationManager = authenticationManager;
 		this.secConfig = securityConfig;
 	}
 
 	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints)
-			throws Exception {
+	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.authenticationManager(this.authenticationManager);
 	}
 
 	@Override
-	// @formatter:off 
+	// @formatter:off
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-		     .withClient(secConfig.getClientId())
-		     .secret(secConfig.getClientSecret())
-			 .authorizedGrantTypes(secConfig.getGrantTypes())
-			 .scopes(secConfig.getScopes());
+		clients.inMemory().withClient(secConfig.getClientId()).secret(secConfig.getClientSecret())
+				.authorizedGrantTypes(secConfig.getGrantTypes()).scopes(secConfig.getScopes());
 	}
-    // @formatter:on
+	// @formatter:on
 }

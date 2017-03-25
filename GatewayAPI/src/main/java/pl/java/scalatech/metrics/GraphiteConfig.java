@@ -18,34 +18,29 @@ import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Configuration
-@ConditionalOnProperty(name = {
-        "metrics.graphite.host",
-        "metrics.graphite.port",
-        "metrics.graphite.prefix"}
-)
+@ConditionalOnProperty(name = { "metrics.graphite.host", "metrics.graphite.port", "metrics.graphite.prefix" })
 @Slf4j
 @EnableMetrics
-public class GraphiteConfig extends MetricsConfigurerAdapter  {
-    @Autowired
-    private MetricRegistry metricRegistry;
-    @Value("${metrics.graphite.host}")
-    private String host;
-    @Value("${metrics.graphite.port}")
-    private int port;
-    @Value("${metrics.graphite.prefix}")
-    private String prefix;
-    
-    @PostConstruct
-    public void startGraphiteReporter() throws UnknownHostException {
-        log.info("+++ graphite metrics enabled ");
-        String hostname = InetAddress.getLocalHost().getHostName();
+public class GraphiteConfig extends MetricsConfigurerAdapter {
+	@Autowired
+	private MetricRegistry metricRegistry;
+	@Value("${metrics.graphite.host}")
+	private String host;
+	@Value("${metrics.graphite.port}")
+	private int port;
+	@Value("${metrics.graphite.prefix}")
+	private String prefix;
 
-        Graphite graphite = new Graphite(host,port);
-        GraphiteReporter reporter = GraphiteReporter
-                .forRegistry(metricRegistry)
-                .prefixedWith(prefix + hostname)
-                .build(graphite);
-        reporter.start(10, TimeUnit.SECONDS);
-    }
+	@PostConstruct
+	public void startGraphiteReporter() throws UnknownHostException {
+		log.info("+++ graphite metrics enabled ");
+		String hostname = InetAddress.getLocalHost().getHostName();
+
+		Graphite graphite = new Graphite(host, port);
+		GraphiteReporter reporter = GraphiteReporter.forRegistry(metricRegistry).prefixedWith(prefix + hostname)
+				.build(graphite);
+		reporter.start(10, TimeUnit.SECONDS);
+	}
 }

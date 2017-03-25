@@ -15,22 +15,22 @@ import pl.java.scalatech.sample.repo.PersonRepo;
 @RequestMapping("/api/user")
 public class PersonController {
 
-    private final PersonRepo personRepo;
+	private final PersonRepo personRepo;
 
-    public PersonController(PersonRepo personRepo) {
-        this.personRepo = personRepo;
-    }
+	public PersonController(PersonRepo personRepo) {
+		this.personRepo = personRepo;
+	}
 
-    @GetMapping("/{id}")
-    @PreAuthorize("#oauth2.hasScope('read')")
-    Person getPersonById(@PathVariable Long id) {
-        return personRepo.findOne(id);
-    }
+	@GetMapping("/{id}")
+	@PreAuthorize("#oauth2.hasScope('read')")
+	Person getPersonById(@PathVariable Long id) {
+		return personRepo.findOne(id);
+	}
 
-    @GetMapping("/")
-    @PreAuthorize("#oauth2.hasScope('read')")
-    List<Person> getAll() {
-        return personRepo.findAll();
-    }
+	@GetMapping("/")
+	@PreAuthorize("#oauth2.hasScope('read')")
+	List<Person> getAll() {
+		return personRepo.findAll();
+	}
 
 }

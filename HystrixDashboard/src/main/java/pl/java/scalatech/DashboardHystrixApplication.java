@@ -1,7 +1,5 @@
 package pl.java.scalatech;
 
-
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.system.ApplicationPidFileWriter;
@@ -22,32 +20,30 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class DashboardHystrixApplication {
 
-    @RequestMapping("/")
-    public String home() {
-        return "forward:/hystrix";
-    }
-    
-    @Bean
-    @LoadBalanced
-    RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
-    
-    public static void main(String[] args) {
-        springPIDAppRun(args, DashboardHystrixApplication.class);
-    }
-    private static void springPIDAppRun(String[] args,Class<?> clazz) {
-        SpringApplication springApplication = new SpringApplication(clazz);
-        springApplication.addListeners(new ApplicationPidFileWriter());
-        springApplication.run(args);
-    }
-    @Bean
-     ServletRegistrationBean mockStreamServlet() {
-        return new ServletRegistrationBean(new MockStreamServlet(), "/mock.stream");
-}
-    
-    
-  
-    
-    
+	@RequestMapping("/")
+	public String home() {
+		return "forward:/hystrix";
+	}
+
+	@Bean
+	@LoadBalanced
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+	public static void main(String[] args) {
+		springPIDAppRun(args, DashboardHystrixApplication.class);
+	}
+
+	private static void springPIDAppRun(String[] args, Class<?> clazz) {
+		SpringApplication springApplication = new SpringApplication(clazz);
+		springApplication.addListeners(new ApplicationPidFileWriter());
+		springApplication.run(args);
+	}
+
+	@Bean
+	ServletRegistrationBean mockStreamServlet() {
+		return new ServletRegistrationBean(new MockStreamServlet(), "/mock.stream");
+	}
+
 }

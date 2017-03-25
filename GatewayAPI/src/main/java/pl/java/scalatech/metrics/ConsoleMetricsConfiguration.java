@@ -19,12 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty(name = "metrics.console.logger")
 public class ConsoleMetricsConfiguration extends MetricsConfigurerAdapter {
 
-    @Value("${metrics.slf4j.period:2}")
-    private long periodMinutes = 2;
+	@Value("${metrics.slf4j.period:2}")
+	private long periodMinutes = 2;
 
-    @Override
-    public void configureReporters(MetricRegistry metricRegistry) {
-        log.info("+++ console metrics enabled ");        
-        registerReporter(ConsoleReporter.forRegistry(metricRegistry).build()).start(periodMinutes, TimeUnit.MINUTES);
-    }
+	@Override
+	public void configureReporters(MetricRegistry metricRegistry) {
+		log.info("+++ console metrics enabled ");
+		registerReporter(ConsoleReporter.forRegistry(metricRegistry).build()).start(periodMinutes, TimeUnit.MINUTES);
+	}
 }

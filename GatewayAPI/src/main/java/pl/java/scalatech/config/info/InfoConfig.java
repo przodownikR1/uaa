@@ -15,8 +15,8 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-
-import org.springframework.boot.actuate.info.InfoContributor;import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.actuate.info.InfoContributor;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -46,31 +46,20 @@ class InfoConfig {
 	private final Environment env;
 	private final LocalDateTime startDate = LocalDateTime.now();
 
-	@Bean	
+	@Bean
 	InfoContributor info() {
 		// @formatter:off
 		return builder -> {
-			builder.withDetail(
-					ENVIRONMENT,
-					of(ACTIVE_PROFILES, env.getActiveProfiles())
-					);
-			builder.withDetail
-			       (NETWORK,
-					builder()
-					        .put(HOST, getHostName()).put(IP, getIp())
-							.put(SERVER_PORT, env.getProperty(SERVER_PORT))
-							.put(SPRING_APPLICATION_NAME, env.getProperty(SPRING_APPLICATION_NAME))
-							.build());
-			builder.withDetail
-			       (RUNTIME,
-					builder()
-					  .put(CONTEXT_PATH,env.getProperty(SERVER_CONTEXT_PATH,"/"))
-					  .put(PID, getApplicationPID())
-					  .put(JAVA_VERSION, System.getProperty(JAVA_VERSION))
-					  .put(START_DATE, startDate.format(ofPattern(FORMAT_DATE_TIME)))
-					  .put(HEART_BEAT, LocalDateTime.now().format(ofPattern(FORMAT_DATE_TIME)))
-					  .put(UPTIME, getUptime())
-					  .build());
+			builder.withDetail(ENVIRONMENT, of(ACTIVE_PROFILES, env.getActiveProfiles()));
+			builder.withDetail(NETWORK,
+					builder().put(HOST, getHostName()).put(IP, getIp()).put(SERVER_PORT, env.getProperty(SERVER_PORT))
+							.put(SPRING_APPLICATION_NAME, env.getProperty(SPRING_APPLICATION_NAME)).build());
+			builder.withDetail(RUNTIME,
+					builder().put(CONTEXT_PATH, env.getProperty(SERVER_CONTEXT_PATH, "/")).put(PID, getApplicationPID())
+							.put(JAVA_VERSION, System.getProperty(JAVA_VERSION))
+							.put(START_DATE, startDate.format(ofPattern(FORMAT_DATE_TIME)))
+							.put(HEART_BEAT, LocalDateTime.now().format(ofPattern(FORMAT_DATE_TIME)))
+							.put(UPTIME, getUptime()).build());
 
 		};
 		// @formatter:on

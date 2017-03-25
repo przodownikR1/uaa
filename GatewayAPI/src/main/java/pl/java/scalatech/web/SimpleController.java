@@ -18,27 +18,26 @@ import com.google.common.collect.Lists;
 @RequestMapping("/oauth2")
 public class SimpleController {
 
-    @GetMapping
-    List<String> test(){
-      return Lists.newArrayList("slawke","borowiec","r1","yamaha");    
-    }
-    
-    
-    
-    @GetMapping(value= "/user3", produces = "application/json")     
-      public Map<String, Object> user(OAuth2Authentication user) { 
-        Map<String, Object> userInfo = new HashMap<>(); 
-        userInfo.put("user", user.getUserAuthentication().getPrincipal()); 
-        userInfo.put("authorities",  AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities())); 
-        return userInfo; 
-      } 
-    @GetMapping("/hi")
-    public Map<String, Object> hi(Principal principal) {
-        System.out.println("received request from " + principal.getName());
-        Map<String, Object> result = new HashMap<>();
-        result.put("id", UUID.randomUUID().toString());
-        result.put("content", "Hello, world!");
-        return result;
-}
-   
+	@GetMapping
+	List<String> test() {
+		return Lists.newArrayList("slawke", "borowiec", "r1", "yamaha");
+	}
+
+	@GetMapping(value = "/user3", produces = "application/json")
+	public Map<String, Object> user(OAuth2Authentication user) {
+		Map<String, Object> userInfo = new HashMap<>();
+		userInfo.put("user", user.getUserAuthentication().getPrincipal());
+		userInfo.put("authorities", AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
+		return userInfo;
+	}
+
+	@GetMapping("/hi")
+	public Map<String, Object> hi(Principal principal) {
+		System.out.println("received request from " + principal.getName());
+		Map<String, Object> result = new HashMap<>();
+		result.put("id", UUID.randomUUID().toString());
+		result.put("content", "Hello, world!");
+		return result;
+	}
+
 }

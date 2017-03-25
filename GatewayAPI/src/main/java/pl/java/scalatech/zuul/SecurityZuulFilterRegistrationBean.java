@@ -14,15 +14,15 @@ import pl.java.scalatech.config.ProfileApp;
 @Profile(ProfileApp.SECURITY)
 public class SecurityZuulFilterRegistrationBean implements ApplicationRunner, Ordered {
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        final FilterRegistry filterRegistry = FilterRegistry.instance();
-        filterRegistry.put(SecurityZuulFilter.class.getSimpleName(), new SecurityZuulFilter());
-    }
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+		final FilterRegistry filterRegistry = FilterRegistry.instance();
+		filterRegistry.put(SecurityZuulFilter.class.getSimpleName(), new SecurityZuulFilter());
+	}
 
-    @Override
-    public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
-    }
+	@Override
+	public int getOrder() {
+		return Ordered.LOWEST_PRECEDENCE;
+	}
 
 }

@@ -1,6 +1,5 @@
 package pl.java.scalatech.config;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,63 +17,62 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import pl.java.scalatech.filter.SimpleFilter;
 
-
 @Configuration
 public class GatewayConfig {
 	@Bean
-    Filter shallowEtagHeaderFilter() {
-       return new ShallowEtagHeaderFilter();
-   }
-   
-   @Bean
-    SimpleFilter simpleFilter() {
-     return new SimpleFilter();
-   }
-   
-   @Bean
-    ZuulFallbackProvider zuulFallbackProvider() {
-       return new ZuulFallbackProvider() {
-           @Override
-           public String getRoute() {
-               return "customer";
-           }
+	Filter shallowEtagHeaderFilter() {
+		return new ShallowEtagHeaderFilter();
+	}
 
-           @Override
-           public ClientHttpResponse fallbackResponse() {
-               return new ClientHttpResponse() {
-                   @Override
-                   public HttpStatus getStatusCode() throws IOException {
-                       return HttpStatus.OK;
-                   }
+	@Bean
+	SimpleFilter simpleFilter() {
+		return new SimpleFilter();
+	}
 
-                   @Override
-                   public int getRawStatusCode() throws IOException {
-                       return 200;
-                   }
+	@Bean
+	ZuulFallbackProvider zuulFallbackProvider() {
+		return new ZuulFallbackProvider() {
+			@Override
+			public String getRoute() {
+				return "customer";
+			}
 
-                   @Override
-                   public String getStatusText() throws IOException {
-                       return "OK";
-                   }
+			@Override
+			public ClientHttpResponse fallbackResponse() {
+				return new ClientHttpResponse() {
+					@Override
+					public HttpStatus getStatusCode() throws IOException {
+						return HttpStatus.OK;
+					}
 
-                   @Override
-                   public void close() {
+					@Override
+					public int getRawStatusCode() throws IOException {
+						return 200;
+					}
 
-                   }
+					@Override
+					public String getStatusText() throws IOException {
+						return "OK";
+					}
 
-                   @Override
-                   public InputStream getBody() throws IOException {
-                       return new ByteArrayInputStream("fallback".getBytes());
-                   }
+					@Override
+					public void close() {
 
-                   @Override
-                   public HttpHeaders getHeaders() {
-                       HttpHeaders headers = new HttpHeaders();
-                       headers.setContentType(MediaType.APPLICATION_JSON);
-                       return headers;
-                   }
-               };
-           }
-       };
-}
+					}
+
+					@Override
+					public InputStream getBody() throws IOException {
+						return new ByteArrayInputStream("fallback".getBytes());
+					}
+
+					@Override
+					public HttpHeaders getHeaders() {
+						HttpHeaders headers = new HttpHeaders();
+						headers.setContentType(MediaType.APPLICATION_JSON);
+						return headers;
+					}
+				};
+			}
+		};
+	}
 }
