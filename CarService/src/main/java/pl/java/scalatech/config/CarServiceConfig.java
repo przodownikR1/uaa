@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class CarServiceConfig {
 
+	@Bean
+	@LoadBalanced
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+	
 	  private final DiscoveryClient discoveryClient;
 
 	    @Bean

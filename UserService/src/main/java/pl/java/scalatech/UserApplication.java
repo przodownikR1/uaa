@@ -10,11 +10,6 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableAsync
-@EnableCircuitBreaker
-@EnableDiscoveryClient
-@EnableEurekaClient
-@EnableFeignClients
 public class UserApplication {
 
 	public static void main(String[] args) {

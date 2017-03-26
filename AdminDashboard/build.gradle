@@ -1,6 +1,6 @@
 
 jar {
-	baseName = 'adminDashboard'
+	baseName = 'admin_dashboard'
 	version = '0.0.1-SNAPSHOT'
 }
 

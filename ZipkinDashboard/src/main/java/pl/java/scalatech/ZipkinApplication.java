@@ -7,10 +7,16 @@ import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
+
+import zipkin.server.EnableZipkinServer;
+
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableZipkinServer
+@RefreshScope
 public class ZipkinApplication extends SpringBootServletInitializer {
 
 	@Override
@@ -28,9 +34,9 @@ public class ZipkinApplication extends SpringBootServletInitializer {
 		springApplication.run(args);
 	}
 
-	@Bean
+	/*@Bean
 	public AlwaysSampler defaultSampler() {
 		return new AlwaysSampler();
 	}
-
+*/
 }

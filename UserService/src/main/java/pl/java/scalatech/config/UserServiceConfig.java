@@ -4,10 +4,15 @@ import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableAsync
+@EnableCircuitBreaker
+@EnableDiscoveryClient
+@EnableEurekaClient
+@EnableFeignClients
 @Slf4j
 public class UserServiceConfig {
 	private static final String DISCOVERY_SERVICE = "discovery-service";

@@ -14,13 +14,13 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-security')
     compile('org.springframework.cloud:spring-cloud-starter-zuul')
     compile('org.springframework.cloud:spring-cloud-starter-eureka')
-    compile "org.springframework.cloud:spring-cloud-starter-sleuth"
+    
+	compile "org.springframework.cloud:spring-cloud-starter-sleuth"
+	compile('org.springframework.cloud:spring-cloud-starter-zipkin')
     compile('org.springframework.cloud:spring-cloud-starter-hystrix')    
 	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
     compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
-    
-   
-	//compile('org.springframework.boot:spring-boot-starter-social-facebook')
+    //compile('org.springframework.boot:spring-boot-starter-social-facebook')
 	//compile('org.springframework.boot:spring-boot-starter-social-twitter')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile group: 'com.github.javafaker', name: 'javafaker', version: '0.10'

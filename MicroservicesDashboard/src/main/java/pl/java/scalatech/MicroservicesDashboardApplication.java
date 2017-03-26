@@ -4,12 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import be.ordina.msdashboard.EnableMicroservicesDashboardServer;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableMicroservicesDashboardServer
+@RefreshScope
 public class MicroservicesDashboardApplication {
 
 	public static void main(String[] args) {
