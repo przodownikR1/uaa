@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-@FeignClient(name="nbp-service")
+@FeignClient(name="nbp-service",fallback=NBPFeignResource.HystrixFallback.class)
 @Component
 public interface NBPFeignResource {
     
@@ -16,6 +16,22 @@ public interface NBPFeignResource {
 	  @RequestMapping(method = RequestMethod.GET, value="/simple")
 	  String getMessage();
     
-    
+	  @Component
+	    class HystrixFallback implements  NBPFeignResource{
+
+		@Override
+		public String getMutlipierByCode(String code) {
+			return "too slow";
+		}
+
+		@Override
+		public String getMessage() {
+			return "too slow";
+		}
+
+			
+
+
+	    }
 }
 

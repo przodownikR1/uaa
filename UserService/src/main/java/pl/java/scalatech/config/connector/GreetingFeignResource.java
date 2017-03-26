@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import feign.Headers;
-@FeignClient(name="hystrix-dashboard")
+@FeignClient(name="hystrix-dashboard",fallback=GreetingFeignResource.HystrixUserClientFallback.class)
 @Component
 public interface GreetingFeignResource {
     
@@ -21,5 +21,24 @@ public interface GreetingFeignResource {
     @RequestMapping(method = RequestMethod.POST, value = "/message/{newGreeting}")
     void updateMessage(@PathVariable("newGreeting") String message);
     
+    @Component
+    class HystrixUserClientFallback implements  GreetingFeignResource{
+
+		@Override
+		public String getMessageNoName() {
+			return "fallback...";
+		}
+
+		@Override
+		public String getMessage(String name) {			
+			return "fallback...";
+		}
+
+		@Override
+		public void updateMessage(String message) {			
+		}
+
+
+    }
 }
 
