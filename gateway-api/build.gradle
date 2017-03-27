@@ -1,0 +1,36 @@
+jar {
+	baseName = 'gateway-api'
+	version = null
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-actuator-docs')
+        compile 'org.springframework.data:spring-data-rest-hal-browser'
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+	compile('org.springframework.cloud:spring-cloud-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.cloud:spring-cloud-starter-zuul')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    
+	compile "org.springframework.cloud:spring-cloud-starter-sleuth"
+	compile('org.springframework.cloud:spring-cloud-starter-zipkin')
+    compile('org.springframework.cloud:spring-cloud-starter-hystrix')    
+	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
+    compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
+    //compile('org.springframework.boot:spring-boot-starter-social-facebook')
+	//compile('org.springframework.boot:spring-boot-starter-social-twitter')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile group: 'com.github.javafaker', name: 'javafaker', version: '0.10'
+    compile 'com.google.guava:guava:20.+'
+	compile('org.springframework.cloud:spring-cloud-starter-config') 
+    
+	runtime('com.h2database:h2')
+	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
+	testCompile('org.springframework.cloud:spring-cloud-contract-wiremock')
+	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+}

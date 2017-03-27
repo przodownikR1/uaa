@@ -1,13 +1,13 @@
-include ":ConfigServer_UAA",
-        ":EurekaPoint_UAA",
-        ":GatewayAPI",
-        ":HystrixDashboard",
-        ":ZipkinDashboard",
-        ":UserService",
-        ":CarService",
-        ":NBPService",
-        ":MicroservicesDashboard",
-        ":AdminDashboard"
+include ":config-server",
+        ":eureka-point",
+        ":gateway-api",
+        ":hystrix-dashboard",
+        ":zipkin-dashboard",
+        ":user-service",
+        ":car-service",
+        ":nbp-service",
+        ":microservices-dashboard",
+        ":admin-dashboard"
 
 
            

@@ -1,0 +1,17 @@
+
+jar {
+	baseName = 'eureka-point'
+	version = null
+}
+
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+    compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
+    runtime('org.springframework.boot:spring-boot-devtools')
+    compile('org.springframework.cloud:spring-cloud-starter-config') 
+    compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
+    compileOnly('org.springframework.boot:spring-boot-configuration-processor')   
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+

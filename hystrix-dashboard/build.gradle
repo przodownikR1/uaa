@@ -1,0 +1,18 @@
+jar {
+	baseName = 'hystrix-dashboard'
+	version = null
+}
+
+
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+    compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	
+	compile "org.springframework.cloud:spring-cloud-starter-sleuth"
+	compile('org.springframework.cloud:spring-cloud-starter-zipkin')
+	compile('org.springframework.cloud:spring-cloud-starter-config') 
+	compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+

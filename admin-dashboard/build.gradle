@@ -1,0 +1,25 @@
+
+jar {
+	baseName = 'admin-dashboard'
+	version = null
+}
+
+dependencies {
+    compile('de.codecentric:spring-boot-admin-server:1.4.6')
+    compile('de.codecentric:spring-boot-admin-server-ui:1.4.6')
+    compile('de.codecentric:spring-boot-admin-server-ui-hystrix:1.4.6')
+    compile('de.codecentric:spring-boot-admin-server-ui-activiti:1.4.6')
+	
+	             
+	compile('be.ordina:microservices-dashboard-server:1.+')
+	
+	
+    compile('org.springframework.cloud:spring-cloud-starter-config')    
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+  
+	    
+}
+
+
+
+
