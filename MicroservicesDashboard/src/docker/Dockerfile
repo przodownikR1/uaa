@@ -1,12 +1,9 @@
 FROM java:8
-
 MAINTAINER przodownikR1
-
 VOLUME /tmp
+WORKDIR /microservices-dashboard
 
-WORKDIR /admin-dashboard
-
-ADD adminDashboard-0.0.1-SNAPSHOT.jar adminDashboard.jar
-RUN sh -c 'touch /adminDashboard.jar'
+ADD microservices-dashboard.jar microservicesDashboard.jar
+RUN sh -c 'touch /microservicesDashboard.jar'
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /adminDashboard.jar" ]
+ENTRYPOINT ["java", "-jar","/microservicesDashboard.jar" ]
