@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @EnableMetrics
 @Slf4j
 @ConditionalOnProperty(name = "metrics.console.logger")
-public class ConsoleMetricsConfiguration extends MetricsConfigurerAdapter {
+class ConsoleMetricsConfiguration extends MetricsConfigurerAdapter {
 
     @Value("${metrics.slf4j.period:2}")
     private long periodMinutes = 2;

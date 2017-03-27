@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 )
 @Slf4j
 @EnableMetrics
-public class GraphiteConfig extends MetricsConfigurerAdapter  {
+class GraphiteConfig extends MetricsConfigurerAdapter  {
     @Autowired
     private MetricRegistry metricRegistry;
     @Value("${metrics.graphite.host}")

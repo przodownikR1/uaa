@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @EnableMetrics
 @ConditionalOnProperty(name = "metrics.jvm.logger")
 @Slf4j
-public class MetricsJvmConfiguration extends MetricsConfigurerAdapter {
+class MetricsJvmConfiguration extends MetricsConfigurerAdapter {
 
     @Override
     public void configureReporters(final MetricRegistry metricRegistry) {

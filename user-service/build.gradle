@@ -1,6 +1,6 @@
 jar {
-	baseName = 'userService'
-	version = '0.0.1-SNAPSHOT'
+	baseName = 'user-service'
+	version = null
 }
 
 dependencies {

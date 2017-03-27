@@ -1,6 +1,6 @@
 jar {
 	baseName = 'car-service'
-	version = 'null'
+	version = null
 }
 
 sourceCompatibility = "${javaVersion}"
