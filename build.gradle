@@ -57,7 +57,7 @@ group = 'scalatech'
 
 
 task buildDocker(type: Docker, dependsOn: assemble) {
-    push = true
+    push = false
     applicationName = jar.baseName
     dockerfile = file('src/main/docker/Dockerfile')
     doFirst {
