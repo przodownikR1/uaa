@@ -59,16 +59,21 @@ group = 'scalatech'
 task buildDocker(type: Docker, dependsOn: assemble) {
     push = false
     applicationName = jar.baseName
+	tagVersion=project.version
     dockerfile = file('src/main/docker/Dockerfile')
     doFirst {
     copy {
       from jar
-      into "${buildDir}/docker"
+	  from file('src/main/docker')
+      into stageDir
     }
   }
 
 }
 }
+
+
+
 
 
 configure(subprojects) {

@@ -7,4 +7,5 @@ WORKDIR /eureka-point
 ADD eureka-point.jar discoveryService.jar
 RUN sh -c 'touch /discoveryService.jar'
 ENV JAVA_OPTS=""
-ENTRYPOINT ["java", "-jar","/discoveryService.jar" ]
+ENTRYPOINT exec java $JAVA_OPTS -jar discoveryService.jar
+

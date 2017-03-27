@@ -7,4 +7,5 @@ WORKDIR /admin-service
 ADD admin-dashboard.jar adminDashboard.jar
 RUN sh -c 'touch /adminDashboard.jar'
 ENV JAVA_OPTS=""
-ENTRYPOINT ["java", "-jar","/adminDashboard.jar" ]
+ENTRYPOINT exec java $JAVA_OPTS -jar adminDashboard.jar 
+
