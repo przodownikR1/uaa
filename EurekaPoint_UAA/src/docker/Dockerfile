@@ -1,12 +1,10 @@
 FROM java:8
-
 MAINTAINER przodownikR1
-
+EXPOSE 8761
 VOLUME /tmp
+WORKDIR /eureka-point
 
-WORKDIR /admin-dashboard
-
-ADD adminDashboard-0.0.1-SNAPSHOT.jar adminDashboard.jar
-RUN sh -c 'touch /adminDashboard.jar'
+ADD eureka-point.jar discoveryService.jar
+RUN sh -c 'touch /discoveryService.jar'
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /adminDashboard.jar" ]
+ENTRYPOINT ["java", "-jar","/discoveryService.jar" ]
