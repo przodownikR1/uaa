@@ -1,12 +1,10 @@
 FROM java:8
-
 MAINTAINER przodownikR1
-
+EXPOSE 8060
 VOLUME /tmp
+WORKDIR /zipkin-dashboard
 
-WORKDIR /admin-dashboard
-
-ADD adminDashboard-0.0.1-SNAPSHOT.jar adminDashboard.jar
-RUN sh -c 'touch /adminDashboard.jar'
+ADD zipkin-dashboard.jar zipkinDashboard.jar
+RUN sh -c 'touch /zipkinDashboard.jar'
 ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /adminDashboard.jar" ]
+ENTRYPOINT ["java", "-jar","/zipkinDashboard.jar" ]
