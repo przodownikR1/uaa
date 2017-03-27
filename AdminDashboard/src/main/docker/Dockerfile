@@ -1,5 +1,5 @@
 FROM java:8
-MAINTAINER s.borowiec
+MAINTAINER przodownikR1
 EXPOSE 8040
 VOLUME /tmp
 WORKDIR /admin-service
