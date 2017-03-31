@@ -55,6 +55,9 @@
      <logger name="org.springframework.cloud" level="DEBUG" />   
     <logger name="org.springframework" level="info" />
     <logger name="org.springframework.data" level="info" />
+    <logger name="org.springframework.cloud.sleuth" level="info" />
+    
+   
     <root level="INFO">    
        <appender-ref ref="console" />
        <!-- <appender-ref ref="tcpJSON" /> -->
