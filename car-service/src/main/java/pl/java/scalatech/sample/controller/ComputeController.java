@@ -28,7 +28,7 @@ public class ComputeController {
 	@GetMapping("/message/{name}")
 	@HystrixCommand(fallbackMethod = "cache")
 	public String add(@PathVariable(value = "name") String name) {
-		String url = "http://nbp-service/nbp/byCode/USD";
+		String url = "http://nbp-service/byCode/USD";
 		calculate();
 		String response = restTemplate.getForObject(url, String.class);
 		String result = welcome + " " + name + "  current usd value : " + response;
@@ -52,7 +52,7 @@ public class ComputeController {
 	@RequestMapping("/nbp/hello")
 	@HystrixCommand(fallbackMethod = "fallback")
 	public String nbp() {
-		String url = "http://nbp-service/nbp/hello";
+		String url = "http://nbp-service/hello";
 		calculate();
 		return restTemplate.getForObject(url, String.class);
 	}

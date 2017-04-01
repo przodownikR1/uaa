@@ -12,7 +12,7 @@ import pl.java.scalatech.sample.domain.Car;
 import pl.java.scalatech.sample.repo.CarRepo;
 
 @RestController
-@RequestMapping("/api/car")
+@RequestMapping("/api")
 public class CarController {
     
     private final CarRepo carRepo;

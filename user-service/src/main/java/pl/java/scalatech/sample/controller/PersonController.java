@@ -12,7 +12,7 @@ import pl.java.scalatech.sample.domain.Person;
 import pl.java.scalatech.sample.repo.PersonRepo;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class PersonController {
 
     private final PersonRepo personRepo;
