@@ -11,14 +11,14 @@ import feign.Headers;
 @Component
 public interface GreetingFeignResource {
     
-    @RequestMapping(method = RequestMethod.GET, value = "/car/message/sean")
+    @RequestMapping(method = RequestMethod.GET, value = "/message/sean")
     String getMessageNoName();
     
-    @RequestMapping(method = RequestMethod.GET, value = "/car/message/{name}")
+    @RequestMapping(method = RequestMethod.GET, value = "/message/{name}")
     String getMessage(@PathVariable("name") String name);
 
     @Headers("Content-Type: application/json")
-    @RequestMapping(method = RequestMethod.POST, value = "/car/message/{newGreeting}")
+    @RequestMapping(method = RequestMethod.POST, value = "/message/{newGreeting}")
     void updateMessage(@PathVariable("newGreeting") String message);
     
     @Component

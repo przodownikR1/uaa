@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface NBPFeignResource {
     
     
-	 @RequestMapping(value="/nbp/byCode/{code}",method = RequestMethod.GET)
+	 @RequestMapping(value="/byCode/{code}",method = RequestMethod.GET)
      String getMutlipierByCode(@PathVariable("code") String code);
 
 	  @RequestMapping(method = RequestMethod.GET, value="/simple")
