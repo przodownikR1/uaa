@@ -70,7 +70,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 	}
 
 	@Bean
-	public TokenStore tokenStore() {
+	TokenStore tokenStore() {
 		return new JdbcTokenStore(dataSource);
 	}
 

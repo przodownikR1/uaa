@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import feign.Headers;
-@FeignClient(name="hystrix-dashboard",fallback=GreetingFeignResource.HystrixUserClientFallback.class)
+@FeignClient(name="car-service",fallback=GreetingFeignResource.HystrixUserClientFallback.class)
 @Component
 public interface GreetingFeignResource {
     
-    @RequestMapping(method = RequestMethod.GET, value = "/message/sean")
+    @RequestMapping(method = RequestMethod.GET, value = "/car/message/sean")
     String getMessageNoName();
     
-    @RequestMapping(method = RequestMethod.GET, value = "/message/{name}")
+    @RequestMapping(method = RequestMethod.GET, value = "/car/message/{name}")
     String getMessage(@PathVariable("name") String name);
 
     @Headers("Content-Type: application/json")
-    @RequestMapping(method = RequestMethod.POST, value = "/message/{newGreeting}")
+    @RequestMapping(method = RequestMethod.POST, value = "/car/message/{newGreeting}")
     void updateMessage(@PathVariable("newGreeting") String message);
     
     @Component

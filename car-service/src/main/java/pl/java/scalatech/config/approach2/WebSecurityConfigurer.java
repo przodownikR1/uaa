@@ -47,7 +47,14 @@ public class WebSecurityConfigurer   extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(WebSecurity web) throws Exception {
       web.ignoring()
-         .antMatchers("/h2-console/**");
+         .antMatchers("/h2-console/**")
+         .antMatchers("/info")
+         .antMatchers("/health")
+         .antMatchers("/mappings")
+         .antMatchers("/metrics")
+         .antMatchers("/message/**")
+         .antMatchers("/nbp/**")
+         .antMatchers("/env");
       super.configure(web);
 
       
