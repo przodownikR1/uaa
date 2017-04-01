@@ -1,3 +1,5 @@
+package pl.java.scalatech.sample.controller;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
@@ -8,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 //@Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class SimulateRoute {
+public class SimulateRouteController {
 
     private final RestTemplate restTemplate;
 

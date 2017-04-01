@@ -30,7 +30,6 @@ see in action shortly.
 */
 @Configuration
 @Profile(ProfileApp.PROFILE)
-@Slf4j
 @EnableWebSecurity
 // @EnableOAuth2Sso //annotation pulls in all the required configuration to wire
 // up the spring security filters for OAuth2 flows:

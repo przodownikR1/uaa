@@ -1,3 +1,5 @@
+package pl.java.scalatech.sample.controller;
+
 import java.util.Map;
 
 import org.springframework.cloud.client.discovery.DiscoveryClient;

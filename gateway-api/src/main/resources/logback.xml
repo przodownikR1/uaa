@@ -52,9 +52,20 @@
         <!--     <appender-ref ref="tcpJSON" /> -->
         <appender-ref ref="console" />
     </logger>
-     <logger name="org.springframework.cloud" level="DEBUG" />   
-    <logger name="org.springframework" level="info" />
-    <logger name="org.springframework.data" level="info" />
+        <logger name="org.springframework.cloud" level="WARN" />
+    <logger name="org.springframework.boot.web.servlet" level="WARN"/>
+    <logger name="org.apache.catalina.core.ContainerBase" level="WARN"/>
+    <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="WARN"/>
+    <logger name="logging.level.org.springframework.boot.web.servlet.ServletRegistrationBean" level="WARN"/>
+    <logger name="logging.level.org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" level="WARN"/>
+    <logger name="logging.level.com.netflix.config.sources.URLConfigurationSource" level="WARN"/>
+    <logger name="org.springframework.cloud.sleuth.zipkin.ZipkinSpanListener" level="INFO"/>
+    <logger name="org.springframework.cloud.sleuth.instrument" level="INFO"/>    
+    <logger name="org.springframework.cloud.sleuth.zipkin.ServerPropertiesEndpointLocator" level="INFO"/>
+    <logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" level="INFO" additivity="false"/>
+    <logger name="org.springframework.cloud.context.scope" level="INFO" />
+    <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="WARN"/>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="WARN"/>
     <root level="INFO">    
        <appender-ref ref="console" />
        <!-- <appender-ref ref="tcpJSON" /> -->
