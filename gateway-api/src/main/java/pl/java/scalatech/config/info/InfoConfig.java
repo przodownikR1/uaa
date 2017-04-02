@@ -11,16 +11,11 @@ import static pl.java.scalatech.config.info.tool.HostInformationTool.getHostName
 import static pl.java.scalatech.config.info.tool.HostInformationTool.getIp;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import org.springframework.boot.actuate.info.InfoContributor;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.quartz.LocalDataSourceJobStore;
 
 import lombok.RequiredArgsConstructor;
 

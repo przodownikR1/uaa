@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheckRegistry;
-import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @EnableOAuth2Sso
 @EnableDiscoveryClient
 @EnableHystrix
-@EnableEurekaClient
 @Slf4j
 public class GatewayAPIApplication {
 
