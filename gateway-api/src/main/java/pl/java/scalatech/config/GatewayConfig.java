@@ -8,6 +8,7 @@ import javax.servlet.Filter;
 
 import org.springframework.cloud.netflix.zuul.filters.route.ZuulFallbackProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,19 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
-import pl.java.scalatech.filter.SimpleFilter;
-
 @Configuration
+@ComponentScan(basePackages="pl.java.scalatech.filter")
 public class GatewayConfig {
 	@Bean
 	Filter shallowEtagHeaderFilter() {
 		return new ShallowEtagHeaderFilter();
 	}
 
-	@Bean
-	SimpleFilter simpleFilter() {
-		return new SimpleFilter();
-	}
+	
 
 	@Bean
 	ZuulFallbackProvider zuulFallbackProvider() {

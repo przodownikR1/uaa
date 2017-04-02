@@ -1,13 +1,10 @@
 package pl.java.scalatech;
 
-import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.system.ApplicationPidFileWriter;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -16,6 +13,8 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import lombok.extern.slf4j.Slf4j;
+
 @SpringBootApplication
 @EnableAsync
 @EnableZuulProxy
@@ -23,6 +22,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableDiscoveryClient
 @EnableHystrix
 @EnableEurekaClient
+@Slf4j
 public class GatewayAPIApplication {
 
 	public GatewayAPIApplication(DiscoveryClient discoveryClient) {
@@ -43,12 +43,14 @@ public class GatewayAPIApplication {
 	private final DiscoveryClient discoveryClient;
 
 	@Bean
-	public CommandLineRunner commandLineRunner() {
+	CommandLineRunner commandLineRunner() {
 		return (args) -> {
-			List<ServiceInstance> instances = discoveryClient.getInstances("discovery-service");
-			if (instances.size() > 0) {
-				System.out.println(instances.get(0).getUri().toString());
-			}
+			discoveryClient.getServices().forEach(service -> {
+				discoveryClient.getInstances(service).forEach(inst -> {
+					log.info("++++  service  : {} -> {}", service, inst.getUri());
+				});
+			});
+
 		};
 	}
 

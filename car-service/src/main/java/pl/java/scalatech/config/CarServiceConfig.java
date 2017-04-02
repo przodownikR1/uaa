@@ -7,6 +7,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @EnableAsync
 @EnableCircuitBreaker
 @EnableEurekaClient
+@RefreshScope
 @Slf4j
 class CarServiceConfig {
 

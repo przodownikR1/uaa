@@ -12,9 +12,12 @@ public class UrlShotRestController {
 	@Value("${urlShot}")
 	private String urlShot;
 
+	@Value("${nbp-service.ribbon.listOfServers}")
+	private String ribbon;
+
 	@RequestMapping("/props")
 	public String urls() {
-	  return urlShot;
+		return urlShot + " ribbon :   " + ribbon;
 	}
 
 }

@@ -1,0 +1,7 @@
+CONFIG_SERVER_URL=http://config-service:8888
+
+EUREKA_INSTANCE_HOSTNAME=discovery-service
+
+ADMIN-SERVER=
+
+USER=Slawek_borowiec

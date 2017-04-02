@@ -8,7 +8,7 @@ import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SimpleFilter extends ZuulFilter {
+class SimpleFilter extends ZuulFilter {
 
 	@Override
 	public String filterType() {

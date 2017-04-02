@@ -8,7 +8,7 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @EnableAsync
 @EnableCircuitBreaker
 @EnableDiscoveryClient
-@EnableEurekaClient
 @EnableFeignClients
+@RefreshScope
 @Slf4j
 public class UserServiceConfig {
 	private static final String DISCOVERY_SERVICE = "discovery-service";

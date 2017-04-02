@@ -38,7 +38,7 @@ public class ComputeController {
 
 	String cache(String name) {
 		log.info("+++ token : {}", name);
-		return "I welcome you the great ! " + name + " currency : 3,666";
+		return "I welcome you the greatest ! " + name + " currency : 3,666";
 	}
 
 	@SneakyThrows
