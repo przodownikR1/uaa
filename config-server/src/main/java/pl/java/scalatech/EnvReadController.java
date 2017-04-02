@@ -10,11 +10,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EnvReadController {
 
-	private static final String USER = "USER";
+	private static final String USER = "USER_APP";
 	private final Environment env;
 	
 	@GetMapping("/envUser")
 	String getEnvUser(){
-		return env.getProperty(USER);
+		return "User : " + env.getProperty(USER);
 	}
 }
