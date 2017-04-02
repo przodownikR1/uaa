@@ -49,6 +49,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         .antMatchers("/health")
         .antMatchers("/mappings")
         .antMatchers("/metrics")
+        .antMatchers("/hystrix.stream")
         .antMatchers("/env");
 		super.configure(web);
 
