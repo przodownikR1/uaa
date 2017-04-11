@@ -1,0 +1,100 @@
+<configuration scan="true" scanperiod="5 seconds">
+     <include resource="org/springframework/boot/logging/logback/base.xml" />
+     <jmxConfigurator/>
+   
+    <property scope="context" name="pattern_stdout"
+		value="%highlight(%.-5level)|%green(%date{yyyy-MM-dd HH:mm:ss.SSS})|%boldMagenta([%thread])|%yellow(%logger{70}:%boldYellow(%line)) - %msg%n%red(%rEx)" />
+        
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>eurekaServer.log</file>
+        <encoder>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
+		</encoder>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+    
+     <appender name="FILE_MAPPING" class="ch.qos.logback.core.FileAppender">
+        <file>eureka_mapping.log</file>
+        <encoder>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
+		</encoder>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+    
+    
+    <appender name="FILE_NETFLIX" class="ch.qos.logback.core.FileAppender">
+        <file>eureka_netflix.log</file>
+        <encoder>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
+		</encoder>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+    
+
+ <appender name="FILE-QUEUE" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>logFileName</key>
+			<defaultValue>in-out</defaultValue>
+		</discriminator>
+		<sift>
+		  <appender name="${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${logFileName}.log</file>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<Pattern>
+					%date{yyyy-MM-dd HH:mm:ss} %mdc  [%thread] %-5level %logger{35} - %msg %n
+				</Pattern>
+			</encoder>
+			<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+				<FileNamePattern>${logFileName}.%i.log.zip</FileNamePattern>
+				<MinIndex>1</MinIndex>
+				<MaxIndex>10</MaxIndex>
+			</rollingPolicy>
+			<triggeringPolicy  class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		  </appender>
+		</sift>
+</appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+   
+        <encoder>
+            <charset>utf-8</charset>
+            <pattern>${pattern_stdout}</pattern>
+            <pattern></pattern>
+        </encoder>
+    </appender>
+
+    <logger name="pl.java.scalatech" level="info" additivity="false">
+        <appender-ref ref="FILE" />
+        <!--     <appender-ref ref="tcpJSON" /> -->
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="org.springframework.cloud" level="WARN" />
+    <logger name="org.springframework.boot.web.servlet" level="WARN"/>
+    <logger name="org.apache.catalina.core.ContainerBase" level="WARN"/>
+    <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="WARN"/>
+    <logger name="logging.level.org.springframework.boot.web.servlet.ServletRegistrationBean" level="WARN"/>
+    <logger name="logging.level.org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" level="WARN"/>
+   <logger name="logging.level.com.netflix.config.sources.URLConfigurationSource" level="WARN"/>
+   <logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" level="INFO" additivity="false">
+     <appender-ref ref="FILE_MAPPING"/>
+   </logger>   
+   
+   <logger name="org.springframework.web.servlet.mvc.method.annotation" level="INFO" additivity="false">
+     <appender-ref ref="FILE_MAPPING"/>
+   </logger>
+   
+    <logger name="com.netflix" level="INFO" additivity="false">
+     <appender-ref ref="FILE_NETFLIX"/>
+   </logger>
+   
+  
+   
+    <logger name="org.springframework" level="info" />
+    <logger name="org.springframework.data" level="info" />
+    <root level="INFO">    
+       <appender-ref ref="console" />
+       <!-- <appender-ref ref="tcpJSON" /> -->
+    </root>
+</configuration>

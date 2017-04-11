@@ -1,5 +1,5 @@
 include ":config-server",
-        ":eureka-point",
+        ":discovery-service",
         ":gateway-api",
         ":hystrix-dashboard",
         ":zipkin-dashboard",
