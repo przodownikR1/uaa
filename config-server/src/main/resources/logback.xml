@@ -48,7 +48,32 @@
 		</encoder>
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
 	</appender>
-
+         <appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp>
+					<timeZone>UTC</timeZone>
+				</timestamp>
+				<pattern>
+					<pattern>
+						{
+						"profile":"${PROFILE:-}",
+						"severity": "%level",
+						"service": "${springAppName:-}",
+						"trace": "%X{X-B3-TraceId:-}",
+						"span": "%X{X-B3-SpanId:-}",
+						"parent": "%X{X-B3-ParentSpanId:-}",
+						"exportable": "%X{X-Span-Export:-}",
+						"pid": "${PID:-}",
+						"thread": "%thread",
+						"class": "%logger{40}",
+						"rest": "%message"
+						}
+					</pattern>
+				</pattern>
+			</providers>
+		</encoder>
+        </appender>
 	<appender name="logstash"
 		class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
 		<destination>${logstash_endpoint}</destination>
