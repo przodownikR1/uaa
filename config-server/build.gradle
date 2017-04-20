@@ -7,7 +7,7 @@ jar {
 dependencies {
 	compile('org.springframework.cloud:spring-cloud-config-server')
 	compile('org.springframework.cloud:spring-cloud-starter-config')
-
+	compile group: 'org.springframework.security', name: 'spring-security-rsa', version: '1.0.3.RELEASE'
 	//compile('org.springframework.cloud:spring-cloud-config-monitor')
 	compile('de.codecentric:spring-boot-admin-starter-client:1.4.6')
 	//compile('org.springframework.cloud:spring-cloud-config-monitor')

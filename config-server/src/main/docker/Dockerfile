@@ -1,7 +1,7 @@
 FROM java:8
 MAINTAINER przodownikR1
 EXPOSE 8888
-VOLUME /tmp
+VOLUME /var/app/log/spring /logs
 ADD config-server-0.0.2.jar config-server.jar
 RUN sh -c 'touch /config-server.jar'
 ENV JAVA_OPTS=""

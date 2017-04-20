@@ -31,7 +31,11 @@ dependencies {
 	
 		compile "org.springframework.cloud:spring-cloud-starter-sleuth"
 	compile('org.springframework.cloud:spring-cloud-starter-zipkin')
-    
+
+	compile group: 'org.springframework.restdocs', name: 'spring-restdocs-mockmvc', version: '1.1.2.RELEASE'
+	
+	compile group: 'org.springframework.restdocs', name: 'spring-restdocs-restassured', version: '1.1.2.RELEASE'
+	
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
@@ -40,3 +44,6 @@ gradle.taskGraph.afterTask { task ->
         println it
     }
 }
+
+
+

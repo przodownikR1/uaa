@@ -24,6 +24,8 @@ plugins {
     id "org.asciidoctor.convert" version "1.5.3"
 }
 
+
+
 allprojects {
 group = 'pl.java.scalatech'
 version = '0.1'
@@ -170,6 +172,7 @@ project.tasks.findAll { it.name.contains('Zip') }.each { task ->
 task wrapper(type: Wrapper) {
 
 }
+
    
 }
 
