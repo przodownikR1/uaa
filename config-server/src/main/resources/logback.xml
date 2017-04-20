@@ -1,20 +1,28 @@
 <configuration scan="true" scanperiod="5 seconds">
      <include resource="org/springframework/boot/logging/logback/base.xml" />
+      <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
      <jmxConfigurator/>
-   
-    <property scope="context" name="pattern_stdout"
-		value="%highlight(%.-5level)|%green(%date{yyyy-MM-dd HH:mm:ss.SSS})|%boldMagenta([%thread])|%yellow(%logger{70}:%boldYellow(%line)) - %msg%n%red(%rEx)" />
-        
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>configServer.log</file>
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <property scope="context" name="PROFILE" value="${spring.profiles.active}" />  
+    <!-- added this as recommended by logstash-logback-encoder.
+         See TCP Appenders https://github.com/logstash/logstash-logback-encoder -->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+     <property name="productionProfile" value="production" />   
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/configServer-%d{yyyy-MM-dd}.log</fileNamePattern>
+       </rollingPolicy>
+       
         <encoder>
 			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
 		</encoder>
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
     
-     <appender name="FILE_MAPPING" class="ch.qos.logback.core.FileAppender">
-        <file>config_mapping.log</file>
+     <appender name="FILE_MAPPING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/config_mapping-%d{yyyy-MM-dd}.log</fileNamePattern>
+       </rollingPolicy>
         <encoder>
 			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
 		</encoder>
@@ -22,14 +30,47 @@
     </appender>
     
     
-    <appender name="FILE_NETFLIX" class="ch.qos.logback.core.FileAppender">
-        <file>config_netflix.log</file>
+    <appender name="FILE_NETFLIX" class="ch.qos.logback.core.rolling.RollingFileAppender">        
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/config_netflix-%d{yyyy-MM-dd}.log</fileNamePattern>
+       </rollingPolicy>
         <encoder>
 			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
 		</encoder>
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
     
+     <!-- <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">     
+     <destination>${logstash_endpoint}</destination>    
+     <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+     </appender> -->
+
+<appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp>
+					<timeZone>UTC</timeZone>
+				</timestamp>
+				<pattern>
+					<pattern>
+						{
+						"profile":"${PROFILE:-}",
+						"severity": "%level",
+						"service": "${springAppName:-}",
+						"trace": "%X{X-B3-TraceId:-}",
+						"span": "%X{X-B3-SpanId:-}",
+						"parent": "%X{X-B3-ParentSpanId:-}",
+						"exportable": "%X{X-Span-Export:-}",
+						"pid": "${PID:-}",
+						"thread": "%thread",
+						"class": "%logger{40}",
+						"rest": "%message"
+						}
+					</pattern>
+				</pattern>
+			</providers>
+		</encoder>
+</appender>
 
  <appender name="FILE-QUEUE" class="ch.qos.logback.classic.sift.SiftingAppender">
 		<discriminator>
@@ -38,7 +79,7 @@
 		</discriminator>
 		<sift>
 		  <appender name="${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-			<file>${logFileName}.log</file>
+			<file>logs/${logFileName}-%d{yyyy-MM-dd}.log</file>
 			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 				<Pattern>
 					%date{yyyy-MM-dd HH:mm:ss} %mdc  [%thread] %-5level %logger{35} - %msg %n
@@ -56,16 +97,14 @@
 		</sift>
 </appender>
 
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-   
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">   
         <encoder>
             <charset>utf-8</charset>
-            <pattern>${pattern_stdout}</pattern>
-            <pattern></pattern>
-        </encoder>
+             <pattern>%-5level ${springAppName:-} %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]  %logger{36} - %msg %n</pattern>             
+        </encoder> 
     </appender>
 
-    <logger name="pl.java.scalatech" level="info" additivity="false">
+    <logger name="com.samsung.microservice.poc" level="info" additivity="false">
         <appender-ref ref="FILE" />
         <!--     <appender-ref ref="tcpJSON" /> -->
         <appender-ref ref="console" />
@@ -94,7 +133,8 @@
     <logger name="org.springframework" level="info" />
     <logger name="org.springframework.data" level="info" />
     <root level="INFO">    
-       <appender-ref ref="console" />
+        <appender-ref ref="CONSOLE" />
+      <!--  <appender-ref ref="jsonConsole"/> -->
        <!-- <appender-ref ref="tcpJSON" /> -->
     </root>
 </configuration>
