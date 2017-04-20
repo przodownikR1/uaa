@@ -104,11 +104,7 @@
         </encoder> 
     </appender>
 
-    <logger name="com.samsung.microservice.poc" level="info" additivity="false">
-        <appender-ref ref="FILE" />
-        <!--     <appender-ref ref="tcpJSON" /> -->
-        <appender-ref ref="console" />
-    </logger>
+    
     <logger name="org.springframework.cloud" level="WARN" />
     <logger name="org.springframework.boot.web.servlet" level="WARN"/>
     <logger name="org.apache.catalina.core.ContainerBase" level="WARN"/>
