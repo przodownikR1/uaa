@@ -7,7 +7,7 @@ services:
         ports:
             - 9200:9200
             - 9300:9300
-        command: elasticsearch -Etransport.host=0.0.0.0 -Ediscovery.zen.minimum_master_nodes=1
+        #command: elasticsearch -Etransport.host=0.0.0.0 -Ediscovery.zen.minimum_master_nodes=1
             
     logstash:
         image: logstash:latest
