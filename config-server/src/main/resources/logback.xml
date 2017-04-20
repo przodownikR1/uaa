@@ -1,52 +1,59 @@
 <configuration scan="true" scanperiod="5 seconds">
-     <include resource="org/springframework/boot/logging/logback/base.xml" />
-      <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-     <jmxConfigurator/>
-    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
-    <property scope="context" name="PROFILE" value="${spring.profiles.active}" />  
-    <!-- added this as recommended by logstash-logback-encoder.
-         See TCP Appenders https://github.com/logstash/logstash-logback-encoder -->
-    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
-     <property name="productionProfile" value="production" />   
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/configServer-%d{yyyy-MM-dd}.log</fileNamePattern>
-       </rollingPolicy>
-       
-        <encoder>
-			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
-		</encoder>
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-    </appender>
-    
-     <appender name="FILE_MAPPING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/config_mapping-%d{yyyy-MM-dd}.log</fileNamePattern>
-       </rollingPolicy>
-        <encoder>
-			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
-		</encoder>
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-    </appender>
-    
-    
-    <appender name="FILE_NETFLIX" class="ch.qos.logback.core.rolling.RollingFileAppender">        
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/config_netflix-%d{yyyy-MM-dd}.log</fileNamePattern>
-       </rollingPolicy>
-        <encoder>
-			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} - [requestID: %X{requestID}] %msg%n</pattern>
-		</encoder>
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-    </appender>
-    
-     <!-- <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">     
-     <destination>${logstash_endpoint}</destination>    
-     <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
-     </appender> -->
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<!--<include resource="org/springframework/boot/logging/logback/console-appender.xml" />-->
+	<jmxConfigurator />
+	<springProperty scope="context" name="springAppName" source="spring.application.name" />
+	<property scope="context" name="PROFILE" value="${spring.profiles.active}" />
 
-<appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+	<property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+	
+	<property name="productionProfile" value="production" />
+	
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>log/configServer-%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} -
+				[requestID: %X{requestID}] %msg%n</pattern>
+		</encoder>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+	</appender>
+
+	<appender name="FILE_MAPPING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>log/config_mapping-%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} -
+				[requestID: %X{requestID}] %msg%n</pattern>
+		</encoder>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+	</appender>
+
+
+	<appender name="FILE_NETFLIX" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>log/config_netflix-%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} -
+				[requestID: %X{requestID}] %msg%n</pattern>
+		</encoder>
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+	</appender>
+
+	<appender name="logstash"
+		class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
+		<destination>${logstash_endpoint}</destination>
+		<encoder
+			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
 			<providers>
 				<timestamp>
 					<timeZone>UTC</timeZone>
@@ -54,12 +61,10 @@
 				<pattern>
 					<pattern>
 						{
-						"profile":"${PROFILE:-}",
 						"severity": "%level",
 						"service": "${springAppName:-}",
 						"trace": "%X{X-B3-TraceId:-}",
 						"span": "%X{X-B3-SpanId:-}",
-						"parent": "%X{X-B3-ParentSpanId:-}",
 						"exportable": "%X{X-Span-Export:-}",
 						"pid": "${PID:-}",
 						"thread": "%thread",
@@ -70,67 +75,71 @@
 				</pattern>
 			</providers>
 		</encoder>
-</appender>
+	</appender>
 
- <appender name="FILE-QUEUE" class="ch.qos.logback.classic.sift.SiftingAppender">
+	<appender name="FILE-QUEUE" class="ch.qos.logback.classic.sift.SiftingAppender">
 		<discriminator>
 			<key>logFileName</key>
 			<defaultValue>in-out</defaultValue>
 		</discriminator>
 		<sift>
-		  <appender name="${logFileName}" class="ch.qos.logback.core.rolling.RollingFileAppender">
-			<file>logs/${logFileName}-%d{yyyy-MM-dd}.log</file>
-			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-				<Pattern>
-					%date{yyyy-MM-dd HH:mm:ss} %mdc  [%thread] %-5level %logger{35} - %msg %n
-				</Pattern>
-			</encoder>
-			<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-				<FileNamePattern>${logFileName}.%i.log.zip</FileNamePattern>
-				<MinIndex>1</MinIndex>
-				<MaxIndex>10</MaxIndex>
-			</rollingPolicy>
-			<triggeringPolicy  class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-				<MaxFileSize>10MB</MaxFileSize>
-			</triggeringPolicy>
-		  </appender>
+			<appender name="${logFileName}"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<file>logs/${logFileName}-%d{yyyy-MM-dd}.log</file>
+				<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+					<Pattern>
+						%date{yyyy-MM-dd HH:mm:ss} %mdc [%thread] %-5level %logger{35} - %msg %n
+					</Pattern>
+				</encoder>
+				<rollingPolicy
+					class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+					<FileNamePattern>${logFileName}.%i.log.zip</FileNamePattern>
+					<MinIndex>1</MinIndex>
+					<MaxIndex>10</MaxIndex>
+				</rollingPolicy>
+				<triggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+					<MaxFileSize>10MB</MaxFileSize>
+				</triggeringPolicy>
+			</appender>
 		</sift>
-</appender>
+	</appender>
 
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">   
-        <encoder>
-            <charset>utf-8</charset>
-             <pattern>%-5level ${springAppName:-} %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread]  %logger{36} - %msg %n</pattern>             
-        </encoder> 
-    </appender>
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>utf-8</charset>			
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
 
-    
-    <logger name="org.springframework.cloud" level="WARN" />
-    <logger name="org.springframework.boot.web.servlet" level="WARN"/>
-    <logger name="org.apache.catalina.core.ContainerBase" level="WARN"/>
-    <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="WARN"/>
-    <logger name="logging.level.org.springframework.boot.web.servlet.ServletRegistrationBean" level="WARN"/>
-    <logger name="logging.level.org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" level="WARN"/>
-   <logger name="logging.level.com.netflix.config.sources.URLConfigurationSource" level="WARN"/>
-   <logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" level="INFO" additivity="false">
-     <appender-ref ref="FILE_MAPPING"/>
-   </logger>   
-   
-   <logger name="org.springframework.web.servlet.mvc.method.annotation" level="INFO" additivity="false">
-     <appender-ref ref="FILE_MAPPING"/>
-   </logger>
-   
-    <logger name="com.netflix" level="INFO" additivity="false">
-     <appender-ref ref="FILE_NETFLIX"/>
-   </logger>
-   
-  
-   
-    <logger name="org.springframework" level="info" />
-    <logger name="org.springframework.data" level="info" />
-    <root level="INFO">    
-        <appender-ref ref="CONSOLE" />
-      <!--  <appender-ref ref="jsonConsole"/> -->
-       <!-- <appender-ref ref="tcpJSON" /> -->
-    </root>
+	<logger name="pl.java.scalatech" level="info"
+		additivity="false">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	<logger name="org.springframework.cloud" level="WARN" />
+	<logger name="org.springframework.boot.web.servlet" level="WARN" />
+	<logger name="org.apache.catalina.core.ContainerBase" level="WARN" />
+	<logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="WARN" />
+	<logger name="logging.level.org.springframework.boot.web.servlet.ServletRegistrationBean" level="WARN" />
+	<logger name="logging.level.org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" level="WARN" />
+	<logger name="logging.level.com.netflix.config.sources.URLConfigurationSource" level="WARN" />
+	<logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" level="INFO" additivity="false">
+		<appender-ref ref="FILE_MAPPING" />
+	</logger>
+
+	<logger name="org.springframework.web.servlet.mvc.method.annotation" level="INFO" additivity="false">
+		<appender-ref ref="FILE_MAPPING" />
+	</logger>
+
+	<logger name="com.netflix" level="INFO" additivity="false">
+		<appender-ref ref="FILE_NETFLIX" />
+	</logger>
+
+	<logger name="org.springframework" level="info" />
+	<logger name="org.springframework.data" level="info" />
+	<root level="INFO">
+		<appender-ref ref="console" />			
+	</root>
 </configuration>
