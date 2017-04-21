@@ -1,0 +1,268 @@
+version: '3.0'
+
+services:
+  config-server:
+    image: scalatech/config-server
+    container_name: config-server
+    restart: always  
+    ports:
+     - 8888:8888
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      LOGSTASH-URL: logstash:4560
+   
+  discovery-service:
+    image: scalatech/discovery-service
+    container_name: discovery-service
+    restart: always
+   
+    ports:
+    - 8761:8761
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      LOGSTASH-URL: logstash:4560
+      
+  zipkin-dashboard:
+    image: scalatech/zipkin-dashboard
+    container_name: zipkin-dashboard   
+    restart: always
+    ports:
+    - 8060:8060
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/     
+   
+      
+  admin-dashboard:
+    image: scalatech/admin-dashboard
+    container_name: admin-dashboard   
+    restart: always
+    ports:
+    - 8040:8040
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+   
+  hystrix-dashboard:
+    image: scalatech/hystrix-dashboard
+    container_name: hystrix-dashboard   
+    restart: always
+    ports:
+    - 8050:8050
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      ZIPKIN-SERVER: http://zipkin-dashboard:8060
+      
+  user-service:
+    image:  scalatech/user-service
+    container_name: user-service
+    restart: always
+    ports:
+    - "9020:9020"
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      ZIPKIN-SERVER: http://zipkin-dashboard:8060
+      NBP-HOST: nbp-service
+      NBP-HOST1: nbp-service
+      NBP-HOST2: nbp-service
+      UAA-HOST_BASE: http://user-service:9020/
+      UAA-TOKEN: http://user-service:9020/oauth/check_token
+      UAA-USER-INFO-URI: http://user-service:9020/oauth2/user
+      UAA-HOST-TOKEN-URI: http://user-service:9020/oauth/token
+      UAA-HOST-AUTH-URI: http://localhost:9020/oauth/authorize
+      LOGSTASH-URL: logstash:4560
+      
+  car-service:
+    image:  scalatech/car-service
+    container_name: car-service
+    restart: always
+    ports:
+    - "9010:9010"
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      ZIPKIN-SERVER: http://zipkin-dashboard:8060
+      NBP-HOST: nbp-service
+      NBP-HOST1: nbp-service
+      NBP-HOST2: nbp-service
+      UAA-HOST_BASE: http://car-service:9020/
+      UAA-TOKEN: http://car-service:9020/oauth/check_token
+      UAA-USER-INFO-URI: http://car-service:9020/oauth2/user
+      UAA-HOST-TOKEN-URI: http://car-service:9020/oauth/token
+      UAA-HOST-AUTH-URI: http://car-service:9020/oauth/authorize
+      LOGSTASH-URL: logstash:4560
+     
+  nbp-service:
+    image:  scalatech/nbp-service
+    container_name: nbp-service
+    restart: always   
+    ports:
+    - "9040:9040"
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      ZIPKIN-SERVER: http://zipkin-dashboard:8060
+      LOGSTASH-URL: logstash:4560
+   
+  nbp-service1:
+    image:  scalatech/nbp-service
+    container_name: nbp-service1
+    restart: always
+    ports:
+    - "9041:9040"
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      ZIPKIN-SERVER: http://zipkin-dashboard:8060
+      LOGSTASH-URL: logstash:4560
+       
+  
+   
+    
+  gateway-api:
+    image: scalatech/gateway-server
+    container_name: gateway-server
+    restart: always    
+    ports:
+    - "9001:9001"
+    volumes:
+     - /tmp/logs:/logs
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
+      GRAPHITE-HOST: graphite
+      ADMIN-SERVER: http://admin-dashboard:8040
+      EUREKA_SERVER: http://discovery-service:8761/eureka/
+      ZIPKIN-SERVER: http://zipkin-dashboard:8060
+      UAA-HOST_BASE: http://gateway-server:9020/uaa/
+      UAA-TOKEN: http://gateway-server:9020/uaa/oauth/check_token
+      UAA-USER-INFO-URI: http://gateway-server:9020/uaa/oauth2/user
+      UAA-HOST-TOKEN-URI: http://gateway-server:9020/uaa/oauth/token
+      UAA-HOST-AUTH-URI: http://gateway-server:9020/uaa/oauth/authorize
+      REDIS-SERVER: redis
+      LOGSTASH-URL: logstash:4560
+   
+      
+  microservices-dashboard:  
+     image: scalatech/microservices-dashboard
+     container_name: microservices-dashboard  
+     restart: always
+     ports:
+      - "8070:8070" 
+     volumes:
+     - /tmp/logs:/logs
+     environment:
+       CONFIG_SERVER_URL: http://config-server:8888
+       GRAPHITE-HOST: graphite
+       ADMIN-SERVER: http://admin-dashboard:8040
+       EUREKA_SERVER: http://discovery-service:8761/eureka/
+     
+  redis:
+   container_name: redis
+   image: redis  
+   ports: 
+    - "6379:6379"
+   
+  graphite:
+    image: hopsoft/graphite-statsd
+    container_name: graphite
+    ports:
+    - 80:80
+  grafana:
+    image: grafana/grafana
+    ports: 
+    - "3000:3000"
+  cadvisor:
+   image:  google/cadvisor:latest
+   container_name: cadvisor
+   restart: always
+   volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+   ports:
+    - "8080:8080"
+    
+  dockerui:
+   image:  elegoev/dockerui
+   volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+   ports:
+   - "9000:9000"
+   
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+     - "15672:15672"
+    environment:
+     - RABBITMQ_DEFAULT_USER=test
+     - RABBITMQ_DEFAULT_PASS=password
+     
+  elasticsearch:
+    image: elasticsearch:latest
+    restart: always
+    ports:
+        - 9200:9200
+        - 9300:9300    
+            
+  logstash:
+    image: logstash:1.0
+    restart: always
+    ports:
+        - 4560:4560
+    depends_on:
+        - elasticsearch
+    volumes:
+        - ./config/logstash.conf:/etc/logstash/conf.d/logstash.conf
+    command: -f /etc/logstash/conf.d/
+        
+  kibana:
+    image: kibana:latest
+    restart: always
+    ports:
+        - 5601:5601
+    depends_on:
+        - elasticsearch
+    volumes:
+        - ./config/kibana.yml:/etc/kibana/kibana.yml

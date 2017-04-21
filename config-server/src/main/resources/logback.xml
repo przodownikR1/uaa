@@ -1,18 +1,18 @@
 <configuration scan="true" scanperiod="5 seconds">
 	<include resource="org/springframework/boot/logging/logback/base.xml" />
-	<!--<include resource="org/springframework/boot/logging/logback/console-appender.xml" />-->
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 	<jmxConfigurator />
 	<springProperty scope="context" name="springAppName" source="spring.application.name" />
-	<property name="LOG_FILE" value="${BUILD_FOLDER:-build}/${springAppName}"/>​
-	
+	<springProperty name="logstash.url" source="logstash.url"/>
 	<property scope="context" name="PROFILE" value="${spring.profiles.active}" />
-        <springProperty name="logstash.url" source="logstash.url"/>
-	<property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+    <property name="LOG_FILE" value="${BUILD_FOLDER:-build}/${springAppName}"/>​
+	<property name="CONSOLE_LOG_PATTERN"
+       value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) [${springAppName}] [trace=%X{X-Trace-Id:-
+},span=%X{X-Span-Id:-}]  %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
 
-	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />
-	
+	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook" />	
 	<property name="productionProfile" value="production" />
-	
+
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_FILE}</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -27,7 +27,7 @@
 
 	<appender name="FILE_MAPPING" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>log/config_mapping-%d{yyyy-MM-dd}.log
+			<fileNamePattern>logs/${LOG_FILE}-%d{yyyy-MM-dd}.log
 			</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
@@ -40,7 +40,7 @@
 
 	<appender name="FILE_NETFLIX" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>log/config_netflix-%d{yyyy-MM-dd}.log
+			<fileNamePattern>logs/${LOG_FILE}_netflix-%d{yyyy-MM-dd}.log
 			</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
@@ -49,7 +49,8 @@
 		</encoder>
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
 	</appender>
-         <appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
+    
+    <appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
 			<providers>
 				<timestamp>
@@ -74,10 +75,11 @@
 				</pattern>
 			</providers>
 		</encoder>
-        </appender>
+     </appender>
+     
 	<appender name="logstash"
 		class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender">
-		<destination>${logstash_endpoint}</destination>
+		<destination>logstash:4560</destination>
 		<encoder
 			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
 			<providers>
@@ -87,6 +89,7 @@
 				<pattern>
 					<pattern>
 						{
+						"timestamp": "@timestamp",
 						"severity": "%level",
 						"service": "${springAppName:-}",
 						"trace": "%X{X-B3-TraceId:-}",
@@ -103,33 +106,7 @@
 		</encoder>
 	</appender>
 
-	<appender name="FILE-QUEUE" class="ch.qos.logback.classic.sift.SiftingAppender">
-		<discriminator>
-			<key>logFileName</key>
-			<defaultValue>in-out</defaultValue>
-		</discriminator>
-		<sift>
-			<appender name="${logFileName}"
-				class="ch.qos.logback.core.rolling.RollingFileAppender">
-				<file>logs/${logFileName}-%d{yyyy-MM-dd}.log</file>
-				<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-					<Pattern>
-						%date{yyyy-MM-dd HH:mm:ss} %mdc [%thread] %-5level %logger{35} - %msg %n
-					</Pattern>
-				</encoder>
-				<rollingPolicy
-					class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-					<FileNamePattern>${logFileName}.%i.log.zip</FileNamePattern>
-					<MinIndex>1</MinIndex>
-					<MaxIndex>10</MaxIndex>
-				</rollingPolicy>
-				<triggeringPolicy
-					class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-					<MaxFileSize>10MB</MaxFileSize>
-				</triggeringPolicy>
-			</appender>
-		</sift>
-	</appender>
+	
 
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
@@ -166,7 +143,8 @@
 	<logger name="org.springframework" level="info" />
 	<logger name="org.springframework.data" level="info" />
 	<root level="INFO">
-		<appender-ref ref="console" />	
-		<appender-ref ref="" />			
+		<appender-ref ref="console" />
+        <appender-ref ref="logstash" />
+        <appender-ref ref="FILE" />
 	</root>
 </configuration>

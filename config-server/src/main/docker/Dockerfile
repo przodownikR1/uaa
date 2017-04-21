@@ -1,9 +1,11 @@
 FROM java:8
 MAINTAINER przodownikR1
+VOLUME /tmp
 EXPOSE 8888
-VOLUME /var/app/log/spring /logs
-ADD config-server-0.0.2.jar config-server.jar
+RUN rm -rf /log
+RUN mkdir /log && chmod 0755 /log
+ADD config-server.jar config-server.jar
 RUN sh -c 'touch /config-server.jar'
-ENV JAVA_OPTS=""
-ENTRYPOINT exec java $JAVA_OPTS -jar config-server.jar
+ENV JAVA_OPTS="-Xmx128m -Xmx256m"
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /config-server.jar" ]
 
