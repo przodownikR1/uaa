@@ -1,0 +1,31 @@
+version: '3.0'
+
+services:
+    elasticsearch:
+        image: elasticsearch:latest
+        restart: always
+        ports:
+            - 9200:9200
+            - 9300:9300
+        #command: elasticsearch -Etransport.host=0.0.0.0 -Ediscovery.zen.minimum_master_nodes=1
+            
+    logstash:
+        image: logstash:latest
+        restart: always
+        ports:
+            - 4560:4560
+        depends_on:
+            - elasticsearch
+        volumes:
+            - ./config/logstash.conf:/etc/logstash/conf.d/logstash.conf
+        command: -f /etc/logstash/conf.d/
+        
+    kibana:
+        image: kibana:latest
+        restart: always
+        ports:
+            - 5601:5601
+        depends_on:
+            - elasticsearch
+        volumes:
+            - ./config/kibana.yml:/etc/kibana/kibana.yml

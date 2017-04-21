@@ -3,9 +3,13 @@ package pl.java.scalatech;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.system.ApplicationPidFileWriter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 
 @SpringBootApplication
 @EnableAsync
@@ -23,4 +27,11 @@ public class CarApplication {
 		springApplication.run(args);
 	}
 
+	@Bean
+	FilterRegistrationBean userInsertingMdcFilterRegistrationBean() {
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+		MDCInsertingServletFilter userFilter = new MDCInsertingServletFilter();
+		registrationBean.setFilter(userFilter);
+		return registrationBean;
+	}
 }
