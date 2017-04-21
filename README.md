@@ -7,3 +7,5 @@ http://localhost:9001/uaa/oauth/authorize?response_type=code&client_id=foo&redir
 curl -XPOST -k foo:bar@localhost:9001/uaa/oauth/token  -d grant_type=authorization_code  -d code={} -d redirect_uri=http://localhost:9001/uaa/response  
 
 curl -H "Authorization: Bearer {}" http://localhost:9001/uaa/car/1
+
+ nc localhost 5000 < /path/to/logfile.log
