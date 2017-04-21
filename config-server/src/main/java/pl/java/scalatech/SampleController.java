@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SampleController {
 
-  @Value("${name.cipher}")
+  @Value("${name.cipher:test}")
   private String encrypt;
 
   @RequestMapping("/sampleEncrypt")

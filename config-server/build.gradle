@@ -1,6 +1,6 @@
 jar {
 	baseName = 'config-server'
-	version = '0.0.2'
+        version = null
 }
 
 

@@ -5,7 +5,10 @@
 	<springProperty scope="context" name="springAppName" source="spring.application.name" />
 	<springProperty name="logstash.url" source="logstash.url"/>
 	<property scope="context" name="PROFILE" value="${spring.profiles.active}" />
-    <property name="LOG_FILE" value="${BUILD_FOLDER:-build}/${springAppName}"/>​
+	
+    <property name="LOG_FILE" value="logs/${springAppName}"/>
+    
+    ​
 	<property name="CONSOLE_LOG_PATTERN"
        value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) [${springAppName}] [trace=%X{X-Trace-Id:-
 },span=%X{X-Span-Id:-}]  %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
@@ -20,34 +23,32 @@
 			<maxHistory>7</maxHistory>
 		</rollingPolicy>
 		<encoder>
-			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
-			<charset>utf8</charset>
+		<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 		</encoder>
-    </appender>
+	</appender>
 
 	<appender name="FILE_MAPPING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOG_FILE}_mapping</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/${LOG_FILE}-%d{yyyy-MM-dd}.log
+			<fileNamePattern>${LOG_FILE}_mapping-%d{yyyy-MM-dd}.gz
 			</fileNamePattern>
 		</rollingPolicy>
-		<encoder>
-			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} -
-				[requestID: %X{requestID}] %msg%n</pattern>
-		</encoder>
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+		<encoder>		
+	     <pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} -[requestID: %X{requestID}] %msg%n</pattern>
+	    </encoder>
 	</appender>
 
 
 	<appender name="FILE_NETFLIX" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	   <file>${LOG_FILE}_netflix</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>logs/${LOG_FILE}_netflix-%d{yyyy-MM-dd}.log
+			<fileNamePattern>${LOG_FILE}_netflix-%d{yyyy-MM-dd}.gz
 			</fileNamePattern>
 		</rollingPolicy>
-		<encoder>
-			<pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} -
-				[requestID: %X{requestID}] %msg%n</pattern>
-		</encoder>
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+		<encoder>		
+	     <pattern>[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{36} -[requestID: %X{requestID}] %msg%n</pattern>
+	    </encoder>
+		
 	</appender>
     
     <appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
@@ -128,7 +129,7 @@
 	<logger name="logging.level.org.springframework.boot.web.servlet.ServletRegistrationBean" level="WARN" />
 	<logger name="logging.level.org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" level="WARN" />
 	<logger name="logging.level.com.netflix.config.sources.URLConfigurationSource" level="WARN" />
-	<logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" level="INFO" additivity="false">
+     <logger name="org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping" level="INFO" additivity="false">
 		<appender-ref ref="FILE_MAPPING" />
 	</logger>
 
@@ -138,7 +139,7 @@
 
 	<logger name="com.netflix" level="INFO" additivity="false">
 		<appender-ref ref="FILE_NETFLIX" />
-	</logger>
+	</logger> 
 
 	<logger name="org.springframework" level="info" />
 	<logger name="org.springframework.data" level="info" />
