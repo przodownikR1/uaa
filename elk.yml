@@ -6,11 +6,10 @@ services:
         restart: always
         ports:
             - 9200:9200
-            - 9300:9300
-        #command: elasticsearch -Etransport.host=0.0.0.0 -Ediscovery.zen.minimum_master_nodes=1
+            - 9300:9300  
             
     logstash:
-        image: logstash:latest
+        image: logstash:1.0
         restart: always
         ports:
             - 4560:4560
