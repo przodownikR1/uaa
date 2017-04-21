@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
   config-server:
-    image: scalatech/config-server
+    image: localhost:5000/config-server
     container_name: config-server
     restart: always  
     ports:
@@ -17,7 +17,7 @@ services:
       LOGSTASH-URL: logstash:4560
    
   discovery-service:
-    image: scalatech/discovery-service
+    image: localhost:5000/discovery-service
     container_name: discovery-service
     restart: always
    
@@ -33,7 +33,7 @@ services:
       LOGSTASH-URL: logstash:4560
       
   zipkin-dashboard:
-    image: scalatech/zipkin-dashboard
+    image: localhost:5000/zipkin-dashboard
     container_name: zipkin-dashboard   
     restart: always
     ports:
@@ -48,7 +48,7 @@ services:
    
       
   admin-dashboard:
-    image: scalatech/admin-dashboard
+    image: localhost:5000/admin-dashboard
     container_name: admin-dashboard   
     restart: always
     ports:
@@ -62,7 +62,7 @@ services:
       EUREKA_SERVER: http://discovery-service:8761/eureka/
    
   hystrix-dashboard:
-    image: scalatech/hystrix-dashboard
+    image: localhost:5000/hystrix-dashboard
     container_name: hystrix-dashboard   
     restart: always
     ports:
@@ -77,7 +77,7 @@ services:
       ZIPKIN-SERVER: http://zipkin-dashboard:8060
       
   user-service:
-    image:  scalatech/user-service
+    image:  localhost:5000/user-service
     container_name: user-service
     restart: always
     ports:
@@ -101,7 +101,7 @@ services:
       LOGSTASH-URL: logstash:4560
       
   car-service:
-    image:  scalatech/car-service
+    image:  localhost:5000/car-service
     container_name: car-service
     restart: always
     ports:
@@ -125,7 +125,7 @@ services:
       LOGSTASH-URL: logstash:4560
      
   nbp-service:
-    image:  scalatech/nbp-service
+    image:  localhost:5000/nbp-service
     container_name: nbp-service
     restart: always   
     ports:
@@ -141,7 +141,7 @@ services:
       LOGSTASH-URL: logstash:4560
    
   nbp-service1:
-    image:  scalatech/nbp-service
+    image:  localhost:5000/nbp-service
     container_name: nbp-service1
     restart: always
     ports:
@@ -160,7 +160,7 @@ services:
    
     
   gateway-api:
-    image: scalatech/gateway-server
+    image: localhost:5000/gateway-server
     container_name: gateway-server
     restart: always    
     ports:
@@ -183,7 +183,7 @@ services:
    
       
   microservices-dashboard:  
-     image: scalatech/microservices-dashboard
+     image: localhost:5000/microservices-dashboard
      container_name: microservices-dashboard  
      restart: always
      ports:
