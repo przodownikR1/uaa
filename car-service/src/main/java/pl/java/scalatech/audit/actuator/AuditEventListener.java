@@ -5,19 +5,15 @@ import org.springframework.boot.actuate.audit.AuditEventRepository;
 import org.springframework.boot.actuate.audit.listener.AbstractAuditListener;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class AuditEventListener extends AbstractAuditListener {
 
-   
-
     private final AuditEventRepository auditEventRepository;
-
-    public AuditEventListener(AuditEventRepository auditEventRepository) {
-        this.auditEventRepository = auditEventRepository;
-    }
 
     @Override
     protected void onAuditEvent(AuditEvent event) {

@@ -6,19 +6,15 @@ import org.springframework.web.client.RestTemplate;
 
 import com.codahale.metrics.health.HealthCheck;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class ConnectionHealthCheck extends HealthCheck {
 
-    private URI uri;
-    private RestTemplate restTemplate;
-
-    public ConnectionHealthCheck(URI uri, RestTemplate restTemplate) {
-        this.uri = uri;
-        this.restTemplate = restTemplate;
-
-    }
+    private final URI uri;
+    private final RestTemplate restTemplate;
 
     @Override
     protected Result check() throws Exception {

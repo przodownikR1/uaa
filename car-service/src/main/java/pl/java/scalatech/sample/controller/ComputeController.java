@@ -49,7 +49,7 @@ public class ComputeController {
 		}
 	}
 
-	@RequestMapping("/nbp/hello")
+	@GetMapping("/nbp/hello")
 	@HystrixCommand(fallbackMethod = "fallback")
 	public String nbp() {
 		String url = "http://nbp-service/hello";

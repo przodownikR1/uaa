@@ -3,7 +3,6 @@ package pl.java.scalatech.web;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ public class OAuthTestController {
 	private final OAuth2RestOperations restTemplate;
 	private final SecConfig secConfig;
 
-	@RequestMapping("/clientUser")
+	@GetMapping("/clientUser")
 	String home() {
 		return restTemplate.getForObject(secConfig.getBaseUrl() + "user", String.class);
 	}

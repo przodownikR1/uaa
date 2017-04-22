@@ -18,10 +18,8 @@ import pl.java.scalatech.tools.RestRequestTimerInterceptor;
 @RequiredArgsConstructor
 public class RestClient {
     
+    private final MetricRegistry metricRegistry;
     
-    private MetricRegistry metricRegistry;
-    
-
     @Autowired
     @Qualifier("restClientHttpFactory")
     private ClientHttpRequestFactory clientHttpRequestFactory;

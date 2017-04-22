@@ -1,6 +1,7 @@
 package pl.java.scalatech.sample.controller;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import java.util.Collection;
 
@@ -34,7 +35,7 @@ public class CarRestTemplateController {
 	}
 
 	public ResponseEntity<?> defaultCars() {
-		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(null, NO_CONTENT);
 	}
 
 }

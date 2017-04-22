@@ -5,7 +5,6 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +21,13 @@ public class SimpleController {
         return "sample message from  NBP : port : " + environment.getProperty("server.port");
     }
 
-    @RequestMapping("/hello")
+    @GetMapping("/hello")
     public String hello() {
         ServiceInstance localInstance = client.getLocalServiceInstance();
         return "Hello World: " + localInstance.getServiceId() + ":" + localInstance.getHost() + ":" + localInstance.getPort();
     }
 
-    @RequestMapping("/discovery/{name}")
+    @GetMapping("/discovery/{name}")
     public String getDiscoveryInfo(@PathVariable String name){
         StringBuilder sb = new StringBuilder("Instance --> ");
     	client.getInstances(name).forEach((ServiceInstance serviceInstance) -> {			

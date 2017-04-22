@@ -2,6 +2,7 @@ package pl.java.scalatech.sample.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class UrlShotRestController {
 	@Value("${nbp-service.ribbon.listOfServers}")
 	private String ribbon;
 
-	@RequestMapping("/props")
+	@GetMapping("/props")
 	public String urls() {
 		return urlShot + " ribbon :   " + ribbon;
 	}
