@@ -1,5 +1,7 @@
 package pl.java.scalatech.web;
 
+import static org.springframework.security.core.authority.AuthorityUtils.authorityListToSet;
+
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,27 +25,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import pl.java.scalatech.config.ProfileApp;
 
 @RestController
-@Slf4j
 @RequestMapping("/oauth2")
 @Profile(ProfileApp.PROFILE)
+@RequiredArgsConstructor
 public class AuthHelpController {
+	private static final String AUTHORITIES = "authorities";
+
+	private static final String USER2 = "user";
+
 	private final OAuth2RestOperations restTemplate;
 
 	private final OAuth2ClientContext context;
 
 	private final ClientDetailsService clientDetailsService;
-
-	public AuthHelpController(OAuth2RestOperations restTemplate, OAuth2ClientContext context,
-			ClientDetailsService clientDetailsService) {
-		super();
-		this.restTemplate = restTemplate;
-		this.context = context;
-		this.clientDetailsService = clientDetailsService;
-	}
 
 	@GetMapping("/user")
 	public Principal user(Principal user) {
@@ -93,9 +91,8 @@ public class AuthHelpController {
 	@GetMapping(value = "userOauth", produces = "application/json")
 	Map<String, Object> user(OAuth2Authentication user) {
 		Map<String, Object> userDetails = new HashMap<>();
-		userDetails.put("user", user.getUserAuthentication().getPrincipal());
-		userDetails.put("authorities",
-				AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
+		userDetails.put(USER2, user.getUserAuthentication().getPrincipal());
+		userDetails.put(AUTHORITIES, authorityListToSet(user.getUserAuthentication().getAuthorities()));
 		return userDetails;
 	}
 }

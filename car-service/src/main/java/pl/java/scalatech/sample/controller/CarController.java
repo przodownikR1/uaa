@@ -8,20 +8,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 import pl.java.scalatech.sample.domain.Car;
 import pl.java.scalatech.sample.repo.CarRepo;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class CarController {
     
     private final CarRepo carRepo;
-    
    
-     public CarController(CarRepo carRepo) {
-     this.carRepo = carRepo;
-    }
-    
     @GetMapping("/{id}")
     @PreAuthorize("#oauth2.hasScope('read')")
     Car getById(@PathVariable Long id) {
@@ -44,4 +41,5 @@ public class CarController {
     List<Car> getAll() {
         return carRepo.findAll();
     }
+    
 }

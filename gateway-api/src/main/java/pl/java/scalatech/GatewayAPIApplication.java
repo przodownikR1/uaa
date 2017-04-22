@@ -12,6 +12,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
@@ -21,12 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @EnableDiscoveryClient
 @EnableHystrix
 @Slf4j
+@RequiredArgsConstructor
 public class GatewayAPIApplication {
-
-	public GatewayAPIApplication(DiscoveryClient discoveryClient) {
-		super();
-		this.discoveryClient = discoveryClient;
-	}
 
 	public static void main(String[] args) {
 		springPIDAppRun(args, GatewayAPIApplication.class);

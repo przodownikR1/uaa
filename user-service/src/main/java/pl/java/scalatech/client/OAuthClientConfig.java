@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.approach2.SecConfig;
 
@@ -20,6 +21,7 @@ import pl.java.scalatech.config.approach2.SecConfig;
 @Configuration
 @Profile("a2")
 @Slf4j
+@RequiredArgsConstructor
 public class OAuthClientConfig {
        
     private final SecConfig oauthSetting;
@@ -31,13 +33,8 @@ public class OAuthClientConfig {
     private String authorizeUrl;
     
     @Value("${oauth.token:http://localhost:9001/auth/oauth/token}")
-    private String tokenUrl;
-    
-    public OAuthClientConfig(SecConfig oauthSetting) {
-        super();
-        this.oauthSetting = oauthSetting;
-        
-    }
+    private String tokenUrl;    
+ 
     /*@Profile("next") //propably better solution
     @Bean(name="restOAuth2")
     public OAuth2RestTemplate restTemplate(UserInfoRestTemplateFactory factory) {

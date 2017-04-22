@@ -18,12 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class MetricsJvmConfiguration extends MetricsConfigurerAdapter {
 
-    @Override
+    private static final String FILEDESCRIPTORS_RATIO = "filedescriptors.ratio";
+	private static final String MEMORY = "memory";
+	private static final String GC = "gc";
+
+	@Override
     public void configureReporters(final MetricRegistry metricRegistry) {
         log.info("+++ jvm metrics enabled ");
-        metricRegistry.register("gc", new GarbageCollectorMetricSet());
-        metricRegistry.register("memory", new MemoryUsageGaugeSet());
-        metricRegistry.register("filedescriptors.ratio", new FileDescriptorRatioGauge());
+        metricRegistry.register(GC, new GarbageCollectorMetricSet());
+        metricRegistry.register(MEMORY, new MemoryUsageGaugeSet());
+        metricRegistry.register(FILEDESCRIPTORS_RATIO, new FileDescriptorRatioGauge());
     }
 
 }

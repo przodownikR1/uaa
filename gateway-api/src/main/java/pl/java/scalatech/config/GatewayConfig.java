@@ -1,5 +1,8 @@
 package pl.java.scalatech.config;
 
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,26 +15,26 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 @Configuration
-@ComponentScan(basePackages="pl.java.scalatech.filter")
+@ComponentScan(basePackages = "pl.java.scalatech.filter")
 public class GatewayConfig {
+	private static final String FALLBACK = "fallback";
+	private static final String CUSTOMER = "customer";
+
 	@Bean
 	Filter shallowEtagHeaderFilter() {
 		return new ShallowEtagHeaderFilter();
 	}
-
-	
 
 	@Bean
 	ZuulFallbackProvider zuulFallbackProvider() {
 		return new ZuulFallbackProvider() {
 			@Override
 			public String getRoute() {
-				return "customer";
+				return CUSTOMER;
 			}
 
 			@Override
@@ -39,7 +42,7 @@ public class GatewayConfig {
 				return new ClientHttpResponse() {
 					@Override
 					public HttpStatus getStatusCode() throws IOException {
-						return HttpStatus.OK;
+						return OK;
 					}
 
 					@Override
@@ -59,13 +62,13 @@ public class GatewayConfig {
 
 					@Override
 					public InputStream getBody() throws IOException {
-						return new ByteArrayInputStream("fallback".getBytes());
+						return new ByteArrayInputStream(FALLBACK.getBytes());
 					}
 
 					@Override
 					public HttpHeaders getHeaders() {
 						HttpHeaders headers = new HttpHeaders();
-						headers.setContentType(MediaType.APPLICATION_JSON);
+						headers.setContentType(APPLICATION_JSON);
 						return headers;
 					}
 				};

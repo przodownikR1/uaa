@@ -30,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DashboardHystrixApplication {
 
+	private static final String HYSTRIX = "hystrix";
+
 	@RequestMapping("/")
 	String home() {
 		return "forward:/hystrix";
@@ -60,7 +62,7 @@ public class DashboardHystrixApplication {
 	ApplicationListener<EnvironmentChangeEvent> listener() {
 		return event -> {
 			for (String key : event.getKeys()) {
-				if (key.startsWith("hystrix")) {
+				if (key.startsWith(HYSTRIX)) {
 					HystrixPropertiesFactory.reset();
 					log.info("hystrix properties has changed, event:{}", event.toString());
 					break;

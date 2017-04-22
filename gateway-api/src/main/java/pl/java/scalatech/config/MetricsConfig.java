@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheckRegistry;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Configuration
-@Slf4j
 // @EnableMetrics
 public class MetricsConfig {
 

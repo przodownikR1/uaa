@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.ProfileApp;
 
@@ -47,27 +48,16 @@ take based on the application they are logging in with.
 @Profile(ProfileApp.PROFILE)
 @EnableAuthorizationServer
 @Slf4j
+@RequiredArgsConstructor
 public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
 	private final AuthenticationManager authenticationManager;
-
 	private final SecConfig secConfig;
-
 	private final UserDetailsService userDetailsService;
+	private final DataSource dataSource;
 
 	@Autowired
 	private TokenStore tokenStore;
-
-	private final DataSource dataSource;
-
-	public OAuth2Config(DataSource dataSource, AuthenticationManager authenticationManager,
-			UserDetailsService userDetailsService, SecConfig secConfig) {
-		super();
-		this.authenticationManager = authenticationManager;
-		this.userDetailsService = userDetailsService;
-		this.secConfig = secConfig;
-		this.dataSource = dataSource;
-	}
 
 	@Bean
 	TokenStore tokenStore() {

@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.ProfileApp;
 
@@ -22,6 +23,7 @@ import pl.java.scalatech.config.ProfileApp;
 @Slf4j
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@RequiredArgsConstructor
 public class ResourceServerConfig  extends ResourceServerConfigurerAdapter{
 
    /* @Bean 
@@ -31,12 +33,7 @@ public class ResourceServerConfig  extends ResourceServerConfigurerAdapter{
     } */
    
    private final SecConfig secConfig;
-  
-    public ResourceServerConfig(SecConfig secConfig) {
-    super();
-    this.secConfig = secConfig;
  
-}
   
 // @formatter:off
   @Override

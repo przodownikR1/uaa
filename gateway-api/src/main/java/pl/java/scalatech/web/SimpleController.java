@@ -1,5 +1,7 @@
 package pl.java.scalatech.web;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -12,15 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Lists;
-
 @RestController
 @RequestMapping("/oauth2")
 public class SimpleController {
 
 	@GetMapping
 	List<String> test() {
-		return Lists.newArrayList("slawke", "borowiec", "r1", "yamaha");
+		return newArrayList("slawke", "borowiec", "r1", "yamaha");
 	}
 
 	@GetMapping(value = "/user3", produces = "application/json")

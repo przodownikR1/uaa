@@ -58,5 +58,6 @@ public class AdminDashboardApplication {
 		LoggingNotifier loggerNotifier() {
 			return new LoggingNotifier();
 		}
+	
 	}
 }

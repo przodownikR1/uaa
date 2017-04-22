@@ -2,36 +2,38 @@ package pl.java.scalatech.config.connector;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import feign.Headers;
 @FeignClient(name="car-service",fallback=GreetingFeignResource.HystrixUserClientFallback.class)
 @Component
 public interface GreetingFeignResource {
     
-    @RequestMapping(method = RequestMethod.GET, value = "/message/sean")
+    @GetMapping(value = "/message/sean")
     String getMessageNoName();
     
-    @RequestMapping(method = RequestMethod.GET, value = "/message/{name}")
+    @GetMapping(value = "/message/{name}")
     String getMessage(@PathVariable("name") String name);
 
     @Headers("Content-Type: application/json")
-    @RequestMapping(method = RequestMethod.POST, value = "/message/{newGreeting}")
+    @PostMapping(value = "/message/{newGreeting}")
     void updateMessage(@PathVariable("newGreeting") String message);
     
     @Component
     class HystrixUserClientFallback implements  GreetingFeignResource{
 
+		private static final String FALLBACK = "fallback...";
+
 		@Override
 		public String getMessageNoName() {
-			return "fallback...";
+			return FALLBACK;
 		}
 
 		@Override
 		public String getMessage(String name) {			
-			return "fallback...";
+			return FALLBACK;
 		}
 
 		@Override

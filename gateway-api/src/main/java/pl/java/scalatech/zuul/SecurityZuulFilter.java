@@ -9,7 +9,7 @@ import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SecurityZuulFilter extends ZuulFilter {
+class SecurityZuulFilter extends ZuulFilter {
 
 	private static final Object NULL = new Object();
 	private static final String USERNAME = "admin"; // TODO

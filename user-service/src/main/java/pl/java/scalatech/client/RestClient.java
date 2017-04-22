@@ -12,14 +12,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.codahale.metrics.MetricRegistry;
 
+import lombok.RequiredArgsConstructor;
 import pl.java.scalatech.tools.RestRequestTimerInterceptor;
 
+@RequiredArgsConstructor
 public class RestClient {
     
-    @Autowired
-    private MetricRegistry metricRegistry;
+    private final MetricRegistry metricRegistry;
     
-
     @Autowired
     @Qualifier("restClientHttpFactory")
     private ClientHttpRequestFactory clientHttpRequestFactory;

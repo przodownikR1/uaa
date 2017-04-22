@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.java.scalatech.config.ProfileApp;
 
@@ -21,84 +22,69 @@ import pl.java.scalatech.config.ProfileApp;
 @Profile(ProfileApp.PROFILE)
 @Slf4j
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class ResourceServerConfig  extends ResourceServerConfigurerAdapter{
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-   /* @Bean 
-    public Filter userContextFilter() { 
-      UserContextFilter userContextFilter = new UserContextFilter(); 
-      return userContextFilter; 
-    } */
-   
-   private final SecConfig secConfig;
-  
-    public ResourceServerConfig(SecConfig secConfig) {
-    super();
-    this.secConfig = secConfig;
- 
-}
-  
-// @formatter:off
-  @Override
-  public void configure(HttpSecurity http) throws Exception {
-      log.info("+++++++             ResourceServerConfig configure : {}",http);
-      //http.antMatcher("/secured/**").authorizeRequests().anyRequest().authenticated();
+	/*
+	 * @Bean public Filter userContextFilter() { UserContextFilter
+	 * userContextFilter = new UserContextFilter(); return userContextFilter; }
+	 */
 
-      http.exceptionHandling()
-      .and().logout().logoutUrl("/oauth/logout")          
-      .and().authorizeRequests().antMatchers("/test/**").permitAll()
-      //.and().authorizeRequests().antMatchers("/auth/oauth/token").permitAll()      
-      .and().authorizeRequests().antMatchers("/health").access("#oauth2.hasScope('metrics')")
-      .and().authorizeRequests().antMatchers("/info").access("#oauth2.hasScope('metrics')")      
-      .antMatchers(HttpMethod.OPTIONS, "/api/user/**").access("#oauth2.hasScope('read')")
-      .antMatchers(HttpMethod.POST, "/api/user/**").access("#oauth2.hasScope('write')")
-      .antMatchers(HttpMethod.PUT, "/api/user/**").access("#oauth2.hasScope('update')")
-      .antMatchers(HttpMethod.PATCH, "/api/user/**").access("#oauth2.hasScope('write')")
-      .antMatchers(HttpMethod.DELETE, "/api/user/**").access("#oauth2.hasScope('remove')")
-      .antMatchers("/metrics/**").access("#oauth2.hasScope('metrics')")
-      .antMatchers("/mappings/**").access("#oauth2.hasScope('metrics')")
-      .antMatchers("/shutdown/**").access("#oauth2.hasScope('shutdown')")
-      .and().authorizeRequests()
-      .anyRequest().authenticated();
-      /*.and()
-      .headers()
-      .frameOptions().deny()
-      .xssProtection().xssProtectionEnabled(true).and()
-      .and()
-      .sessionManagement()
-      .sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
-      
-      http.headers().frameOptions().disable();
-      //http.csrf().disable().anonymous().disable();
-      
-/*
-      .csrf()
-          .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/token"))
-          .and()
-      */
-   }
-    // @formatter:on
+	private final SecConfig secConfig;
 
-  
-       
-  @Override
-  public void configure(ResourceServerSecurityConfigurer resources) throws Exception {       
-      resources.resourceId(secConfig.getAppName()).tokenServices(remoteTokenServices());
-  }
-            
-  
-     
-  private RemoteTokenServices remoteTokenServices() {      
-      final RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
-      remoteTokenServices.setCheckTokenEndpointUrl(secConfig.getCheckTokenUrl());
-      remoteTokenServices.setClientId(secConfig.getClientId());
-      remoteTokenServices.setClientSecret(secConfig.getClientSecret());
-      remoteTokenServices.setAccessTokenConverter(accessTokenConverter());
-      return remoteTokenServices;
-  }
-  
-  private AccessTokenConverter accessTokenConverter() {
-      return new DefaultAccessTokenConverter();
-  }
- 
+	// @formatter:off
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		log.info("+++++++             ResourceServerConfig configure : {}", http);
+		// http.antMatcher("/secured/**").authorizeRequests().anyRequest().authenticated();
+
+		http.exceptionHandling().and().logout().logoutUrl("/oauth/logout").and().authorizeRequests()
+				.antMatchers("/test/**").permitAll()
+				// .and().authorizeRequests().antMatchers("/auth/oauth/token").permitAll()
+				.and().authorizeRequests().antMatchers("/health").access("#oauth2.hasScope('metrics')").and()
+				.authorizeRequests().antMatchers("/info").access("#oauth2.hasScope('metrics')")
+				.antMatchers(HttpMethod.OPTIONS, "/api/user/**").access("#oauth2.hasScope('read')")
+				.antMatchers(HttpMethod.POST, "/api/user/**").access("#oauth2.hasScope('write')")
+				.antMatchers(HttpMethod.PUT, "/api/user/**").access("#oauth2.hasScope('update')")
+				.antMatchers(HttpMethod.PATCH, "/api/user/**").access("#oauth2.hasScope('write')")
+				.antMatchers(HttpMethod.DELETE, "/api/user/**").access("#oauth2.hasScope('remove')")
+				.antMatchers("/metrics/**").access("#oauth2.hasScope('metrics')").antMatchers("/mappings/**")
+				.access("#oauth2.hasScope('metrics')").antMatchers("/shutdown/**")
+				.access("#oauth2.hasScope('shutdown')").and().authorizeRequests().anyRequest().authenticated();
+		/*
+		 * .and() .headers() .frameOptions().deny()
+		 * .xssProtection().xssProtectionEnabled(true).and() .and()
+		 * .sessionManagement()
+		 * .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		 */
+
+		http.headers().frameOptions().disable();
+		// http.csrf().disable().anonymous().disable();
+
+		/*
+		 * .csrf() .requireCsrfProtectionMatcher(new
+		 * AntPathRequestMatcher("/oauth/token")) .and()
+		 */
+	}
+	// @formatter:on
+
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+		resources.resourceId(secConfig.getAppName()).tokenServices(remoteTokenServices());
+	}
+
+	private RemoteTokenServices remoteTokenServices() {
+		final RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
+		remoteTokenServices.setCheckTokenEndpointUrl(secConfig.getCheckTokenUrl());
+		remoteTokenServices.setClientId(secConfig.getClientId());
+		remoteTokenServices.setClientSecret(secConfig.getClientSecret());
+		remoteTokenServices.setAccessTokenConverter(accessTokenConverter());
+		return remoteTokenServices;
+	}
+
+	private AccessTokenConverter accessTokenConverter() {
+		return new DefaultAccessTokenConverter();
+	}
+
 }

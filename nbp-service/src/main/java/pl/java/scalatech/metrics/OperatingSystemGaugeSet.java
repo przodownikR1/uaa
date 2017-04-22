@@ -5,7 +5,6 @@ import static java.lang.management.ManagementFactory.getOperatingSystemMXBean;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,7 +18,16 @@ import com.codahale.metrics.MetricSet;
 
 class OperatingSystemGaugeSet implements MetricSet {
  
-    private final OperatingSystemMXBean mxBean;
+    private static final String PROCESS_CPU_LOAD = "processCpuLoad";
+	private static final String SYSTEM_CPU_LOAD = "systemCpuLoad";
+	private static final String FD_USAGE = "fd.usage";
+	private static final String TOTAL_PHYSICAL_MEMORY_SIZE = "totalPhysicalMemorySize";
+	private static final String FREE_PHYSICAL_MEMORY_SIZE = "freePhysicalMemorySize";
+	private static final String PROCESS_CPU_TIME = "processCpuTime";
+	private static final String FREE_SWAP_SPACE_SIZE = "freeSwapSpaceSize";
+	private static final String TOTAL_SWAP_SPACE_SIZE = "totalSwapSpaceSize";
+	private static final String COMMITTED_VIRTUAL_MEMORY_SIZE = "committedVirtualMemorySize";
+	private final OperatingSystemMXBean mxBean;
     private final Optional<Method> committedVirtualMemorySize;
     private final Optional<Method> totalSwapSpaceSize;
     private final Optional<Method> freeSwapSpaceSize;
@@ -39,7 +47,6 @@ class OperatingSystemGaugeSet implements MetricSet {
    
     public OperatingSystemGaugeSet(OperatingSystemMXBean mxBean) {
         this.mxBean = mxBean;
- 
         committedVirtualMemorySize = getMethod("getCommittedVirtualMemorySize");
         totalSwapSpaceSize = getMethod("getTotalSwapSpaceSize");
         freeSwapSpaceSize = getMethod("getFreeSwapSpaceSize");
@@ -56,15 +63,15 @@ class OperatingSystemGaugeSet implements MetricSet {
     @Override
     public Map<String, Metric> getMetrics() {
         final Map<String, Metric> gauges = new HashMap<>();
-        gauges.put("committedVirtualMemorySize", (Gauge<Long>) () -> invokeLong(committedVirtualMemorySize));
-        gauges.put("totalSwapSpaceSize", (Gauge<Long>) () -> invokeLong(totalSwapSpaceSize));
-        gauges.put("freeSwapSpaceSize", (Gauge<Long>) () -> invokeLong(freeSwapSpaceSize));
-        gauges.put("processCpuTime", (Gauge<Long>) () -> invokeLong(processCpuTime));
-        gauges.put("freePhysicalMemorySize", (Gauge<Long>) () -> invokeLong(freePhysicalMemorySize));
-        gauges.put("totalPhysicalMemorySize", (Gauge<Long>) () -> invokeLong(totalPhysicalMemorySize));
-        gauges.put("fd.usage", (Gauge<Double>) () -> invokeRatio(openFileDescriptorCount, maxFileDescriptorCount));
-        gauges.put("systemCpuLoad", (Gauge<Double>) () -> invokeDouble(systemCpuLoad));
-        gauges.put("processCpuLoad", (Gauge<Double>) () -> invokeDouble(processCpuLoad));
+        gauges.put(COMMITTED_VIRTUAL_MEMORY_SIZE, (Gauge<Long>) () -> invokeLong(committedVirtualMemorySize));
+        gauges.put(TOTAL_SWAP_SPACE_SIZE, (Gauge<Long>) () -> invokeLong(totalSwapSpaceSize));
+        gauges.put(FREE_SWAP_SPACE_SIZE, (Gauge<Long>) () -> invokeLong(freeSwapSpaceSize));
+        gauges.put(PROCESS_CPU_TIME, (Gauge<Long>) () -> invokeLong(processCpuTime));
+        gauges.put(FREE_PHYSICAL_MEMORY_SIZE, (Gauge<Long>) () -> invokeLong(freePhysicalMemorySize));
+        gauges.put(TOTAL_PHYSICAL_MEMORY_SIZE, (Gauge<Long>) () -> invokeLong(totalPhysicalMemorySize));
+        gauges.put(FD_USAGE, (Gauge<Double>) () -> invokeRatio(openFileDescriptorCount, maxFileDescriptorCount));
+        gauges.put(SYSTEM_CPU_LOAD, (Gauge<Double>) () -> invokeDouble(systemCpuLoad));
+        gauges.put(PROCESS_CPU_LOAD, (Gauge<Double>) () -> invokeDouble(processCpuLoad));
         return gauges;
     }
  

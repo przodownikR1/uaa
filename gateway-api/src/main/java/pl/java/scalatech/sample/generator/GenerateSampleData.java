@@ -7,10 +7,12 @@ import java.util.Random;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
 import pl.java.scalatech.sample.repo.CarRepo;
 import pl.java.scalatech.sample.repo.PersonRepo;
 
 @Component
+@RequiredArgsConstructor
 public class GenerateSampleData implements CommandLineRunner {
 
 	private final CarRepo carRepo;
@@ -24,16 +26,6 @@ public class GenerateSampleData implements CommandLineRunner {
 	private final UserGenerate userGenerator;
 
 	private final Random carR = new Random();
-
-	public GenerateSampleData(CarRepo carRepo, PersonRepo personRepo, CarGenerator carGenerator,
-			UserGenerate userGenerator, GeneratorSetting setting) {
-		super();
-		this.carRepo = carRepo;
-		this.personRepo = personRepo;
-		this.carGenerator = carGenerator;
-		this.userGenerator = userGenerator;
-		this.setting = setting;
-	}
 
 	@Override
 	public void run(String... args) throws Exception {

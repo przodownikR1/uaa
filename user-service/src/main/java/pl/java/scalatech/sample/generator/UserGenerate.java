@@ -13,11 +13,8 @@ import pl.java.scalatech.sample.domain.Person;
 class UserGenerate {
 
     private Random r = new Random();
-    private Faker faker;
-      
-    public UserGenerate() {
-        faker = new Faker();
-    }
+    private Faker faker = new Faker();
+     
 
     // @formatter:off    
     public Person generateSingleUser() { 

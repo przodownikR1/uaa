@@ -12,7 +12,7 @@ import pl.java.scalatech.config.ProfileApp;
 
 @Component
 @Profile(ProfileApp.SECURITY)
-public class SecurityZuulFilterRegistrationBean implements ApplicationRunner, Ordered {
+class SecurityZuulFilterRegistrationBean implements ApplicationRunner, Ordered {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {

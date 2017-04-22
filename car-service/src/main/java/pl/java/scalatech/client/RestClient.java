@@ -12,11 +12,13 @@ import org.springframework.web.client.RestTemplate;
 
 import com.codahale.metrics.MetricRegistry;
 
+import lombok.RequiredArgsConstructor;
 import pl.java.scalatech.tools.RestRequestTimerInterceptor;
 
+@RequiredArgsConstructor
 public class RestClient {
     
-    @Autowired
+    
     private MetricRegistry metricRegistry;
     
 
@@ -26,14 +28,14 @@ public class RestClient {
     
     
     @Bean(name="restClient")
-    public RestOperations restTemplate() {
+    RestOperations restTemplate() {
         final RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
         restTemplate.setInterceptors(asList(restRequestTimerInterceptor()));
         return restTemplate;
     }
 
     @Bean
-    public RestRequestTimerInterceptor restRequestTimerInterceptor() {
+    RestRequestTimerInterceptor restRequestTimerInterceptor() {
         return new RestRequestTimerInterceptor(metricRegistry);
     }
 

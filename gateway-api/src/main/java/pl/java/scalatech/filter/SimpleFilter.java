@@ -10,9 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class SimpleFilter extends ZuulFilter {
 
+	private static final String S_REQUEST_TO_S = "%s request to %s";
+	private static final String PRE = "pre";
+
 	@Override
 	public String filterType() {
-		return "pre";
+		return PRE;
 	}
 
 	@Override
@@ -29,7 +32,7 @@ class SimpleFilter extends ZuulFilter {
 	public Object run() {
 		RequestContext ctx = RequestContext.getCurrentContext();
 		HttpServletRequest request = ctx.getRequest();
-		log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+		log.info(String.format(S_REQUEST_TO_S, request.getMethod(), request.getRequestURL().toString()));
 		return null;
 	}
 

@@ -13,16 +13,22 @@ import pl.java.scalatech.config.ProfileApp;
 @Slf4j
 @Component
 @Profile(ProfileApp.TEST)
-public class LoginAttemptsLogger {
+class LoginAttemptsLogger {
+
+	private static final String DETAILS2 = "details";
+	private static final String PRINCIPAL = "Principal ";
+	private static final String REQUEST_URL = "  Request URL: ";
+	private static final String SESSION_ID = "  Session Id: ";
+	private static final String REMOTE_IP_ADDRESS = "  Remote IP address: ";
 
 	@EventListener
 	public void auditEventHappened(AuditApplicationEvent auditApplicationEvent) {
 		AuditEvent auditEvent = auditApplicationEvent.getAuditEvent();
-		log.info("Principal " + auditEvent.getPrincipal() + " - " + auditEvent.getType());
+		log.info(PRINCIPAL + auditEvent.getPrincipal() + " - " + auditEvent.getType());
 
-		WebAuthenticationDetails details = (WebAuthenticationDetails) auditEvent.getData().get("details");
-		log.info("  Remote IP address: " + details.getRemoteAddress());
-		log.info("  Session Id: " + details.getSessionId());
-		log.info("  Request URL: " + auditEvent.getData().get("requestUrl"));
+		WebAuthenticationDetails details = (WebAuthenticationDetails) auditEvent.getData().get(DETAILS2);
+		log.info(REMOTE_IP_ADDRESS + details.getRemoteAddress());
+		log.info(SESSION_ID + details.getSessionId());
+		log.info(REQUEST_URL + auditEvent.getData().get("requestUrl"));
 	}
 }
