@@ -19,11 +19,10 @@ public class AuditEventListener extends AbstractAuditListener {
     protected void onAuditEvent(AuditEvent event) {
 
         log.info("On audit event: timestamp: {}, principal: {}, type: {}, data: {}",
-            event.getTimestamp(),
-            event.getPrincipal(),
-            event.getType(),
-            event.getData()
-        );
+                event.getTimestamp(),
+                event.getPrincipal(),
+                event.getType(),
+                event.getData());
 
         auditEventRepository.add(event);
     }

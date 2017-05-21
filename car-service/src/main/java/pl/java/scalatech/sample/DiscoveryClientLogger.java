@@ -11,21 +11,20 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DiscoveryClientLogger implements CommandLineRunner{
+public class DiscoveryClientLogger implements CommandLineRunner {
 
     private final DiscoveryClient discoveryClient;
 
     @Override
     public void run(String... args) throws Exception {
         System.out.println(discoveryClient.description());
-        
-             discoveryClient.getInstances("car-service").forEach((ServiceInstance serviceInstance) -> {
-                 System.out.println(new StringBuilder("Instance --> ").append(serviceInstance.getServiceId())
-                         .append("\nServer: ").append(serviceInstance.getHost()).append(":").append(serviceInstance.getPort())
-                         .append("\nURI: ").append(serviceInstance.getUri()).append("\n\n\n"));
-             });
-         }
-    
-    
-}
 
+        discoveryClient.getInstances("car-service").forEach((ServiceInstance serviceInstance) -> {
+            System.out.println(new StringBuilder(
+                    "Instance --> ").append(serviceInstance.getServiceId())
+                            .append("\nServer: ").append(serviceInstance.getHost()).append(":").append(serviceInstance.getPort())
+                            .append("\nURI: ").append(serviceInstance.getUri()).append("\n\n\n"));
+        });
+    }
+
+}

@@ -28,16 +28,15 @@ public class SimpleController {
     }
 
     @GetMapping("/discovery/{name}")
-    public String getDiscoveryInfo(@PathVariable String name){
-        StringBuilder sb = new StringBuilder("Instance --> ");
-    	client.getInstances(name).forEach((ServiceInstance serviceInstance) -> {			
-					sb.append(serviceInstance.getServiceId()).append("\nServer: ")
-							.append(serviceInstance.getHost()).append(":").append(serviceInstance.getPort())
-							.append("\nURI: ").append(serviceInstance.getUri()).append("\n\n\n");
-		});
-		return sb.toString();
-    	}
-    	
-    
+    public String getDiscoveryInfo(@PathVariable String name) {
+        StringBuilder sb = new StringBuilder(
+                "Instance --> ");
+        client.getInstances(name).forEach((ServiceInstance serviceInstance) -> {
+            sb.append(serviceInstance.getServiceId()).append("\nServer: ")
+                    .append(serviceInstance.getHost()).append(":").append(serviceInstance.getPort())
+                    .append("\nURI: ").append(serviceInstance.getUri()).append("\n\n\n");
+        });
+        return sb.toString();
+    }
 
 }

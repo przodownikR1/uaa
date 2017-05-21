@@ -25,28 +25,29 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class GatewayAPIApplication {
 
-	public static void main(String[] args) {
-		springPIDAppRun(args, GatewayAPIApplication.class);
-	}
+    public static void main(String[] args) {
+        springPIDAppRun(args, GatewayAPIApplication.class);
+    }
 
-	private static void springPIDAppRun(String[] args, Class<?> clazz) {
-		SpringApplication springApplication = new SpringApplication(clazz);
-		springApplication.addListeners(new ApplicationPidFileWriter());
-		springApplication.run(args);
-	}
+    private static void springPIDAppRun(String[] args, Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(
+                clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
 
-	private final DiscoveryClient discoveryClient;
+    private final DiscoveryClient discoveryClient;
 
-	@Bean
-	CommandLineRunner commandLineRunner() {
-		return (args) -> {
-			discoveryClient.getServices().forEach(service -> {
-				discoveryClient.getInstances(service).forEach(inst -> {
-					log.info("++++  service  : {} -> {}", service, inst.getUri());
-				});
-			});
+    @Bean
+    CommandLineRunner commandLineRunner() {
+        return (args) -> {
+            discoveryClient.getServices().forEach(service -> {
+                discoveryClient.getInstances(service).forEach(inst -> {
+                    log.info("++++  service  : {} -> {}", service, inst.getUri());
+                });
+            });
 
-		};
-	}
+        };
+    }
 
 }

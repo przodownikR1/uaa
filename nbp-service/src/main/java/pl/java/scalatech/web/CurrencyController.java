@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import pl.java.scalatech.camel.nbp.NbpCurrentExchange;
 
-
 @RestController
 @RequiredArgsConstructor
 class CurrencyController {

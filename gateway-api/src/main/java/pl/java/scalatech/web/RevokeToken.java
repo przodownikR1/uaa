@@ -15,35 +15,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-//@RestController
+// @RestController
 @Slf4j
 @RequestMapping("/oauth2")
 @RequiredArgsConstructor
 public class RevokeToken {
-	
-	private final TokenStore tokenStore;
 
-	@GetMapping("/revoke-token")
-	public ResponseEntity<?> logout(HttpServletRequest request) {
-		String authHeader = request.getHeader("Authorization");
-		if (authHeader != null) {
-			String tokenValue = authHeader.replace("Bearer", "").trim();
-			OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
-			tokenStore.removeAccessToken(accessToken);
-			log.info("current token revoke");
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.notFound().build();
+    private final TokenStore tokenStore;
 
-	}
+    @GetMapping("/revoke-token")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null) {
+            String tokenValue = authHeader.replace("Bearer", "").trim();
+            OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
+            tokenStore.removeAccessToken(accessToken);
+            log.info("current token revoke");
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.notFound().build();
 
-	private void checkResourceOwner(String user, Principal principal) {
-		if (principal instanceof OAuth2Authentication) {
-			OAuth2Authentication authentication = (OAuth2Authentication) principal;
-			if (!authentication.isClientOnly() && !user.equals(principal.getName())) {
-				throw new AccessDeniedException(
-						String.format("User '%s' cannot obtain tokens for user '%s'", principal.getName(), user));
-			}
-		}
-	}
+    }
+
+    private void checkResourceOwner(String user, Principal principal) {
+        if (principal instanceof OAuth2Authentication) {
+            OAuth2Authentication authentication = (OAuth2Authentication) principal;
+            if (!authentication.isClientOnly() && !user.equals(principal.getName())) {
+                throw new AccessDeniedException(
+                        String.format("User '%s' cannot obtain tokens for user '%s'", principal.getName(), user));
+            }
+        }
+    }
 }

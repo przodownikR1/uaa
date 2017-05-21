@@ -12,27 +12,27 @@ import pl.java.scalatech.config.connector.NBPFeignResource;
 @RequiredArgsConstructor
 public class SampleFeignClientController {
 
-	private final GreetingFeignResource greetingFeignResource;
+    private final GreetingFeignResource greetingFeignResource;
 
-	private final NBPFeignResource nbpFeignResource;
+    private final NBPFeignResource nbpFeignResource;
 
-	@GetMapping("/feignTest/{name}")
-	String getTest(@PathVariable String name) {
-		return greetingFeignResource.getMessage(name);
-	}
+    @GetMapping("/feignTest/{name}")
+    String getTest(@PathVariable String name) {
+        return greetingFeignResource.getMessage(name);
+    }
 
-	@GetMapping("/feignTest2")
-	String getTest2() {
-		return greetingFeignResource.getMessageNoName();
-	}
+    @GetMapping("/feignTest2")
+    String getTest2() {
+        return greetingFeignResource.getMessageNoName();
+    }
 
-	@GetMapping("/nbpByCode/{code}")
-	String getCurrencyByCoce(@PathVariable String code) {
-		return nbpFeignResource.getMutlipierByCode(code);
-	}
+    @GetMapping("/nbpByCode/{code}")
+    String getCurrencyByCoce(@PathVariable String code) {
+        return nbpFeignResource.getMutlipierByCode(code);
+    }
 
-	@GetMapping("/nbpSimple")
-	String getNbpSimpleMessage() {
-		return nbpFeignResource.getMessage();
-	}
+    @GetMapping("/nbpSimple")
+    String getNbpSimpleMessage() {
+        return nbpFeignResource.getMessage();
+    }
 }

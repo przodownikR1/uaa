@@ -23,13 +23,13 @@ public final class HostInformationTool {
 
     @SneakyThrows(Exception.class)
     public static String getApplicationPID() {
-        return readLines(new File(PID_FILE_NAME), Charsets.UTF_8).get(0);
+        return readLines(new File(
+                PID_FILE_NAME), Charsets.UTF_8).get(0);
     }
-       
+
     @SneakyThrows
     public static String getHostName() {
-        return getLocalHost().getHostName();    
+        return getLocalHost().getHostName();
     }
-  
 
 }

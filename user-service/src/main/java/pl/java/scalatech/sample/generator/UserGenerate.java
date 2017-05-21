@@ -14,7 +14,6 @@ class UserGenerate {
 
     private Random r = new Random();
     private Faker faker = new Faker();
-     
 
     // @formatter:off    
     public Person generateSingleUser() { 
@@ -27,6 +26,5 @@ class UserGenerate {
         return user;
     }
  // @formatter:on
-   
-  
+
 }

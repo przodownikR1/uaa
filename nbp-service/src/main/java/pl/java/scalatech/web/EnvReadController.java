@@ -12,14 +12,13 @@ import lombok.RequiredArgsConstructor;
 @RefreshScope
 public class EnvReadController {
 
-	private static final String USER = "USER_APP";
+    private static final String USER = "USER_APP";
 
-	@Value("${"+USER+":default}")
+    @Value("${" + USER + ":default}")
     String user;
-	
-	
-	@GetMapping("/envUser")
-	String getEnvUser(){
-		return "User : " + user;
-	}
+
+    @GetMapping("/envUser")
+    String getEnvUser() {
+        return "User : " + user;
+    }
 }

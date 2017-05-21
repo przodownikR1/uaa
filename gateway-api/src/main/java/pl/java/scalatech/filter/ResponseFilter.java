@@ -13,10 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-class ResponseFilter extends ZuulFilter{
-    private static final int  FILTER_ORDER=1;
-    private static final boolean  SHOULD_FILTER=true;
-       
+class ResponseFilter extends ZuulFilter {
+    private static final int FILTER_ORDER = 1;
+    private static final boolean SHOULD_FILTER = true;
+
     private final FilterUtils filterUtils;
 
     @Override

@@ -13,25 +13,25 @@ import com.codahale.metrics.Timer;
 
 public class RestRequestTimerInterceptor implements ClientHttpRequestInterceptor {
 
-	private MetricRegistry metricRegistry;
+    private MetricRegistry metricRegistry;
 
-	public RestRequestTimerInterceptor(MetricRegistry metricRegistry) {
-		this.metricRegistry = metricRegistry;
-	}
+    public RestRequestTimerInterceptor(MetricRegistry metricRegistry) {
+        this.metricRegistry = metricRegistry;
+    }
 
-	@Override
-	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-			throws IOException {
-		Timer timer = metricRegistry.timer("request-timer");
-		Timer.Context context = timer.time();
-		Meter meter = metricRegistry.meter("request-meter");
+    @Override
+    public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
+            throws IOException {
+        Timer timer = metricRegistry.timer("request-timer");
+        Timer.Context context = timer.time();
+        Meter meter = metricRegistry.meter("request-meter");
 
-		try {
-			ClientHttpResponse response = execution.execute(request, body);
-			return response;
-		} finally {
-			context.stop();
-			meter.mark();
-		}
-	}
+        try {
+            ClientHttpResponse response = execution.execute(request, body);
+            return response;
+        } finally {
+            context.stop();
+            meter.mark();
+        }
+    }
 }

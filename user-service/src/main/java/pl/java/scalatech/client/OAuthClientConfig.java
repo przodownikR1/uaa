@@ -23,38 +23,42 @@ import pl.java.scalatech.config.approach2.SecConfig;
 @Slf4j
 @RequiredArgsConstructor
 public class OAuthClientConfig {
-       
+
     private final SecConfig oauthSetting;
-           
+
     @Value("${oauth.resource:http://localhost:9001/auth}")
     private String baseUrl;
-    
+
     @Value("${oauth.authorize:http://localhost:9001/auth/oauth/authorize}")
     private String authorizeUrl;
-    
+
     @Value("${oauth.token:http://localhost:9001/auth/oauth/token}")
-    private String tokenUrl;    
- 
-    /*@Profile("next") //propably better solution
-    @Bean(name="restOAuth2")
-    public OAuth2RestTemplate restTemplate(UserInfoRestTemplateFactory factory) {
-        return factory.getUserInfoRestTemplate();
-    }*/
+    private String tokenUrl;
+
+    /*
+     * @Profile("next") //propably better solution
+     * @Bean(name="restOAuth2")
+     * public OAuth2RestTemplate restTemplate(UserInfoRestTemplateFactory factory) {
+     * return factory.getUserInfoRestTemplate();
+     * }
+     */
 
     @Bean("oauth2RestOperations")
-     OAuth2RestOperations restTemplate(OAuth2ClientContext oauth2ClientContext) {
-                  return new OAuth2RestTemplate(resource(), oauth2ClientContext);
-          }
+    OAuth2RestOperations restTemplate(OAuth2ClientContext oauth2ClientContext) {
+        return new OAuth2RestTemplate(
+                resource(), oauth2ClientContext);
+    }
+
     @Bean
-     OAuth2ProtectedResourceDetails resource() {
+    OAuth2ProtectedResourceDetails resource() {
         AuthorizationCodeResourceDetails resource = new AuthorizationCodeResourceDetails();
         resource.setAccessTokenUri(tokenUrl);
         resource.setUserAuthorizationUri(authorizeUrl);
         resource.setClientId(oauthSetting.getClientId());
         resource.setClientSecret(oauthSetting.getClientSecret());
-        return resource ;
-}
-    
+        return resource;
+    }
+
     @Bean
     @Profile("resource")
     OAuth2ProtectedResourceDetails resourceOwner() {
@@ -66,8 +70,8 @@ public class OAuthClientConfig {
         resource.setUsername("test");
         resource.setPassword("1234");
         return resource;
-}
-    
+    }
+
     @Bean
     @Profile("credential")
     OAuth2ProtectedResourceDetails resourceCredential() {
@@ -80,33 +84,33 @@ public class OAuthClientConfig {
         return resource;
     }
 
-    
-    /*@Bean
-    public OAuth2RestTemplate redditRestTemplate(OAuth2ClientContext clientContext) {
-        OAuth2RestTemplate template = new OAuth2RestTemplate(reddit(), clientContext);
-        AccessTokenProvider accessTokenProvider = new AccessTokenProviderChain(
-          Arrays.<AccessTokenProvider> asList(
-            new MyAuthorizationCodeAccessTokenProvider(), 
-            new ImplicitAccessTokenProvider(), 
-            new ResourceOwnerPasswordAccessTokenProvider(),
-            new ClientCredentialsAccessTokenProvider())
-        );
-        template.setAccessTokenProvider(accessTokenProvider);
-        return template;
-    }
-    
-    @Bean
-    public OAuth2ProtectedResourceDetails reddit() {
-        AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
-        details.setId("reddit");
-        details.setClientId(clientID);
-        details.setClientSecret(clientSecret);
-        details.setAccessTokenUri(accessTokenUri);
-        details.setUserAuthorizationUri(userAuthorizationUri);
-        details.setTokenName("oauth_token");
-        details.setScope(Arrays.asList("identity"));
-        details.setPreEstablishedRedirectUri("http://localhost/login");
-        details.setUseCurrentUri(false);
-        return details;
-    }*/
+    /*
+     * @Bean
+     * public OAuth2RestTemplate redditRestTemplate(OAuth2ClientContext clientContext) {
+     * OAuth2RestTemplate template = new OAuth2RestTemplate(reddit(), clientContext);
+     * AccessTokenProvider accessTokenProvider = new AccessTokenProviderChain(
+     * Arrays.<AccessTokenProvider> asList(
+     * new MyAuthorizationCodeAccessTokenProvider(),
+     * new ImplicitAccessTokenProvider(),
+     * new ResourceOwnerPasswordAccessTokenProvider(),
+     * new ClientCredentialsAccessTokenProvider())
+     * );
+     * template.setAccessTokenProvider(accessTokenProvider);
+     * return template;
+     * }
+     * @Bean
+     * public OAuth2ProtectedResourceDetails reddit() {
+     * AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
+     * details.setId("reddit");
+     * details.setClientId(clientID);
+     * details.setClientSecret(clientSecret);
+     * details.setAccessTokenUri(accessTokenUri);
+     * details.setUserAuthorizationUri(userAuthorizationUri);
+     * details.setTokenName("oauth_token");
+     * details.setScope(Arrays.asList("identity"));
+     * details.setPreEstablishedRedirectUri("http://localhost/login");
+     * details.setUseCurrentUri(false);
+     * return details;
+     * }
+     */
 }

@@ -7,5 +7,5 @@ public final class ProfileApp {
     public static final String TEST = "test";
     public static final String GATEWAY_API = "gateway-api";
     public static final String SECURITY = "security";
-    
+
 }

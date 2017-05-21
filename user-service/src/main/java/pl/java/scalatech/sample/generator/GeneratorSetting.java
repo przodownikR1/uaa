@@ -9,9 +9,9 @@ import lombok.Data;
 
 @Component
 @Data
-@ConfigurationProperties(prefix="generator")
+@ConfigurationProperties(prefix = "generator")
 class GeneratorSetting {
-    @NotNull  
+    @NotNull
     Integer count;
-    
+
 }

@@ -14,6 +14,7 @@ import com.ryantenney.metrics.spring.config.annotation.EnableMetrics;
 import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableMetrics
 @ConditionalOnProperty(name = "metrics.slf4j.logger")
@@ -37,6 +38,3 @@ class Slf4JReporterConfiguration extends MetricsConfigurerAdapter {
     }
 
 }
-
- 
-

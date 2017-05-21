@@ -22,7 +22,7 @@ public class SlowDownRestInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        //every fifth request
+        // every fifth request
         if (Math.round(Math.random() * 5) == 5) {
             try {
                 log.info("[Request Nag] Slowing down request by 4 seconds.");

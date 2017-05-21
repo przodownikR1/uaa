@@ -24,7 +24,7 @@ class ConsoleMetricsConfiguration extends MetricsConfigurerAdapter {
 
     @Override
     public void configureReporters(MetricRegistry metricRegistry) {
-        log.info("+++ console metrics enabled ");        
+        log.info("+++ console metrics enabled ");
         registerReporter(ConsoleReporter.forRegistry(metricRegistry).build()).start(periodMinutes, TimeUnit.MINUTES);
     }
 }

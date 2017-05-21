@@ -29,45 +29,47 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DashboardHystrixApplication {
 
-	private static final String HYSTRIX = "hystrix";
+    private static final String HYSTRIX = "hystrix";
 
-	@GetMapping("/")
-	String home() {
-		return "forward:/hystrix";
-	}
+    @GetMapping("/")
+    String home() {
+        return "forward:/hystrix";
+    }
 
-	@Bean
-	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
-	public static void main(String[] args) {
-		springPIDAppRun(args, DashboardHystrixApplication.class);
-	}
+    public static void main(String[] args) {
+        springPIDAppRun(args, DashboardHystrixApplication.class);
+    }
 
-	private static void springPIDAppRun(String[] args, Class<?> clazz) {
-		SpringApplication springApplication = new SpringApplication(clazz);
-		springApplication.addListeners(new ApplicationPidFileWriter());
-		springApplication.run(args);
-	}
+    private static void springPIDAppRun(String[] args, Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(
+                clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
 
-	@Bean
-	ServletRegistrationBean mockStreamServlet() {
-		return new ServletRegistrationBean(new MockStreamServlet(), "/mock.stream");
-	}
+    @Bean
+    ServletRegistrationBean mockStreamServlet() {
+        return new ServletRegistrationBean(
+                new MockStreamServlet(), "/mock.stream");
+    }
 
-	@Bean
-	ApplicationListener<EnvironmentChangeEvent> listener() {
-		return event -> {
-			for (String key : event.getKeys()) {
-				if (key.startsWith(HYSTRIX)) {
-					HystrixPropertiesFactory.reset();
-					log.info("hystrix properties has changed, event:{}", event.toString());
-					break;
-				}
-			}
+    @Bean
+    ApplicationListener<EnvironmentChangeEvent> listener() {
+        return event -> {
+            for (String key : event.getKeys()) {
+                if (key.startsWith(HYSTRIX)) {
+                    HystrixPropertiesFactory.reset();
+                    log.info("hystrix properties has changed, event:{}", event.toString());
+                    break;
+                }
+            }
 
-		};
-	}
+        };
+    }
 }

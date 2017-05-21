@@ -19,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 class MetricsJvmConfiguration extends MetricsConfigurerAdapter {
 
     private static final String FILEDESCRIPTORS_RATIO = "filedescriptors.ratio";
-	private static final String MEMORY = "memory";
-	private static final String GC = "gc";
+    private static final String MEMORY = "memory";
+    private static final String GC = "gc";
 
-	@Override
+    @Override
     public void configureReporters(final MetricRegistry metricRegistry) {
         log.info("+++ jvm metrics enabled ");
         metricRegistry.register(GC, new GarbageCollectorMetricSet());

@@ -24,40 +24,43 @@ import de.codecentric.boot.admin.notify.filter.FilteringNotifier;
 @RefreshScope
 public class AdminDashboardApplication {
 
-	public static void main(String[] args) {
-		springPIDAppRun(args, AdminDashboardApplication.class);
-	}
+    public static void main(String[] args) {
+        springPIDAppRun(args, AdminDashboardApplication.class);
+    }
 
-	private static void springPIDAppRun(String[] args, Class<?> clazz) {
-		SpringApplication springApplication = new SpringApplication(clazz);
-		springApplication.addListeners(new ApplicationPidFileWriter());
-		springApplication.run(args);
-	}
+    private static void springPIDAppRun(String[] args, Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(
+                clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
 
-	@Configuration
-	static class NotifierConfig {
-		@Bean
-		@Primary
-		RemindingNotifier remindingNotifier() {
-			RemindingNotifier notifier = new RemindingNotifier(filteringNotifier(loggerNotifier()));
-			notifier.setReminderPeriod(TimeUnit.SECONDS.toMillis(10));
-			return notifier;
-		}
+    @Configuration
+    static class NotifierConfig {
+        @Bean
+        @Primary
+        RemindingNotifier remindingNotifier() {
+            RemindingNotifier notifier = new RemindingNotifier(
+                    filteringNotifier(loggerNotifier()));
+            notifier.setReminderPeriod(TimeUnit.SECONDS.toMillis(10));
+            return notifier;
+        }
 
-		@Scheduled(fixedRate = 1_000L)
-		void remind() {
-			remindingNotifier().sendReminders();
-		}
+        @Scheduled(fixedRate = 1_000L)
+        void remind() {
+            remindingNotifier().sendReminders();
+        }
 
-		@Bean
-		FilteringNotifier filteringNotifier(Notifier delegate) {
-			return new FilteringNotifier(delegate);
-		}
+        @Bean
+        FilteringNotifier filteringNotifier(Notifier delegate) {
+            return new FilteringNotifier(
+                    delegate);
+        }
 
-		@Bean
-		LoggingNotifier loggerNotifier() {
-			return new LoggingNotifier();
-		}
-	
-	}
+        @Bean
+        LoggingNotifier loggerNotifier() {
+            return new LoggingNotifier();
+        }
+
+    }
 }

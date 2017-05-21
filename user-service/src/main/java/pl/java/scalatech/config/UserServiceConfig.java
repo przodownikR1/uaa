@@ -27,23 +27,23 @@ import lombok.extern.slf4j.Slf4j;
 @RefreshScope
 @Slf4j
 public class UserServiceConfig {
-	private static final String DISCOVERY_SERVICE = "discovery-service";
+    private static final String DISCOVERY_SERVICE = "discovery-service";
 
-	@Bean
-	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
-	private final DiscoveryClient discoveryClient;
+    private final DiscoveryClient discoveryClient;
 
-	@Bean
-	CommandLineRunner commandLineRunner() {
-		return (args) -> {
-			List<ServiceInstance> instances = discoveryClient.getInstances(DISCOVERY_SERVICE);
-			if (instances.size() > 0) {
-				log.info("eureka instances : {}",instances.get(0).getUri().toString());
-			}
-		};
-	}
+    @Bean
+    CommandLineRunner commandLineRunner() {
+        return (args) -> {
+            List<ServiceInstance> instances = discoveryClient.getInstances(DISCOVERY_SERVICE);
+            if (instances.size() > 0) {
+                log.info("eureka instances : {}", instances.get(0).getUri().toString());
+            }
+        };
+    }
 }

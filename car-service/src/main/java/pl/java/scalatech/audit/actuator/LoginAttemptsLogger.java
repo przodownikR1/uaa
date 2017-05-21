@@ -14,15 +14,14 @@ import pl.java.scalatech.config.ProfileApp;
 @Component
 @Profile(ProfileApp.TEST)
 class LoginAttemptsLogger {
-    
 
     private static final String DETAILS2 = "details";
-	private static final String PRINCIPAL = "Principal ";
-	private static final String REQUEST_URL = "  Request URL: ";
-	private static final String SESSION_ID = "  Session Id: ";
-	private static final String REMOTE_IP_ADDRESS = "  Remote IP address: ";
+    private static final String PRINCIPAL = "Principal ";
+    private static final String REQUEST_URL = "  Request URL: ";
+    private static final String SESSION_ID = "  Session Id: ";
+    private static final String REMOTE_IP_ADDRESS = "  Remote IP address: ";
 
-	@EventListener
+    @EventListener
     public void auditEventHappened(AuditApplicationEvent auditApplicationEvent) {
         AuditEvent auditEvent = auditApplicationEvent.getAuditEvent();
         log.info(PRINCIPAL + auditEvent.getPrincipal() + " - " + auditEvent.getType());

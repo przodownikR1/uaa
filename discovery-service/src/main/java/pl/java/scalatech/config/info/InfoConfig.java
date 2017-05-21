@@ -22,28 +22,28 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 class InfoConfig {
-	private static final String PID = "pid";
-	private static final String CONTEXT_PATH = "context_path";
-	private static final String SERVER_CONTEXT_PATH = "server.contextPath";
-	private static final String FORMAT_DATE_TIME = "yyyy-MM-dd HH:mm:ss.SSSSSS";
-	private static final String SERVER_PORT = "server.port";
-	private static final String SPRING_APPLICATION_NAME = "spring.application.name";
-	private static final String JAVA_VERSION = "java.version";
-	private static final String UPTIME = "uptime";
-	private static final String HEART_BEAT = "heartBeat";
-	private static final String START_DATE = "startDate";
-	private static final String IP = "ip";
-	private static final String HOST = "host";
-	private static final String RUNTIME = "runtime";
-	private static final String NETWORK = "network";
-	private static final String ACTIVE_PROFILES = "activeProfiles";
-	private static final String ENVIRONMENT = "environment";
-	private final Environment env;
-	private final LocalDateTime startDate = LocalDateTime.now();
+    private static final String PID = "pid";
+    private static final String CONTEXT_PATH = "context_path";
+    private static final String SERVER_CONTEXT_PATH = "server.contextPath";
+    private static final String FORMAT_DATE_TIME = "yyyy-MM-dd HH:mm:ss.SSSSSS";
+    private static final String SERVER_PORT = "server.port";
+    private static final String SPRING_APPLICATION_NAME = "spring.application.name";
+    private static final String JAVA_VERSION = "java.version";
+    private static final String UPTIME = "uptime";
+    private static final String HEART_BEAT = "heartBeat";
+    private static final String START_DATE = "startDate";
+    private static final String IP = "ip";
+    private static final String HOST = "host";
+    private static final String RUNTIME = "runtime";
+    private static final String NETWORK = "network";
+    private static final String ACTIVE_PROFILES = "activeProfiles";
+    private static final String ENVIRONMENT = "environment";
+    private final Environment env;
+    private final LocalDateTime startDate = LocalDateTime.now();
 
-	@Bean	
-	InfoContributor info() {
-		// @formatter:off
+    @Bean
+    InfoContributor info() {
+        // @formatter:off
 		return builder -> {
 			builder.withDetail(
 					ENVIRONMENT,
@@ -69,9 +69,9 @@ class InfoConfig {
 
 		};
 		// @formatter:on
-	}
+    }
 
-	private String getUptime() {
-		return between(startDate.toInstant(UTC), now()).toString();
-	}
+    private String getUptime() {
+        return between(startDate.toInstant(UTC), now()).toString();
+    }
 }

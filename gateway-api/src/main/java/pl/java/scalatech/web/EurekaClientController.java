@@ -12,10 +12,11 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class EurekaClientController {	
-	private final  DiscoveryClient discoveryClient;
-	@GetMapping("/service-instances/{applicationName}")
-	List<ServiceInstance> serviceInstancesByApplicationName(@PathVariable String applicationName) {
-		return this.discoveryClient.getInstances(applicationName);
-	}
+public class EurekaClientController {
+    private final DiscoveryClient discoveryClient;
+
+    @GetMapping("/service-instances/{applicationName}")
+    List<ServiceInstance> serviceInstancesByApplicationName(@PathVariable String applicationName) {
+        return this.discoveryClient.getInstances(applicationName);
+    }
 }

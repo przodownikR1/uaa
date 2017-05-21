@@ -10,12 +10,12 @@ public class MemoryHealthCheck extends HealthCheck {
 
     private static final String LOW_MEMORY = "Low Memory";
 
-	@Override
+    @Override
     protected Result check() throws Exception {
-        //metrics/healthcheck
+        // metrics/healthcheck
         final long pctMem = (getRuntime().totalMemory() - getRuntime().freeMemory()) * 100 / getRuntime().totalMemory();
         return pctMem < 80 ? healthy() : unhealthy(LOW_MEMORY);
-        
+
     }
 
 }

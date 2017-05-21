@@ -14,14 +14,15 @@ import be.ordina.msdashboard.EnableMicroservicesDashboardServer;
 @RefreshScope
 public class MicroservicesDashboardApplication {
 
-	public static void main(String[] args) {
-		springPIDAppRun(args, MicroservicesDashboardApplication.class);
-	}
+    public static void main(String[] args) {
+        springPIDAppRun(args, MicroservicesDashboardApplication.class);
+    }
 
-	private static void springPIDAppRun(String[] args, Class<?> clazz) {
-		SpringApplication springApplication = new SpringApplication(clazz);
-		springApplication.addListeners(new ApplicationPidFileWriter());
-		springApplication.run(args);
-	}
+    private static void springPIDAppRun(String[] args, Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(
+                clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
 
 }

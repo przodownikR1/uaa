@@ -17,21 +17,22 @@ import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 @EnableEurekaClient
 public class CarApplication {
 
-	public static void main(String[] args) {
-		springPIDAppRun(args, CarApplication.class);
-	}
+    public static void main(String[] args) {
+        springPIDAppRun(args, CarApplication.class);
+    }
 
-	private static void springPIDAppRun(String[] args, Class<?> clazz) {
-		SpringApplication springApplication = new SpringApplication(clazz);
-		springApplication.addListeners(new ApplicationPidFileWriter());
-		springApplication.run(args);
-	}
+    private static void springPIDAppRun(String[] args, Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(
+                clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
 
-	@Bean
-	FilterRegistrationBean userInsertingMdcFilterRegistrationBean() {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-		MDCInsertingServletFilter userFilter = new MDCInsertingServletFilter();
-		registrationBean.setFilter(userFilter);
-		return registrationBean;
-	}
+    @Bean
+    FilterRegistrationBean userInsertingMdcFilterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        MDCInsertingServletFilter userFilter = new MDCInsertingServletFilter();
+        registrationBean.setFilter(userFilter);
+        return registrationBean;
+    }
 }

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Person extends AbstractEntity{
-    
+public class Person extends AbstractEntity {
+
     private String name;
     private String login;
     private String city;

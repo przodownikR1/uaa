@@ -11,10 +11,11 @@ import lombok.ToString;
 @ToString
 @MappedSuperclass
 public abstract class AbstractEntity {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Getter
     protected Long id;
-    
+
     @Version
     protected Long version;
 }

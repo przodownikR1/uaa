@@ -17,26 +17,28 @@ import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 @RefreshScope
 public class NBPCurrencyService {
 
-	@Bean
-	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
-	
-	public static void main(String[] args) {
-		springPIDAppRun(args, NBPCurrencyService.class);
-	}
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
-	private static void springPIDAppRun(String[] args, Class<?> clazz) {
-		SpringApplication springApplication = new SpringApplication(clazz);
-		springApplication.addListeners(new ApplicationPidFileWriter());
-		springApplication.run(args);
-	}
-	@Bean
-	FilterRegistrationBean userInsertingMdcFilterRegistrationBean() {
-		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-		MDCInsertingServletFilter userFilter = new MDCInsertingServletFilter();
-		registrationBean.setFilter(userFilter);
-		return registrationBean;
-	}
+    public static void main(String[] args) {
+        springPIDAppRun(args, NBPCurrencyService.class);
+    }
+
+    private static void springPIDAppRun(String[] args, Class<?> clazz) {
+        SpringApplication springApplication = new SpringApplication(
+                clazz);
+        springApplication.addListeners(new ApplicationPidFileWriter());
+        springApplication.run(args);
+    }
+
+    @Bean
+    FilterRegistrationBean userInsertingMdcFilterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        MDCInsertingServletFilter userFilter = new MDCInsertingServletFilter();
+        registrationBean.setFilter(userFilter);
+        return registrationBean;
+    }
 }

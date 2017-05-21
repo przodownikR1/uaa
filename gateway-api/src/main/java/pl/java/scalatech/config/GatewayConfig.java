@@ -21,58 +21,59 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 @Configuration
 @ComponentScan(basePackages = "pl.java.scalatech.filter")
 public class GatewayConfig {
-	private static final String FALLBACK = "fallback";
-	private static final String CUSTOMER = "customer";
+    private static final String FALLBACK = "fallback";
+    private static final String CUSTOMER = "customer";
 
-	@Bean
-	Filter shallowEtagHeaderFilter() {
-		return new ShallowEtagHeaderFilter();
-	}
+    @Bean
+    Filter shallowEtagHeaderFilter() {
+        return new ShallowEtagHeaderFilter();
+    }
 
-	@Bean
-	ZuulFallbackProvider zuulFallbackProvider() {
-		return new ZuulFallbackProvider() {
-			@Override
-			public String getRoute() {
-				return CUSTOMER;
-			}
+    @Bean
+    ZuulFallbackProvider zuulFallbackProvider() {
+        return new ZuulFallbackProvider() {
+            @Override
+            public String getRoute() {
+                return CUSTOMER;
+            }
 
-			@Override
-			public ClientHttpResponse fallbackResponse() {
-				return new ClientHttpResponse() {
-					@Override
-					public HttpStatus getStatusCode() throws IOException {
-						return OK;
-					}
+            @Override
+            public ClientHttpResponse fallbackResponse() {
+                return new ClientHttpResponse() {
+                    @Override
+                    public HttpStatus getStatusCode() throws IOException {
+                        return OK;
+                    }
 
-					@Override
-					public int getRawStatusCode() throws IOException {
-						return 200;
-					}
+                    @Override
+                    public int getRawStatusCode() throws IOException {
+                        return 200;
+                    }
 
-					@Override
-					public String getStatusText() throws IOException {
-						return "OK";
-					}
+                    @Override
+                    public String getStatusText() throws IOException {
+                        return "OK";
+                    }
 
-					@Override
-					public void close() {
+                    @Override
+                    public void close() {
 
-					}
+                    }
 
-					@Override
-					public InputStream getBody() throws IOException {
-						return new ByteArrayInputStream(FALLBACK.getBytes());
-					}
+                    @Override
+                    public InputStream getBody() throws IOException {
+                        return new ByteArrayInputStream(
+                                FALLBACK.getBytes());
+                    }
 
-					@Override
-					public HttpHeaders getHeaders() {
-						HttpHeaders headers = new HttpHeaders();
-						headers.setContentType(APPLICATION_JSON);
-						return headers;
-					}
-				};
-			}
-		};
-	}
+                    @Override
+                    public HttpHeaders getHeaders() {
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(APPLICATION_JSON);
+                        return headers;
+                    }
+                };
+            }
+        };
+    }
 }

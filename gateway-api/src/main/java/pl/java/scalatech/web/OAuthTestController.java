@@ -13,22 +13,22 @@ import pl.java.scalatech.sample.domain.Car;
 @RequiredArgsConstructor
 public class OAuthTestController {
 
-	private final OAuth2RestOperations restTemplate;
-	private final SecConfig secConfig;
+    private final OAuth2RestOperations restTemplate;
+    private final SecConfig secConfig;
 
-	@GetMapping("/clientUser")
-	String home() {
-		return restTemplate.getForObject(secConfig.getBaseUrl() + "user", String.class);
-	}
+    @GetMapping("/clientUser")
+    String home() {
+        return restTemplate.getForObject(secConfig.getBaseUrl() + "user", String.class);
+    }
 
-	@GetMapping("/clientCar")
-	Car clientCar() {
-		return restTemplate.getForObject(secConfig.getBaseUrl() + "car/1", Car.class);
-	}
+    @GetMapping("/clientCar")
+    Car clientCar() {
+        return restTemplate.getForObject(secConfig.getBaseUrl() + "car/1", Car.class);
+    }
 
-	@GetMapping("/clientoAuth")
-	String hello(OAuth2Authentication authentication) {
-		return "Hello " + authentication.getName();
-	}
+    @GetMapping("/clientoAuth")
+    String hello(OAuth2Authentication authentication) {
+        return "Hello " + authentication.getName();
+    }
 
 }

@@ -17,31 +17,32 @@ import pl.java.scalatech.tools.RestRequestTimerInterceptor;
 
 @RequiredArgsConstructor
 public class RestClient {
-    
+
     private final MetricRegistry metricRegistry;
-    
+
     @Autowired
     @Qualifier("restClientHttpFactory")
     private ClientHttpRequestFactory clientHttpRequestFactory;
-    
-    
-    @Bean(name="restClient")
+
+    @Bean(name = "restClient")
     public RestOperations restTemplate() {
-        final RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+        final RestTemplate restTemplate = new RestTemplate(
+                clientHttpRequestFactory);
         restTemplate.setInterceptors(asList(restRequestTimerInterceptor()));
         return restTemplate;
     }
 
     @Bean
     public RestRequestTimerInterceptor restRequestTimerInterceptor() {
-        return new RestRequestTimerInterceptor(metricRegistry);
+        return new RestRequestTimerInterceptor(
+                metricRegistry);
     }
 
     @Bean(name = "restClientHttpFactory")
     public ClientHttpRequestFactory clientHttpRequestFactory() {
         final SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
-//        simpleClientHttpRequestFactory.setConnectTimeout(connectionTimeout);
-//        simpleClientHttpRequestFactory.setReadTimeout(readTimeout);
+        // simpleClientHttpRequestFactory.setConnectTimeout(connectionTimeout);
+        // simpleClientHttpRequestFactory.setReadTimeout(readTimeout);
         return simpleClientHttpRequestFactory;
-}
+    }
 }

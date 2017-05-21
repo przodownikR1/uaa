@@ -26,20 +26,20 @@ import com.ryantenney.metrics.spring.config.annotation.MetricsConfigurerAdapter;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @ConditionalOnProperty(name = {
         "metrics.graphite.host",
         "metrics.graphite.port",
-        "metrics.graphite.prefix"}
-)
+        "metrics.graphite.prefix" })
 @Slf4j
 @EnableMetrics
-class GraphiteConfig extends MetricsConfigurerAdapter  {
+class GraphiteConfig extends MetricsConfigurerAdapter {
     private static final String THREADS = "threads";
-	private static final String SYSTEM = "system";
-	private static final String MEMORY = "memory";
-	private static final String GC = "gc";
-	@Autowired
+    private static final String SYSTEM = "system";
+    private static final String MEMORY = "memory";
+    private static final String GC = "gc";
+    @Autowired
     private MetricRegistry metricRegistry;
     @Value("${metrics.graphite.host}")
     private String host;
@@ -47,27 +47,29 @@ class GraphiteConfig extends MetricsConfigurerAdapter  {
     private int port;
     @Value("${metrics.graphite.prefix}")
     private String prefix;
-    
-    @PostConstruct    
+
+    @PostConstruct
     public void startGraphiteReporter() {
-        log.info("+++ graphite metrics enabled ");       
-        Graphite graphite = new Graphite(host,port);
+        log.info("+++ graphite metrics enabled ");
+        Graphite graphite = new Graphite(
+                host, port);
         GraphiteReporter reporter = getGraphiteReporterBuilder(metricRegistry).build(graphite);
         reporter.start(10, SECONDS);
     }
-    @SneakyThrows(UnknownHostException.class)
-    private Builder getGraphiteReporterBuilder(MetricRegistry metricRegistry){
-     String hostname = InetAddress.getLocalHost().getHostName();
-      metricRegistry.register(GC, new GarbageCollectorMetricSet());
-      metricRegistry.register(MEMORY, new MemoryUsageGaugeSet());
-      metricRegistry.register(SYSTEM, new OperatingSystemGaugeSet());
-      metricRegistry.register(THREADS, new ThreadStatesGaugeSet());
 
-      return GraphiteReporter.forRegistry(metricRegistry)
-        .convertRatesTo(SECONDS)
-        .convertDurationsTo(MILLISECONDS)
-        .filter(MetricFilter.ALL)
-        .prefixedWith(prefix+hostname);
+    @SneakyThrows(UnknownHostException.class)
+    private Builder getGraphiteReporterBuilder(MetricRegistry metricRegistry) {
+        String hostname = InetAddress.getLocalHost().getHostName();
+        metricRegistry.register(GC, new GarbageCollectorMetricSet());
+        metricRegistry.register(MEMORY, new MemoryUsageGaugeSet());
+        metricRegistry.register(SYSTEM, new OperatingSystemGaugeSet());
+        metricRegistry.register(THREADS, new ThreadStatesGaugeSet());
+
+        return GraphiteReporter.forRegistry(metricRegistry)
+                .convertRatesTo(SECONDS)
+                .convertDurationsTo(MILLISECONDS)
+                .filter(MetricFilter.ALL)
+                .prefixedWith(prefix + hostname);
     }
-   
+
 }

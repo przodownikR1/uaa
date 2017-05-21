@@ -21,27 +21,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class SleuthMessageRestController {
 
-	private final RestTemplate restTemplate;
-	private final SpanAccessor spanAccessor;
+    private final RestTemplate restTemplate;
+    private final SpanAccessor spanAccessor;
 
-	@GetMapping(value = "/userTest/{domain}}")
-	ResponseEntity<?> call(@PathVariable String domain) {
-		try {
-			URI uri = URI.create("http://" + domain + ".pl");
-			ResponseEntity<String> response = this.restTemplate.getForEntity(uri, String.class);
-			String body = response.getBody();
-			MediaType mediaType = response.getHeaders().getContentType();
-			return ok()
-					.contentType(mediaType)
-					.body(body);
-		} finally {
-			debug();
-		}
-	}
+    @GetMapping(value = "/userTest/{domain}}")
+    ResponseEntity<?> call(@PathVariable String domain) {
+        try {
+            URI uri = URI.create("http://" + domain + ".pl");
+            ResponseEntity<String> response = this.restTemplate.getForEntity(uri, String.class);
+            String body = response.getBody();
+            MediaType mediaType = response.getHeaders().getContentType();
+            return ok()
+                    .contentType(mediaType)
+                    .body(body);
+        } finally {
+            debug();
+        }
+    }
 
-	private void debug() {
-		Span span = this.spanAccessor.getCurrentSpan();
-		this.log.info(String.format("traceId: %s, spanId: %s",
-				span.getTraceId(), span.getSpanId()));
-	}
+    private void debug() {
+        Span span = this.spanAccessor.getCurrentSpan();
+        this.log.info(String.format("traceId: %s, spanId: %s",
+                span.getTraceId(), span.getSpanId()));
+    }
 }
