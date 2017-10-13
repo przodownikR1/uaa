@@ -2,11 +2,14 @@ version: '3.0'
 
 services:
     elasticsearch:
-        image: elasticsearch:latest
+        image: elasticsearch:5.5.2
         restart: always
         ports:
             - 9200:9200
-            - 9300:9300  
+            - 9300:9300
+        networks:
+            - elk
+  
             
     logstash:
         image: logstash:1.0
@@ -18,13 +21,21 @@ services:
         volumes:
             - ./config/logstash.conf:/etc/logstash/conf.d/logstash.conf
         command: -f /etc/logstash/conf.d/
+        networks:
+            - elk
         
     kibana:
         image: kibana:latest
         restart: always
         ports:
+            - 8080:80
             - 5601:5601
         depends_on:
             - elasticsearch
         volumes:
             - ./config/kibana.yml:/etc/kibana/kibana.yml
+        networks:
+            - elk
+networks:
+  elk:
+    driver: bridge
